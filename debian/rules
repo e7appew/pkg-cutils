@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-export DH_COMPAT=2
+export DH_COMPAT=4
 
 build: build-stamp
 build-stamp:
@@ -35,7 +35,6 @@ binary-arch:	build
 	
 	dh_installdocs NEWS README CREDITS
 	dh_installinfo doc/cutils.info
-	dh_undocumented
 	dh_installchangelogs 
 	dh_strip
 	dh_compress

@@ -1,3 +1,12 @@
+cutils (1.6-3) unstable; urgency=low
+
+  * Change build-depends to use flex-old rather than flex; 
+    builds now (closes: #253654)
+  * Updated standards-version to 3.6.1
+  * Updated debhelper to 4
+
+ -- Hamish Moffatt <hamish@debian.org>  Sun, 15 Aug 2004 15:26:29 +1000
+
 cutils (1.6-2) unstable; urgency=low
 
   * Downgraded DH_COMPAT to 2 since it doesn't need 3 anyway (closes: #119977)

@@ -2,15 +2,16 @@ Source: cutils
 Section: devel
 Priority: optional
 Maintainer: Hamish Moffatt <hamish@debian.org>
-Standards-Version: 3.2.1
-Build-Depends: debhelper, flex, bison | byacc
+Standards-Version: 3.6.1
+Build-Depends: debhelper (>= 4), flex-old, bison | byacc
 
 Package: cutils
 Architecture: any
 Depends: ${shlibs:Depends}
 Suggests: cweb
 Description: C source code utilities
- C source code utilities, consisting of
+ This package contains several utilities which may be useful to
+ developers of C source code utilities, namely:
   cdecl and cundecl - decode and encode C type declarations
   cobfusc - make a C source file unreadable but compilable
   chilight - highlight C source files
