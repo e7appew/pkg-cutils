@@ -1,5 +1,5 @@
-.\" $Id: cobfusc.1,v 1.31 1997/11/22 18:38:46 sandro Exp $
-.Dd November 22, 1997
+.\" $Id: cobfusc.1,v 1.38 2001/07/15 13:32:18 sandro Exp $
+.Dd July 1, 2001
 .Os
 .Dt COBFUSC 1
 .Sh NAME
@@ -7,22 +7,27 @@
 .Nd make a C source file unreadable but compilable
 .Sh SYNOPSIS
 .Nm cobfusc
-.Op Fl abdehmntV
-.Op Fl c Ar no | lower | upper | screw | random
+.Op Fl AabdemntxV
+.Op Fl c Ar case
+.Op Fl f Ar suffix
 .Op Fl g Ar file
-.Bk -words
-.Op Fl i Ar no | numeric | word | random
-.Ek
+.Op Fl i Ar idobf
+.br
 .Op Fl o Ar file
-.Op Fl p Ar file
-.Op Fl r Ar prefix
-.Bk -words
+.Op Fl p Ar prefix
+.Op Fl r Ar file
 .Op Fl s Ar seed
-.Ek
 .Op Fl u Ar file
 .Op Fl w Ar cols
+.br
+.Op Fl z Ar file
 .Op Ar
 .Sh DESCRIPTION
+This document contains only a brief description of
+.Nm cobfusc .
+For a more complete documentation, please read the Info file or the
+Texinfo manual.
+.Pp
 The
 .Nm cobfusc
 utility
@@ -34,42 +39,54 @@ required.
 .Pp
 The options are as follows:
 .Bl -tag -width indent
+.It Fl A
+Enable a heavy obfuscation for the source file.
+This is equivalent to the
+.Fl ademt Fl i Ar numeric
+options.  The digraphize option is not enabled by default
+since the Amendement 1 (1994) changes to
+.St -ansiC-89
+are supported only by few C compilers.
 .It Fl a
 Garble every string with octal escapes.
 .It Fl b
 Enable the digraphize mode.
 .It Fl c Ar "no \\*(Ba lower \\*(Ba upper \\*(Ba screw \\*(Ba random"
-Set the identifier case scrambling mode.
+Set the identifier case obfuscation mode.
 .It Fl d
 Compact the macros removing backslashes and white\-spaces when
 they are not required.
 .It Fl e
 Compact the white\-spaces when they are not required.
-.It Fl g
+.It Fl f Ar suffix
+Put the output of each processed file in a separate file with
+.Ar suffix
+appended to file name instead of standard output.
+This is useful when
+processing a package with a lot of source files.
+.It Fl g Ar file
 Add first the identifiers contained in
 .Ar file
-to the hash table. Useful
-when those identifiers are used into two or more source files.
-.It Fl h
-Share the symbol table between the files passed on the command line.
+to the obfuscation table. Useful
+when those identifiers are shared between two or more source files.
 .It Fl i Ar "no \\*(Ba numeric \\*(Ba word \\*(Ba random"
-Set the identifier garbling mode.
+Set the identifier obfuscation mode.
 .It Fl m
 Strip the comments.
 .It Fl n
 Garble integers with expressions.
-.It Fl o
+.It Fl o Ar file
 Set the output destination to 
 .Ar file .
-.It Fl p
+.It Fl p Ar prefix
+Specify the prefix to use when generating the identifiers.
+.It Fl r Ar file
 Tell
 .Nm cobfusc
 that the identifiers contained in
 .Ar file
-must not be changed.
-.It Fl r
-Specify the prefix to use when generating the identifiers.
-.It Fl s
+must not be obfuscated.
+.It Fl s Ar seed
 Specify the seed for generating the random numbers.
 .It Fl t
 Enable the trigraphize mode.
@@ -80,9 +97,19 @@ Dump the symbol table to
 Print version information on standard output then exit.
 .It Fl w
 Set the width limit of the output.
+.It Fl x
+Exclusive mode; obfuscate only the identifiers specified by the
+.Fl g
+and
+.Fl z
+parameters.
+.It Fl z Ar file
+Add the identifiers pairs contained in
+.Ar file
+to the obfuscation table.
 .El
 .Sh SEE ALSO
 .Xr cunloop 1 ,
 .Xr indent 1
 .Sh AUTHORS
-Sandro Sigala (ssigala@globalnet.it)
+Sandro Sigala <sandro@sigala.it>

@@ -1,8 +1,7 @@
-/*	$Id: keywords.h,v 1.16 1997/08/30 01:14:32 sandro Exp $	*/
+/*	$Id: keywords.h,v 1.19 2001/07/14 11:48:42 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,8 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-static const char *
-reserved_identifiers[] = {
+static const char *reserved_identifiers[] = {
 	"main",
 
 	/* assert.h */
@@ -110,14 +108,16 @@ reserved_identifiers[] = {
 
 	/* getopt.h */
 	"opterr", "optopt", "optind", "optarg", "getopt",
-	0
+	NULL
 };
 
-static const char *
-words_table[] = {
+static const char *words_table[] = {
 	"foo", "bar", "baz", "fobar", "foobar", "fobaz", "foobaz", "quux",
 	"fred", "dog", "cat", "fish", "gasp", "bad", "bug", "silly", "buggy",
 	"mum", "dad", "disk", "empty", "full", "fast", "small", "big", "ok",
-	"hello", "bye", "magic", "obscure", "speed", "index",
-	0
+	"hello", "bye", "magic", "obscure", "speed", "index", "bill", "joe",
+	"emacs", "vi", "rms", "fbi", "cia", "nasa", "err", "google", "yahoo",
+	"trick", "hint", "black", "red", "green", "yellow", "blue",
+	"magenta", "cyan", "white", "clinton", "bush", "jfk", "sex",
+	NULL
 };

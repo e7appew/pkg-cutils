@@ -1,8 +1,7 @@
-/*	$Id: lexer.l,v 1.19 1997/11/23 12:50:55 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.20 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -73,8 +72,7 @@ static int yywrap(void) { return 1; }
 
 %%
 
-static void
-comment(void)
+static void comment(void)
 {
 	int c;
 
@@ -92,8 +90,7 @@ resync:
 	}
 }
 
-static void
-directive(void)
+static void directive(void)
 {
 	int c;
 
@@ -103,8 +100,7 @@ directive(void)
 	lineno++;
 }
 
-static void
-token(void)
+static void token(void)
 {
 	char buf[128];
 	int c, i;

@@ -1,8 +1,7 @@
-/*	$Id: parser.y,v 1.26 1997/08/30 01:14:13 sandro Exp $	*/
+/*	$Id: parser.y,v 1.27 2001/07/13 19:09:55 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -326,8 +325,7 @@ constant_expression:
 
 %%
 
-static void
-yyerror(char *s)
+static void yyerror(char *s)
 {
 	errx(1, "%d: %s", lineno, s);
 }
@@ -337,8 +335,7 @@ yyerror(char *s)
  * The parameter list is terminated by a NULL pointer.
  * The parameters are deallocated after copy.
  */
-static char *
-cat(char *s, ...)
+static char *cat(char *s, ...)
 {
 	va_list ap;
 	int size;

@@ -1,6 +1,1 @@
-usr/bin
-usr/info
-usr/man/man1
-usr/man/man5
-usr/share/doc/cutils
-usr/share/cutils/cinfo
+usr/share

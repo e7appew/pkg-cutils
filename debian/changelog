@@ -1,3 +1,29 @@
+cutils (1.6-2) unstable; urgency=low
+
+  * Downgraded DH_COMPAT to 2 since it doesn't need 3 anyway (closes: #119977)
+  * Fixed bug in debian/rules clean target (forgot to run dh_clean)
+
+ -- Hamish Moffatt <hamish@debian.org>  Sun, 25 Nov 2001 14:04:40 +1100
+
+cutils (1.6-1) unstable; urgency=low
+
+  * New upstream release (closes: #107859)
+
+ -- Hamish Moffatt <hamish@debian.org>  Sat, 11 Aug 2001 11:42:09 +1000
+
+cutils (1.5.2-8) unstable; urgency=low
+
+  * Applied patch to fix bug in cobfusc (closes: #69580)
+  * Updated Standards-Version
+
+ -- Hamish Moffatt <hamish@debian.org>  Wed,  6 Dec 2000 20:47:18 +1100
+
+cutils (1.5.2-7) unstable; urgency=low
+
+  * Added build-deps for debhelper, flex and bison | byacc (closes: #70281)
+
+ -- Hamish Moffatt <hamish@debian.org>  Tue,  7 Nov 2000 17:57:50 +1100
+
 cutils (1.5.2-6) unstable; urgency=low
 
   * FHS compliant 
@@ -37,7 +63,3 @@ cutils (1.5.2-1) unstable; urgency=low
 
  -- Hamish Moffatt <hamish@debian.org>  Thu, 11 Dec 1997 00:47:19 +1100
 
-Local variables:
-mode: debian-changelog
-add-log-mailing-address: "hamish@debian.org"
-End:

@@ -7,6 +7,11 @@
 @c unwise to comment it out when running a master in case there are
 @c overfulls which are deemed okay.
 
+@dircategory Programming
+@direntry
+* cutils: (cutils).       C programmers' utilities.
+@end direntry
+
 @iftex
 @c @finalout
 @end iftex
@@ -15,13 +20,13 @@
 
 @titlepage
 @title The cutils Manual
-@subtitle Edition 0.1 for cutils version 1.5
-@subtitle July 1997
+@subtitle Edition 1.6 for cutils version 1.6
+@subtitle July 2001
 @author Sandro Sigala
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1997 Sandro Sigala <ssigala@@globalnet.it>.
+Copyright @copyright{} 1997-2001 Sandro Sigala @email{sandro@@sigala.it}.
 @end titlepage
 
 @c ---------------------------------------------------------------------------
@@ -29,17 +34,15 @@ Copyright @copyright{} 1997 Sandro Sigala <ssigala@@globalnet.it>.
 
 This is the @emph{cutils} manual.
 
-The cutils package is a collection of twelve utilities for ``C''
+The cutils package is a collection of utilities for ``C''
 programmers.  They are mostly parsers that convert an input file
 written in a particular format into another format.
 
 @menu
 * Overview::                    An overview of the cutils package.
-* cinfo/cinfoc/cinfodc::        C language documentation tools.
 * cdecl/cundecl::               Decode and encode C type declarations.
 * cobfusc::                     Make a C source file unreadable but compilable.
 * chilight::                    Highlight C source files.
-* ctangle/cweave::              Simple literate programming tools for C.
 * cunloop::                     Unloop C loops.
 * yyextract::                   Extract grammar rules from Yacc grammars.
 * yyref::                       Yacc grammar reference program.
@@ -47,22 +50,16 @@ written in a particular format into another format.
 @end menu
 
 @c ---------------------------------------------------------------------------
-@node Overview, cinfo/cinfoc/cinfodc, Top, Top
+@node Overview, cdecl/cundecl, Top, Top
 @chapter Overview
 
-The twelve utilities that are enclosed in the @emph{cutils} package
+The utilities enclosed in the @emph{cutils} package
 are usually useful in some circumstances during the development
 in the ``C'' language.
 
 @table @emph
-@item cinfo
-@item cinfoc
-@item cinfodc
-The @emph{cinfo} utility can be used to lookup the prototype of
-a standard C function; the other two utilities are explained
-later.
 @item cdecl
-@item cundecl
+@itemx cundecl
 The @emph{cdecl} and @emph{cundecl} utilities
 can be used to decode or encode a complex type declaration like
 @example
@@ -98,15 +95,8 @@ q2<q0;q2++)printf("\40\45\163",q1[q2]);printf("\n");@}
 @end example
 @item chilight
 The @emph{chilight} utility can be used to highlight (i.e. fontify)
-a source file with color escapes or commands, depending of the output
-format (ANSI or HTML).
-@item ctangle
-@item cweave
-The @emph{ctangle} and @emph{cweave} utilities can be used to
-produce a literate source document, like Knuth's @emph{Web} or @emph{cweb}.
-The @emph{ctangle} program extract the program source from the Web document;
-@emph{cweave} produces the LaTeX source file that can be processed to
-obtain the final document.
+a C source file with color escapes or markups, depending of the selected
+output format (tty, ANSI, HTML or roff).
 @item cunloop
 The @emph{cunloop} does a job like the @emph{cobfusc} utility: it obfuscates
 the source code, by unlooping the C language loop and branch instructions
@@ -121,112 +111,8 @@ a Yacc grammar (or produce another grammar in a different format, like HTML).
 The @emph{yyref} utility is a Yacc cross-reference generator.
 @end table
 
-
 @c ---------------------------------------------------------------------------
-@node cinfo/cinfoc/cinfodc, cdecl/cundecl, Overview, Top
-@chapter cinfo, cinfoc and cinfodc
-
-The @emph{cinfo} utility searchs in his database the user specified symbol
-(of the C programming language) and prints the proper documentation.
-The @emph{cinfoc} utility is required for compiling the @emph{cinfo}
-database.
-The @emph{cinfodc} utility does the inverse job of the @emph{cinfoc} utility,
-i.e. it decompiles a compiled database.
-
-@menu
-* Invoking cinfo::                 Command line options of cinfo.
-* Invoking cinfoc::                Command line options of cinfoc.
-* Invoking cinfodc::               Command line options of cinfodc.
-* cinfo/cinfoc/cinfodc examples::  Some examples of this three utilities.
-@end menu
-
-@c ---------------------------------------------------------------------------
-@node Invoking cinfo, Invoking cinfoc, cinfo/cinfoc/cinfodc, cinfo/cinfoc/cinfodc
-@section Invoking cinfo
-
-The options are as follows:
-
-@table @samp
-@item -c
-Ignore case distinctions.
-@item -d
-Turn debug mode on.
-@item -h
-Output in HTML format.
-@item -l
-List symbol paths only, do not output symbol variables.
-@item -o file
-Set the output destination to @file{file}.
-@item -p
-Perform a pattern match string comparison.
-@item -s
-Perform a literal string comparison. This is the default.
-@item -L dir
-Force @samp{cinfo} to search into the @file{dir} directory.
-@item -V
-Print version information on standard output then exit.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node Invoking cinfoc, Invoking cinfodc, Invoking cinfo, cinfo/cinfoc/cinfodc
-@section Invoking cinfoc
-
-The options are as follows:
-
-@table @samp
-@item -d
-Turn debug mode on.
-@item -V
-Print version information on standard output then exit.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node Invoking cinfodc, cinfo/cinfoc/cinfodc examples, Invoking cinfoc, cinfo/cinfoc/cinfodc
-@section Invoking cinfodc
-
-The options are as follows:
-
-@table @samp
-@item -h
-Output a header for every object that contains subobjects.
-@item -o file
-Set the output destination to @file{file}.
-@item -V
-Print version information on standard output then exit.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node cinfo/cinfoc/cinfodc examples,  , Invoking cinfodc, cinfo/cinfoc/cinfodc
-@section cinfo, cinfoc and cinfodc examples
-
-For searching the @code{printf} function, try:
-@example
-cinfo printf
-@end example
-
-For searching all the functions that contains @samp{print}, try:
-@example
-cinfo -p "*print*"
-@end example
-
-For searching the @code{addch} and @code{endwin} @emph{ncurses} functions,
-and outputting the result in HTML format, try:
-@example
-cinfo -h addch endwin
-@end example
-
-For compiling the cinfo database source file @file{foo.cinfo}, try:
-@example
-cinfoc foo.cinfo
-@end example
-
-For decompiling the compiled cinfo database file @file{foo.cinfo.db}, try:
-@example
-cinfodc foo.cinfo.db
-@end example
-
-@c ---------------------------------------------------------------------------
-@node cdecl/cundecl, cobfusc, cinfo/cinfoc/cinfodc, Top
+@node cdecl/cundecl, cobfusc, Overview, Top
 @chapter cdecl and cundecl
 
 The @emph{cdecl} and @emph{cundecl} utilities
@@ -282,6 +168,7 @@ char *s;
 void (*signal(int sig, void (*func)(int)))(int);
 (const char *)s;
 (void (*)(int))signal_function;
+char (*func[64])(int a, char *p);
 @end example
 
 @emph{cundecl} input examples:
@@ -290,6 +177,9 @@ declare s as pointer to char;
 declare x as function (fmt as pointer to const char, ...) returning int;
 cast s into pointer to const char;
 cast f into pointer to function (int) returning void;
+declare foo as pointer to pointer to function that expects
+(x as pointer to function that expects (c as char) returning int)
+returning void;
 @end example
 
 @c ---------------------------------------------------------------------------
@@ -297,7 +187,7 @@ cast f into pointer to function (int) returning void;
 @chapter cobfusc
 
 From the 13th International Obfuscated C Code Contest@footnote{Check out the
-IOCCC Web page:	@url{http://reality.sgi.com/csp/ioccc}} Rules:
+IOCCC Web page:	@url{http://www.ioccc.org}} Rules:
 
 @table @emph
 @item Obfuscate
@@ -315,65 +205,156 @@ all the white-spaces when they are not required.
 
 @menu
 * Invoking cobfusc::            Command line options of cobfusc.
+* Digraphs and trigraphs::      Explain the ISO C token respellings.
 * cobfusc examples::            Some examples of this utility.
 @end menu
 
 @c ---------------------------------------------------------------------------
-@node Invoking cobfusc, cobfusc examples, cobfusc, cobfusc
+@node Invoking cobfusc, Digraphs and trigraphs, cobfusc, cobfusc
 @section Invoking cobfusc
 
 The options are as follows:
 
 @table @samp
+@item -A
+Enable a heavy obfuscation for the source file.
+This is equivalent to the
+@samp{-ademt -inumeric}
+options.  The digraphize option is not enabled by default
+since the Amendement 1 (1994) changes to ISO C are supported only by
+few C compilers.
 @item -a
 Garble every string with octal escapes.
 @item -b
 Enable the digraphize mode.
 @item -c no | lower | upper | screw | random
-Set the identifier case scrambling mode.
+Set the identifier case obfuscation mode.
 @item -d
 Compact the macros removing backslashes and white-spaces when
 they are not required.
 @item -e
 Compact the white-spaces when they are not required.
+@item -f suffix
+Put the output of each processed file in a separate file with
+@file{suffix}
+appended to file name instead of standard output.  This is useful when
+processing a lot of source files.
+
+For example, @samp{cobfusc -f .obf.c foo.c bar.c} will create two files,
+@file{foo.c.obf.c} and @file{bar.c.obf.c}.
 @item -g file
 Add first the identifiers contained in
-@file{file} to the hash table. Useful
-when those identifiers are used into two or more source files.
-@item -h
-Share the symbol table between the files passed on the command line.
+@file{file} to the obfuscation table.
+
+Useful when those identifiers are shared between two or more source files.
 @item -i numeric | word | random
-Set the identifier garbling mode.
+Set the identifier obfuscation mode.
 @item -m
 Strip the comments.
 @item -n
 Garble integers with expressions.
 @item -o file
 Set the output destination to @file{file}.
-@item -p file
-Tell @emph{cobfusc} that the identifiers contained in @file{file} must
-not be changed.
-@item -r prefix
+@item -p prefix
 Specify the prefix to use when generating the identifiers.
+@item -r file
+Tell @emph{cobfusc} that the identifiers contained in @file{file} must
+not be obfuscated.
 @item -s seed
 Specify the seed for generating the random numbers.
 @item -t
 Enable the trigraphize mode.
 @item -u
 Dump the symbol table to @file{file}.
+This option is useful for debugging.
 @item -V
 Print version information on standard output then exit.
 @item -w cols
 Set the width limit of the output.
+@item -x
+Exclusive mode; obfuscate only the identifiers specified by the
+@samp{-g} and @samp{-z} parameters.
+@item -z file
+Add the identifiers pairs contained in @file{file}
+to the obfuscation table.  The file format is two identifier per line, separated
+by a space character, the first one is the original identifier, the second
+one is the obfuscated identifier.
+
+This option is useful when a list of obfuscated identifiers must be provided
+manually.
+
+For example, this is a valid input file:
+@example
+find_file ff1
+find_buffer ff2
+close_buffer ff3
+save_buffer ff4
+@end example
 @end table
 
 @c ---------------------------------------------------------------------------
-@node cobfusc examples,  , Invoking cobfusc, cobfusc
+@node Digraphs and trigraphs, cobfusc examples, Invoking cobfusc, cobfusc
+@section Digraphs and trigraphs
+
+The ISO C language includes a set of trigraphs so that C programs may be
+written using only the ISO 646-1083 Invariant Code Set, a subset
+of the ASCII code set.  The trigraphs, introduced by two consecutive
+question mark characters, are listed in the table below.
+
+@table @samp
+@item ??(
+is replaced by @samp{[}
+@item ??)
+is replaced by @samp{]}
+@item ??<
+is replaced by @samp{@{}
+@item ??>
+is replaced by @samp{@}}
+@item ??/
+is replaced by @samp{\}
+@item ??'
+is replaced by @samp{^}
+@item ??=
+is replaced by @samp{#}
+@item ??!
+is replaced by @samp{|}
+@item ??-
+is replaced by @samp{~}
+@end table
+
+The Amendment 1 to ISO C provides six new tokens that are convenient when
+writing source programs in restricted character sets (such as the
+ISO 646-1083 Invariant Code Set).  The following respellings are more
+readable than the equivalent form using trigraphs, and they may be
+used wherever the customary tokens are permitted.
+
+@table @samp
+@item <:
+is replaced by @samp{[}
+@item :>
+is replaced by @samp{]}
+@item <%
+is replaced by @samp{@{}
+@item %>
+is replaced by @samp{@}}
+@item %:
+is replaced by @samp{#}
+@item %:%:
+is replaced by @samp{##}
+@end table
+
+@c ---------------------------------------------------------------------------
+@node cobfusc examples,  , Digraphs and trigraphs, cobfusc
 @section cobfusc examples
 
 If you just want to compact the whitespaces, try:
 @example
 cobfusc -de <inputfile >outputfile
+@end example
+
+To remove the comments, try:
+@example
+cobfusc -m <inputfile >outputfile
 @end example
 
 If you want to convent all the identifiers to meaningless computer
@@ -388,18 +369,28 @@ try:
 cobfusc -iword <inputfile >outputfile
 @end example
 
-For a maximum file obfuscation, try:
+For a heavy obfuscation, try:
 @example
-cobfusc -abdemt -inumeric <inputfile >outputfile
+cobfusc -A <inputfile >outputfile
+@end example
+
+Or for a maximum obfuscation, try:
+@example
+cobfusc -Abn -irandom -crandom <inputfile >outputfile
+@end example
+
+To obfuscate a program composed by two or more source files:
+@example
+cobfusc -A -f .obf.c first.c second.c third.c
 @end example
 
 @c ---------------------------------------------------------------------------
-@node chilight, ctangle/cweave, cobfusc, Top
+@node chilight, cunloop, cobfusc, Top
 @chapter chilight
 
 The @emph{chilight} utility can be used to highlight (i.e. fontify)
-a source file with color escapes or commands, depending of the output
-format (ANSI or HTML).
+a C source file with color escapes or markups, depending of the selected
+output format (tty, ANSI, HTML or roff).
 
 @menu
 * Invoking chilight::           Command line options of chilight.
@@ -413,16 +404,15 @@ format (ANSI or HTML).
 The options are as follows:
 
 @table @samp
-@item -d
-Tread preprocessor directives as single characters. In other words every
-directive is separated in tokens then colorized, instead of treading all the
-directive as a single token.
+@item -f format
+Set the output format to @samp{format}.  The format can be one
+of
+@samp{tty} (the default), @samp{ansi_color}, @samp{ansi_bold},
+@samp{html_color}, @samp{html_font} or @samp{roff}.
 @item -o file
 Set the output destination to @file{file}.
-@item -s style
-Set the output format to @samp{style}.  @samp{style} can be
-@samp{ansi_color} (the default), @samp{ansi_bold}, @samp{html_color} or
-@samp{html_font}.
+@item -t title
+Specify the page title for the generated HTML page.
 @item -V
 Print version information on standard output then exit.
 @end table
@@ -433,116 +423,21 @@ Print version information on standard output then exit.
 
 For highlighting a source file with ANSI color escapes, try:
 @example
-chilight <inputfile
+chilight -f ansi_color <inputfile
 @end example
 
 For highlighting a source file with HTML color commands, try:
 @example
-chilight -s html_color <inputfile
+chilight -f html_color <inputfile
 @end example
 
 For highlighting a source file with HTML font commands, try:
 @example
-chilight -s html_font <inputfile
+chilight -f html_font <inputfile
 @end example
 
 @c ---------------------------------------------------------------------------
-@node ctangle/cweave, cunloop, chilight, Top
-@chapter ctangle and cweave
-
-The @emph{ctangle} and @emph{cweave} utilities can be used to
-produce a literate source document, like Knuth's @emph{Web} or @emph{cweb}.
-The @emph{ctangle} program extract the program source from the CWeb document;
-@emph{cweave} produces the LaTeX source file that can be processed to
-obtain the final document.
-A CWeb file contains program source code interleaved with documentation.
-
-@menu
-* Invoking ctangle::            Command line options of ctangle.
-* Invoking cweave::             Command line options of cweave.
-* Input file format::           The format of the CWeb file.
-* ctangle/cweave examples::     Some examples of this two utilities.
-* Sample input file::           A sample Web file for the two utilities.
-@end menu
-
-@c ---------------------------------------------------------------------------
-@node Invoking ctangle, Invoking cweave, ctangle/cweave, ctangle/cweave
-@section Invoking ctangle
-
-The options are as follows:
-
-@table @samp
-@item -o file
-Set the output destination to @file{file}.
-@item -V
-Print version information on standard output then exit.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node Invoking cweave, Input file format, Invoking ctangle, ctangle/cweave
-@section Invoking cweave
-
-The options are as follows:
-
-@table @samp
-@item -h
-Highlight the source code with different fonts.
-@item -o file
-Set the output destination to @file{file}.
-@item -t width
-Set the tabulation width to @samp{width}.
-@item -V
-Print version information on standard output then exit.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node Input file format, ctangle/cweave examples, Invoking cweave, ctangle/cweave
-@section Input file format
-
-A CWeb file is composed by sections of LaTeX commands and sections of C
-source code.  The switching between the two section is possible with the
-@code{@@@@} token sequence.  The default section is LaTeX.
-
-The directives that can be inserted in the LaTeX section are as follows:
-
-@table @code
-@item @@decl [text]
-Declare a new section of code (or continue an old one) with the
-title @code{text}.
-
-@item @@ref [text]
-Reference a section of code with the title @code{text}.
-@end table
-
-@c ---------------------------------------------------------------------------
-@node ctangle/cweave examples, Sample input file, Input file format, ctangle/cweave
-@section ctangle and cweave examples
-
-For extracting the source from a web file:
-@example
-ctangle <webfile >outputfile
-@end example
-
-For extracting the LaTeX source document from a web file:
-@example
-cweave <webfile >outputfile
-@end example
-
-For extracting the LaTeX source document from a web file and fontifying
-the source code:
-@example
-cweave -h <webfile >outputfile
-@end example
-
-@c ---------------------------------------------------------------------------
-@node Sample input file,  , ctangle/cweave examples, ctangle/cweave
-@section Sample input file
-
-For a sample input file for @emph{ctangle} and @emph{cweave}, look into
-the @file{examples/cweb} directory in the source package.
-
-@c ---------------------------------------------------------------------------
-@node cunloop, yyextract, ctangle/cweave, Top
+@node cunloop, yyextract, chilight, Top
 @chapter cunloop
 
 The @emph{cunloop} does a job like the @emph{cobfusc} utility: it obfuscates
@@ -619,6 +514,8 @@ Select the Extended Backus-Naur Form (EBNF) for the output.
 Output in HTML format.
 @item -o file
 Set the output destination to @file{file}.
+@item -t title
+Specify the page title for the generated HTML page.
 @item -w cols
 Set the width limit of the output (this sets only the width of the
 @samp{%token} header).
@@ -684,9 +581,13 @@ yyref <inputfile
 @node Bug reports,  , yyref, Top
 @chapter Bug reports
 
-Any questions, comments, or bug reports, should be sent to the
-author at the Internet email @w{address @emph{<ssigala@@globalnet.it>}}.
+Any questions, comments, or bug reports should be sent to the
+author at the Internet email address @email{sandro@@sigala.it}.
 
 @contents
 
 @bye
+
+Local Variables:
+compile-command: "texi2dvi cutils.texi"
+End:

@@ -1,8 +1,7 @@
-/*	$Id: tree.c,v 1.11 1997/08/30 01:14:38 sandro Exp $	*/
+/*	$Id: tree.c,v 1.12 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -37,8 +36,7 @@
 /*
  * Build a new object allocating a memory area.
  */
-struct object_s *
-new_object(int type, char *value)
+struct object_s *new_object(int type, char *value)
 {
 	struct object_s *p;
 
@@ -57,8 +55,7 @@ new_object(int type, char *value)
  * Return the last object of an object list.
  * This function assumes that p != NULL.
  */
-struct object_s *
-last_object(struct object_s *p)
+struct object_s *last_object(struct object_s *p)
 {
 	while (p->next != NULL)
 		p = p->next;
@@ -68,8 +65,7 @@ last_object(struct object_s *p)
 /*
  * Count the number of objects that are in an object list.
  */
-int
-count_objects(struct object_s *p)
+int count_objects(struct object_s *p)
 {
 	int count = 0;
 	for (; p != NULL; p = p->next)
@@ -80,8 +76,7 @@ count_objects(struct object_s *p)
 /*
  * Link an object to an object list.
  */
-struct object_s *
-link_object(struct object_s *dest, struct object_s *next)
+struct object_s *link_object(struct object_s *dest, struct object_s *next)
 {
 	dest->next = next;
 	return dest;
@@ -90,8 +85,7 @@ link_object(struct object_s *dest, struct object_s *next)
 /*
  * Associate an object to an object list.
  */
-struct object_s *
-assoc_object(struct object_s *dest, struct object_s *assoc)
+struct object_s *assoc_object(struct object_s *dest, struct object_s *assoc)
 {
 	dest->assoc = assoc;
 	return dest;
@@ -100,8 +94,7 @@ assoc_object(struct object_s *dest, struct object_s *assoc)
 /*
  * Deallocate the memory area used by an object.
  */
-void
-free_object(struct object_s *p)
+void free_object(struct object_s *p)
 {
 	if (p->value != NULL)
 		free(p->value);
@@ -111,8 +104,7 @@ free_object(struct object_s *p)
 /*
  * Deallocate an object list.
  */
-void
-free_object_list(struct object_s *p)
+void free_object_list(struct object_s *p)
 {
 	struct object_s *next;
 	while (p != NULL) {

@@ -1,0 +1,13 @@
+* Tim Vanderhoek <hoek@freenet.hamilton.on.ca> for FreeBSD compatibility
+  fixes.
+* Liviu Daia <daia@stoilow.imar.ro> for bug fixes.
+* Masafumi NAKANE <max@FreeBSD.ORG> for bug fixes and configuration ideas.
+* Georg Umgiesser <georg@lagoon.isdgm.ve.cnr.it> for bug reports.
+* David Stes <stes@mundivia.es> for bug reports.
+* Chuck Robey <chuckr@glue.umd.edu> for bug fixes.
+* Eric Backus <ericb@labejb.lsid.hp.com> for bug reports and fixes.
+* Hamish Moffatt <hamish@cloud.net.au> for bug fixes.
+* Wetzel Gabriel <Gabriel.Wetzel@de.bosch.com> for bug fixes and
+  cobfusc `-f', `-x', `-z' options implementation.
+* Jukka A. Ukkonen <jau@iki.fi> for roff and tty formats, better handling
+  of #xxx preprocessor directives and some other minor changes to chilight.

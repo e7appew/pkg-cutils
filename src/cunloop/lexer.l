@@ -1,8 +1,7 @@
-/*	$Id: lexer.l,v 1.8 1997/11/23 12:50:53 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.9 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1997-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -157,21 +156,18 @@ char *token_buffer;
 
 static int maxtoken;
 
-void
-init_lex(void)
+void init_lex(void)
 {
 	maxtoken = 40;
 	token_buffer = (char *)xmalloc(maxtoken + 1);
 }
 
-void
-done_lex(void)
+void done_lex(void)
 {
 	free(token_buffer);
 }
 
-static char *
-extend_token_buffer(char *p)
+static char * extend_token_buffer(char *p)
 {
 	int offset = p - token_buffer;
 
@@ -182,8 +178,7 @@ extend_token_buffer(char *p)
 	return token_buffer + offset;
 }
 
-static void
-string(void)
+static void string(void)
 {
 	char *p;
 	int c;
@@ -203,8 +198,7 @@ string(void)
 	*p = '\0';
 }
 
-static void
-comment(void)
+static void comment(void)
 {
 	char *p;
 	int c;
@@ -227,8 +221,7 @@ resync:		if (p >= token_buffer + maxtoken)
 	*p = '\0';
 }
 
-static void
-directive(void)
+static void directive(void)
 {
 	char *p;
 	int c;

@@ -1,5 +1,5 @@
-.\" $Id: cunloop.1,v 1.4 1997/11/22 18:38:55 sandro Exp $
-.Dd November 22, 1997
+.\" $Id: cunloop.1,v 1.7 2001/07/15 15:03:25 ncvs Exp $
+.Dd July 15, 2001
 .Os
 .Dt CUNLOOP 1
 .Sh NAME
@@ -23,10 +23,10 @@ instuctions to render the source file unreadable.
 .Pp
 The options are as follows:
 .Bl -tag -width indent
-.It Fl o
+.It Fl o Ar file
 Set the output destination to 
 .Ar file .
-.It Fl p
+.It Fl p Ar prefix
 Set the identifier prefix for generating the labels.
 .It Fl V
 Print version information on standard output then exit.
@@ -35,4 +35,4 @@ Print version information on standard output then exit.
 .Xr cobfusc 1 ,
 .Xr indent 1
 .Sh AUTHORS
-Sandro Sigala (ssigala@globalnet.it)
+Sandro Sigala <sandro@sigala.it>

@@ -28,9 +28,5 @@ AC_CHECK_FUNCS(strerror)
 
 AC_OUTPUT(Makefile doc/Makefile lib/Makefile \
 src/Makefile src/cdecl/Makefile src/chilight/Makefile \
-src/cinfo/Makefile src/cinfo/cinfo/Makefile src/cinfo/cinfoc/Makefile \
-src/cinfo/cinfodc/Makefile src/cinfo/db/Makefile src/cinfo/db/stdc/Makefile \
-src/cinfo/db/stdclib/Makefile src/cinfo/db/unix/Makefile \
-src/cinfo/lib/Makefile src/cobfusc/Makefile src/ctangle/Makefile \
-src/cundecl/Makefile src/cunloop/Makefile src/cweave/Makefile \
+src/cobfusc/Makefile src/cundecl/Makefile src/cunloop/Makefile \
 src/yyextract/Makefile src/yyref/Makefile)

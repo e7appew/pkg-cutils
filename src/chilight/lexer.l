@@ -1,8 +1,8 @@
-/*	$Id: lexer.l,v 1.20 1997/11/23 12:50:47 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.24 2001/07/15 15:03:25 ncvs Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
+ * Copyright (c) 2001 Jukka A. Ukkonen <jau@iki.fi>.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,6 +33,7 @@ FS		(f|F|l|L)
 IS		(u|U|l|L)+
 
 %{
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,11 +42,9 @@ IS		(u|U|l|L)+
 #include "config.h"
 #include "tokens.h"
 
-extern int opt_directives;
-
 static void string(void);
 static void comment(void);
-static int directive(void);
+static int directive(const char *prefix);
 
 static int yywrap(void) { return 1; }
 %}
@@ -53,38 +52,39 @@ static int yywrap(void) { return 1; }
 %%
 
 "/*"					{ comment(); return COMMENT; }
-"#"					{ return directive(); }
+^[ \t]*"#"				{ return directive(yytext); }
+
+"char"					{ return TYPE; }
+"double"				{ return TYPE; }
+"float"					{ return TYPE; }
+"int"					{ return TYPE; }
+"long"					{ return TYPE; }
+"short"					{ return TYPE; }
+"signed"				{ return TYPE; }
+"unsigned"				{ return TYPE; }
+"void"					{ return TYPE; }
 
 "auto"					{ return KEYWORD; }
 "break"					{ return KEYWORD; }
 "case"					{ return KEYWORD; }
-"char"					{ return KEYWORD; }
 "const"					{ return KEYWORD; }
 "continue"				{ return KEYWORD; }
 "default"				{ return KEYWORD; }
 "do"					{ return KEYWORD; }
-"double"				{ return KEYWORD; }
 "else"					{ return KEYWORD; }
 "enum"					{ return KEYWORD; }
 "extern"				{ return KEYWORD; }
-"float"					{ return KEYWORD; }
 "for"					{ return KEYWORD; }
 "goto"					{ return KEYWORD; }
 "if"					{ return KEYWORD; }
-"int"					{ return KEYWORD; }
-"long"					{ return KEYWORD; }
 "register"				{ return KEYWORD; }
 "return"				{ return KEYWORD; }
-"short"					{ return KEYWORD; }
-"signed"				{ return KEYWORD; }
 "sizeof"				{ return KEYWORD; }
 "static"				{ return KEYWORD; }
 "struct"				{ return KEYWORD; }
 "switch"				{ return KEYWORD; }
 "typedef"				{ return KEYWORD; }
 "union"					{ return KEYWORD; }
-"unsigned"				{ return KEYWORD; }
-"void"					{ return KEYWORD; }
 "volatile"				{ return KEYWORD; }
 "while"					{ return KEYWORD; }
 
@@ -158,21 +158,18 @@ char *token_buffer;
 
 static int maxtoken;
 
-void
-init_lex(void)
+void init_lex(void)
 {
 	maxtoken = 40;
 	token_buffer = (char *)xmalloc(maxtoken + 1);
 }
 
-void
-done_lex(void)
+void done_lex(void)
 {
 	free(token_buffer);
 }
 
-static char *
-extend_token_buffer(char *p)
+static char *extend_token_buffer(char *p)
 {
 	int offset = p - token_buffer;
 
@@ -183,8 +180,7 @@ extend_token_buffer(char *p)
 	return token_buffer + offset;
 }
 
-static void
-string(void)
+static void string(void)
 {
 	char *p;
 	int c;
@@ -204,8 +200,7 @@ string(void)
 	*p = '\0';
 }
 
-static void
-comment(void)
+static void comment(void)
 {
 	char *p;
 	int c;
@@ -217,37 +212,58 @@ comment(void)
 resync:		if (p >= token_buffer + maxtoken)
 			p = extend_token_buffer(p);
 		*p++ = c;
-		if (c == '*')
+		if (c == '*') {
 			if ((c = input()) == '/') {
 				*p++ = c;
 				*p = '\0';
 				return;
 			} else
 				goto resync;
+		}
 	}
 	*p = '\0';
 }
 
-static int
-directive(void)
+static int isnamechar(int c)
+{
+	return c == '_' || isalnum(c);
+}
+
+static int directive(const char *prefix)
 {
 	char *p;
 	int c;
-
-	if (opt_directives)
-		return '#';
+	int quoted = 0;
 
 	p = token_buffer;
-	*p++ = '#';
 
-	while ((c = input()) != EOF && c != '\n') {
+	for (; *prefix != '\0'; ++prefix) {
+		if (p >= token_buffer + maxtoken)
+			p = extend_token_buffer(p);
+		*p++ = *prefix;
+	}
+
+	while ((c = input()) != EOF && isspace(c) && (quoted || c != '\n')) {
 		if (p >= token_buffer + maxtoken)
 			p = extend_token_buffer(p);
 		*p++ = c;
 		if (c == '\\')
-			*p++ = input();
+			quoted ^= 0x1;
 	}
-	*p++ = c;
+
+	while (c != EOF && isnamechar(c) && (quoted || c != '\n')) {
+		if (p >= token_buffer + maxtoken)
+			p = extend_token_buffer(p);
+		*p++ = c;
+		if (c == '\\')
+			quoted ^= 0x1;
+		c = input();
+	}
+
+	if (c != EOF)
+		unput(c);
+
 	*p = '\0';
+
 	return DIRECTIVE;
 }

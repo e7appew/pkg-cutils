@@ -1,8 +1,7 @@
-/*	$Id: lexer.l,v 1.28 1997/11/22 18:38:47 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.30 2001/07/14 11:48:42 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -160,21 +159,18 @@ char *token_buffer;
 
 static int maxtoken;
 
-void
-init_lex(void)
+void init_lex(void)
 {
 	maxtoken = 40;
 	token_buffer = (char *)xmalloc(maxtoken + 1);
 }
 
-void
-done_lex(void)
+void done_lex(void)
 {
 	free(token_buffer);
 }
 
-static char *
-extend_token_buffer(char *p)
+static char *extend_token_buffer(char *p)
 {
 	int offset = p - token_buffer;
 
@@ -185,8 +181,7 @@ extend_token_buffer(char *p)
 	return token_buffer + offset;
 }
 
-static void
-string(void)
+static void string(void)
 {
 	char *p;
 	int c;
@@ -206,8 +201,7 @@ string(void)
 	*p = '\0';
 }
 
-static void
-comment(void)
+static void comment(void)
 {
 	char *p;
 	int c;
@@ -220,19 +214,19 @@ comment(void)
 		if (p >= token_buffer + maxtoken)
 			p = extend_token_buffer(p);
 		*p++ = c;
-		if (c == '*')
+		if (c == '*') {
 			if ((c = input()) == '/') {
 				*p++ = c;
 				*p = '\0';
 				return;
 			} else
 				goto resync;
+		}
 	}
 	*p = '\0';
 }
 
-static int
-directive(void)
+static int directive(void)
 {
 	char *defname;
 	char *p;
