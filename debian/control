@@ -1,0 +1,19 @@
+Source: cutils
+Section: devel
+Priority: extra
+Maintainer: Hamish Moffatt <hamish@rising.com.au>
+Standards-Version: 2.3.0.0
+
+Package: cutils
+Architecture: any
+Depends: ${shlibs:Depends}
+Suggests: cweb
+Description: C source code utilities
+ C source code utilities, consisting of
+  cinfo, cinfoc and cinfodc - C language documentation tools
+  cdecl and cundecl - decode and encode C type declarations
+  cobfusc - make a C source file unreadable but compilable
+  chilight - highlight C source files
+  cunloop - unloop C loops
+  yyextract - extract grammar rules from yacc grammar
+  yyref - yacc grammar reference program

@@ -1,0 +1,17 @@
+cutils (1.5.2-2) frozen unstable; urgency=low
+
+  * Recompiled with debmake 3.5.10 (was 3.5.4) to fix uncompressed
+    changelog problems found by lintian
+
+ -- Hamish Moffatt <hamish@debian.org>  Mon, 13 Apr 1998 12:30:00 +1000
+
+cutils (1.5.2-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Hamish Moffatt <hamish@debian.org>  Thu, 11 Dec 1997 00:47:19 +1100
+
+Local variables:
+mode: debian-changelog
+add-log-mailing-address: "hamish@debian.org"
+End:

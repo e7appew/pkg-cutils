@@ -1,0 +1,10 @@
+usr/bin
+usr/info
+usr/man
+usr/man/man1
+usr/man/man5
+usr/doc
+usr/doc/cutils
+usr/doc/cutils/examples
+usr/share/cutils
+usr/share/cutils/cinfo
