@@ -50,7 +50,7 @@ static int opt_pattern;
 static int opt_cinfodb_directory;
 static char *opt_cinfodb_directory_arg;
 
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 static int
 is_cinfodb_filename(char *filename)
@@ -454,6 +454,7 @@ main(int argc, char **argv)
 {
 	int c;
 	struct object_s *op;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "cdhlo:psL:V")) != -1)
 		switch (c) {

@@ -58,7 +58,7 @@ extern int yylex(void);
 extern void init_lex(void);
 extern void done_lex(void);
 
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 static struct {
 	int defined;
@@ -241,6 +241,7 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "do:s:V")) != -1)
 		switch (c) {

@@ -39,7 +39,7 @@ extern int lineno;
 extern FILE *yyin;
 extern int yyparse(void);
 
-FILE *output_file = stdout;
+FILE *output_file;
 
 static void
 process_file(char *filename)
@@ -71,6 +71,7 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "o:V")) != -1)
 		switch (c) {

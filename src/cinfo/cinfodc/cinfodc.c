@@ -36,7 +36,7 @@ static char *rcsid = "$Id: cinfodc.c,v 1.25 1997/08/30 01:14:26 sandro Exp $";
 #include "config.h"
 #include "cinfodb.h"
 
-static FILE *output_file = stdout;
+static FILE *output_file;
 static int opt_header;
 
 static void
@@ -111,6 +111,7 @@ main(int argc, char **argv)
 {
 	int c;
 	struct object_s *op;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "ho:V")) != -1)
 		switch (c) {

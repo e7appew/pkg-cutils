@@ -70,7 +70,7 @@ extern int yylex(void);
 extern void init_lex(void);
 extern void done_lex(void);
 
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 /*
  * The variables where are stored the options flags.
@@ -931,6 +931,7 @@ int
 main(int argc, char **argv)
 {
 	int i, c;
+        output_file = stdout;
 
 	build_unmodifiable_table();
 	build_public_table();

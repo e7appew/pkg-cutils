@@ -37,7 +37,8 @@ binary-arch:	checkroot build
 	make install prefix=`pwd`/debian/tmp/usr etcdir=`pwd`/debian/tmp/usr/share/cutils
 	mv debian/tmp/usr/share/cutils/*.db debian/tmp/usr/share/cutils/cinfo
 
-	cp -r examples/* `pwd`/debian/tmp/usr/doc/cutils/examples
+	# examples removed as they are useless
+	#cp -r examples/* `pwd`/debian/tmp/usr/doc/cutils/examples
 
 	# now remove cweb, ctangle & cweave because they overlap
 	# with package cweb. What a mess!

@@ -52,7 +52,7 @@ extern void init_lex(void);
 extern void done_lex(void);
 
 static int lookahead;
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 static int opt_prefix;			/* Indentifier prefix option. */
 static char *opt_prefix_arg;		/* Option argument. */
@@ -391,6 +391,7 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "Vo:p:")) != -1)
 		switch (c) {

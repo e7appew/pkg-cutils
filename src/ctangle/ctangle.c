@@ -36,8 +36,8 @@ static char *rcsid = "$Id: ctangle.c,v 1.10 1997/06/12 16:22:06 sandro Exp $";
 
 #include "config.h"
 
-static FILE *input_file = stdin;
-static FILE *output_file = stdout;
+static FILE *input_file;
+static FILE *output_file;
 static char *input_filename;
 
 static int lineno;
@@ -125,6 +125,8 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
+        input_file = stdin;
 
 	while ((c = getopt(argc, argv, "o:V")) != -1)
 		switch (c) {

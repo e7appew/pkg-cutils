@@ -1,3 +1,16 @@
+cutils (1.5.2-4) frozen unstable; urgency=low
+
+  * Fixes for glibc-2.1, fixes #29541
+
+ -- Hamish Moffatt <hamish@debian.org>  Sun, 22 Nov 1998 10:17:00 +1000
+
+cutils (1.5.2-3) unstable; urgency=low
+
+  * Removed the /usr/doc/cutils/examples files, as the only thing 
+    present was a Makefile without corresponding source (fixes#27457)
+
+ -- Hamish Moffatt <hamish@debian.org>  Tue, 06 Oct 1998 20:35:00 +1000
+
 cutils (1.5.2-2) frozen unstable; urgency=low
 
   * Recompiled with debmake 3.5.10 (was 3.5.4) to fix uncompressed

@@ -61,8 +61,8 @@ extern void done_lex(void);
 static int opt_hilight;
 static int opt_tab_width = 8;
 
-static FILE *input_file = stdin;
-static FILE *output_file = stdout;
+static FILE *input_file;
+static FILE *output_file;
 
 static int xbuf[16];
 static int *xptr;
@@ -449,6 +449,8 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
+        input_file = stdin;
 
 	while ((c = getopt(argc, argv, "ho:t:V")) != -1)
 		switch (c) {

@@ -64,7 +64,7 @@ static int opt_html;
 static int opt_width;
 static int opt_width_arg = 78;
 
-FILE *output_file = stdout;
+FILE *output_file;
 
 struct token_s {
 	char *token;
@@ -423,6 +423,7 @@ int
 main(int argc, char **argv)
 {
 	int c;
+        output_file = stdout;
 
 	while ((c = getopt(argc, argv, "beho:yw:V")) != -1)
 		switch (c) {
