@@ -1,6 +1,0 @@
-There are some example files in /usr/doc/cutils/examples.
-However, the included Makefiles use sections of the cutils
-source code itself as examples. If you wish to try these
-examples, you may wish to obtain the cutils source package
-from your favourite Debian mirror or ftp.debian.org.
-

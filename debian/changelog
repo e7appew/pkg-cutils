@@ -1,3 +1,16 @@
+cutils (1.5.2-6) unstable; urgency=low
+
+  * FHS compliant 
+  * Converted from debstd to debhelper
+
+ -- Hamish Moffatt <hamish@debian.org>  Fri,  1 Oct 1999 18:31:21 +1000
+
+cutils (1.5.2-5) unstable; urgency=low
+
+  * Removed misleading README.Debian, fixes: #39300
+
+ -- Hamish Moffatt <hamish@debian.org>  Fri, 25 Jun 1999 22:08:00 +1000
+
 cutils (1.5.2-4) frozen unstable; urgency=low
 
   * Fixes for glibc-2.1, fixes #29541

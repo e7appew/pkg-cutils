@@ -1,8 +1,8 @@
 Source: cutils
 Section: devel
 Priority: extra
-Maintainer: Hamish Moffatt <hamish@rising.com.au>
-Standards-Version: 2.3.0.0
+Maintainer: Hamish Moffatt <hamish@debian.org>
+Standards-Version: 3.0.0
 
 Package: cutils
 Architecture: any
