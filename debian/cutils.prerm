@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# Dummy maintainer script to ensure clean upgrades from a version of cutils that
+# has an install-info call in its prerm script with dpkg >= 1.17 installed. This
+# can be removed after the jessie release.
+
+#DEBHELPER#
