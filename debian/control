@@ -1,9 +1,9 @@
 Source: cutils
 Section: devel
 Priority: optional
-Maintainer: Hamish Moffatt <hamish@debian.org>
+Maintainer: Debian QA Group <packages@qa.debian.org>
 Standards-Version: 3.6.1
-Build-Depends: debhelper (>= 4), flex-old, bison | byacc
+Build-Depends: debhelper (>= 10~), flex-old, bison | byacc
 
 Package: cutils
 Architecture: any

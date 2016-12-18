@@ -1,3 +1,11 @@
+cutils (1.6-4) unstable; urgency=medium
+
+  * QA upload
+  * Set maintainer field to Debian QA Group (see #790728)
+  * Declare debhelper compat level, bump to 10. Closes: #817323, #817417
+
+ -- Christoph Biedl <debian.axhn@manchmal.in-ulm.de>  Sun, 18 Dec 2016 14:19:01 +0100
+
 cutils (1.6-3.1) unstable; urgency=low
 
   * Non-maintainer upload.
