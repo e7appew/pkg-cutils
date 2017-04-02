@@ -3,7 +3,7 @@
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 %:
-	dh $@ --without autoreconf --no-parallel
+	dh $@ --no-parallel
 
 override_dh_installchangelogs:
 	dh_installchangelogs NEWS

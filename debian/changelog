@@ -9,8 +9,10 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * debian/patches/*:
     - Fix spelling in binary.
     - Patch Makefile.in files to honour CPPFLAGS.
+    - Update autoconf files to work with version 2.69.
   * debian/rules:
     - Build with all hardening flags set.
+    - Build with autoreconf.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 

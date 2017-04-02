@@ -1,0 +1,390 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Mon, 3 Apr 2017 06:10:23 +1000
+Subject: Update autoconf files to work with version 2.69.
+
+Description: Update autoconf files to work with version 2.69.
+Author: Carlos Maddela <e7appew@gmail.com>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ acconfig.h                |  17 --------
+ conf_post.h               |  15 +++++++
+ config.h.in               | 106 ++++++++++++++++++++++++++++++----------------
+ configure.ac              |  34 +++++++++++++++
+ configure.in              |  32 --------------
+ doc/Makefile.in           |   2 +-
+ src/cdecl/Makefile.in     |   2 +-
+ src/chilight/Makefile.in  |   2 +-
+ src/cobfusc/Makefile.in   |   2 +-
+ src/cundecl/Makefile.in   |   2 +-
+ src/cunloop/Makefile.in   |   2 +-
+ src/yyextract/Makefile.in |   2 +-
+ src/yyref/Makefile.in     |   2 +-
+ 13 files changed, 126 insertions(+), 94 deletions(-)
+ delete mode 100644 acconfig.h
+ create mode 100644 conf_post.h
+ create mode 100644 configure.ac
+ delete mode 100644 configure.in
+
+diff --git a/acconfig.h b/acconfig.h
+deleted file mode 100644
+index 8a3977a..0000000
+--- a/acconfig.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-@BOTTOM@
+-
+-#include "version.h"
+-
+-#include <stddef.h>
+-
+-#ifndef HAVE_XMALLOC
+-extern void *xmalloc(size_t);
+-#endif
+-
+-#ifndef HAVE_XREALLOC
+-extern void *xrealloc(void *, size_t);
+-#endif
+-
+-#ifndef HAVE_XSTRDUP
+-extern char *xstrdup(const char *);
+-#endif
+diff --git a/conf_post.h b/conf_post.h
+new file mode 100644
+index 0000000..68763f1
+--- /dev/null
++++ b/conf_post.h
+@@ -0,0 +1,15 @@
++#include "version.h"
++
++#include <stddef.h>
++
++#ifndef HAVE_XMALLOC
++extern void *xmalloc(size_t);
++#endif
++
++#ifndef HAVE_XREALLOC
++extern void *xrealloc(void *, size_t);
++#endif
++
++#ifndef HAVE_XSTRDUP
++extern char *xstrdup(const char *);
++#endif
+diff --git a/config.h.in b/config.h.in
+index 857eeea..7146c11 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -1,62 +1,94 @@
+-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
++/* config.h.in.  Generated from configure.ac by autoheader.  */
+ 
+-/* Define to empty if the keyword does not work.  */
+-#undef const
++/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
++   */
++#undef HAVE_DIRENT_H
+ 
+-/* Define if you don't have vprintf but do have _doprnt.  */
++/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+ #undef HAVE_DOPRNT
+ 
+-/* Define if you have the vprintf function.  */
+-#undef HAVE_VPRINTF
++/* Define to 1 if you have the `err' function. */
++#undef HAVE_ERR
+ 
+-/* Define if you have the ANSI C header files.  */
+-#undef STDC_HEADERS
++/* Define to 1 if you have the <inttypes.h> header file. */
++#undef HAVE_INTTYPES_H
+ 
+-/* Define if lex declares yytext as a char * by default, not a char[].  */
+-#undef YYTEXT_POINTER
++/* Define to 1 if you have the <memory.h> header file. */
++#undef HAVE_MEMORY_H
+ 
+-/* Define if you have the err function.  */
+-#undef HAVE_ERR
++/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
++#undef HAVE_NDIR_H
+ 
+-/* Define if you have the strerror function.  */
++/* Define to 1 if you have the <stdint.h> header file. */
++#undef HAVE_STDINT_H
++
++/* Define to 1 if you have the <stdlib.h> header file. */
++#undef HAVE_STDLIB_H
++
++/* Define to 1 if you have the `strerror' function. */
+ #undef HAVE_STRERROR
+ 
+-/* Define if you have the xmalloc function.  */
++/* Define to 1 if you have the <strings.h> header file. */
++#undef HAVE_STRINGS_H
++
++/* Define to 1 if you have the <string.h> header file. */
++#undef HAVE_STRING_H
++
++/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
++   */
++#undef HAVE_SYS_DIR_H
++
++/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
++   */
++#undef HAVE_SYS_NDIR_H
++
++/* Define to 1 if you have the <sys/stat.h> header file. */
++#undef HAVE_SYS_STAT_H
++
++/* Define to 1 if you have the <sys/types.h> header file. */
++#undef HAVE_SYS_TYPES_H
++
++/* Define to 1 if you have the <unistd.h> header file. */
++#undef HAVE_UNISTD_H
++
++/* Define to 1 if you have the `vprintf' function. */
++#undef HAVE_VPRINTF
++
++/* Define to 1 if you have the `xmalloc' function. */
+ #undef HAVE_XMALLOC
+ 
+-/* Define if you have the xrealloc function.  */
++/* Define to 1 if you have the `xrealloc' function. */
+ #undef HAVE_XREALLOC
+ 
+-/* Define if you have the xstrdup function.  */
++/* Define to 1 if you have the `xstrdup' function. */
+ #undef HAVE_XSTRDUP
+ 
+-/* Define if you have the <dirent.h> header file.  */
+-#undef HAVE_DIRENT_H
++/* Define to the address where bug reports for this package should be sent. */
++#undef PACKAGE_BUGREPORT
+ 
+-/* Define if you have the <ndir.h> header file.  */
+-#undef HAVE_NDIR_H
++/* Define to the full name of this package. */
++#undef PACKAGE_NAME
+ 
+-/* Define if you have the <sys/dir.h> header file.  */
+-#undef HAVE_SYS_DIR_H
++/* Define to the full name and version of this package. */
++#undef PACKAGE_STRING
+ 
+-/* Define if you have the <sys/ndir.h> header file.  */
+-#undef HAVE_SYS_NDIR_H
++/* Define to the one symbol short name of this package. */
++#undef PACKAGE_TARNAME
+ 
+-/* Define if you have the <unistd.h> header file.  */
+-#undef HAVE_UNISTD_H
++/* Define to the home page for this package. */
++#undef PACKAGE_URL
+ 
+-#include "version.h"
++/* Define to the version of this package. */
++#undef PACKAGE_VERSION
+ 
+-#include <stddef.h>
++/* Define to 1 if you have the ANSI C header files. */
++#undef STDC_HEADERS
+ 
+-#ifndef HAVE_XMALLOC
+-extern void *xmalloc(size_t);
+-#endif
++/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
++   `char[]'. */
++#undef YYTEXT_POINTER
+ 
+-#ifndef HAVE_XREALLOC
+-extern void *xrealloc(void *, size_t);
+-#endif
++/* Define to empty if `const' does not conform to ANSI C. */
++#undef const
+ 
+-#ifndef HAVE_XSTRDUP
+-extern char *xstrdup(const char *);
+-#endif
++#include "conf_post.h"
+diff --git a/configure.ac b/configure.ac
+new file mode 100644
+index 0000000..1759d7b
+--- /dev/null
++++ b/configure.ac
+@@ -0,0 +1,34 @@
++dnl Process this file with autoconf to produce a configure script.
++AC_INIT([cutils],[1.6],[Sandro Sigala <sandro@sigala.it>])
++AC_CONFIG_HEADER([config.h])
++
++dnl Checks for programs.
++AC_PROG_CC
++AC_PROG_INSTALL
++AC_PROG_RANLIB
++AC_PROG_LEX
++AC_DECL_YYTEXT
++AC_PROG_YACC
++
++dnl Checks for libraries.
++AC_REPLACE_FUNCS(err xmalloc xrealloc xstrdup)
++
++dnl Checks for header files.
++AC_HEADER_DIRENT
++AC_HEADER_STDC
++AC_CHECK_HEADERS(unistd.h)
++
++dnl Checks for typedefs, structures, and compiler characteristics.
++AC_C_CONST
++
++dnl Checks for library functions.
++AC_FUNC_MEMCMP
++AC_FUNC_VPRINTF
++AC_CHECK_FUNCS(strerror)
++
++AC_OUTPUT(Makefile doc/Makefile lib/Makefile \
++src/Makefile src/cdecl/Makefile src/chilight/Makefile \
++src/cobfusc/Makefile src/cundecl/Makefile src/cunloop/Makefile \
++src/yyextract/Makefile src/yyref/Makefile)
++
++AH_BOTTOM([#include "conf_post.h"])
+diff --git a/configure.in b/configure.in
+deleted file mode 100644
+index de65f5e..0000000
+--- a/configure.in
++++ /dev/null
+@@ -1,32 +0,0 @@
+-dnl Process this file with autoconf to produce a configure script.
+-AC_INIT(version.h)
+-AC_CONFIG_HEADER(config.h)
+-
+-dnl Checks for programs.
+-AC_PROG_CC
+-AC_PROG_INSTALL
+-AC_PROG_RANLIB
+-AC_PROG_LEX
+-AC_DECL_YYTEXT
+-AC_PROG_YACC
+-
+-dnl Checks for libraries.
+-AC_REPLACE_FUNCS(err xmalloc xrealloc xstrdup)
+-
+-dnl Checks for header files.
+-AC_HEADER_DIRENT
+-AC_HEADER_STDC
+-AC_CHECK_HEADERS(unistd.h)
+-
+-dnl Checks for typedefs, structures, and compiler characteristics.
+-AC_C_CONST
+-
+-dnl Checks for library functions.
+-AC_FUNC_MEMCMP
+-AC_FUNC_VPRINTF
+-AC_CHECK_FUNCS(strerror)
+-
+-AC_OUTPUT(Makefile doc/Makefile lib/Makefile \
+-src/Makefile src/cdecl/Makefile src/chilight/Makefile \
+-src/cobfusc/Makefile src/cundecl/Makefile src/cunloop/Makefile \
+-src/yyextract/Makefile src/yyref/Makefile)
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index 4652344..e4b4b5c 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -5,7 +5,7 @@ VPATH = $(srcdir)
+ 
+ DESTDIR =
+ prefix = @prefix@
+-
++datarootdir = @datarootdir@
+ infodir = @infodir@
+ 
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+diff --git a/src/cdecl/Makefile.in b/src/cdecl/Makefile.in
+index a3d4872..56dcd89 100644
+--- a/src/cdecl/Makefile.in
++++ b/src/cdecl/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/chilight/Makefile.in b/src/chilight/Makefile.in
+index b8c3f79..7b5fc7c 100644
+--- a/src/chilight/Makefile.in
++++ b/src/chilight/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/cobfusc/Makefile.in b/src/cobfusc/Makefile.in
+index d390a5c..0d82508 100644
+--- a/src/cobfusc/Makefile.in
++++ b/src/cobfusc/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/cundecl/Makefile.in b/src/cundecl/Makefile.in
+index ea9ae50..d64d60c 100644
+--- a/src/cundecl/Makefile.in
++++ b/src/cundecl/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/cunloop/Makefile.in b/src/cunloop/Makefile.in
+index df784b1..533f48d 100644
+--- a/src/cunloop/Makefile.in
++++ b/src/cunloop/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/yyextract/Makefile.in b/src/yyextract/Makefile.in
+index 97a0cd3..ccbd461 100644
+--- a/src/yyextract/Makefile.in
++++ b/src/yyextract/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
+diff --git a/src/yyref/Makefile.in b/src/yyref/Makefile.in
+index 99819c9..38cf060 100644
+--- a/src/yyref/Makefile.in
++++ b/src/yyref/Makefile.in
+@@ -6,7 +6,7 @@ VPATH = $(srcdir)
+ DESTDIR =
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+-
++datarootdir = @datarootdir@
+ bindir = @bindir@
+ mandir = @mandir@/man1
+ 
