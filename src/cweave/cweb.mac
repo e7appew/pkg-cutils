@@ -1,0 +1,13 @@
+% cweb macros
+
+\newcommand{\webref}[2]
+	{\noindent$\langle$#1 \textrm{\small#2}$\rangle$}
+
+\newcommand{\webdecl}[2]
+	{\noindent\webref{#1}{#2}$\equiv$}
+
+\newcommand{\webadecl}[2]
+	{\noindent\webref{#1}{#2}$+\equiv$}
+
+\newlength{\indentation}
+\settowidth{\indentation}{\texttt{x}}

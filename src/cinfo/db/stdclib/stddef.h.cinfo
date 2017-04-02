@@ -1,0 +1,17 @@
+# $Id: stddef.h.cinfo,v 1.6 1997/05/26 16:31:34 sandro Exp $
+
+("stddef.h"
+
+standard = "ANSI X3.159-1989.
+ISO/IEC 9899:1990: 7.1.6 Common definitions."
+
+("offsetof" f="m" d="size_t offsetof(<type>, <member_designator>);")
+("NULL" f="m" l="\
+`NULL' expands itself into a null pointer constant.")
+("ptrdiff_t" f="t" l="\
+`ptrdiff_t' represents the integer type returned by a pointer subtraction.")
+("size_t" f="t" l="\
+`size_t' represents the integer type returned by the `sizeof' operator.")
+("wchar_t" f="t")
+
+)

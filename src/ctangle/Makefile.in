@@ -1,0 +1,49 @@
+#	$Id: Makefile.in,v 1.4 1997/06/12 16:22:05 sandro Exp $
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+man1dir = @mandir@/man1
+man5dir = @mandir@/man5
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+CC = @CC@
+CFLAGS = -I../.. -I$(srcdir)/../../lib @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = ../../lib/libcutils.a @LIBS@
+
+LEX = @LEX@
+YACC = @YACC@
+
+PROG = ctangle
+OBJS = ctangle.o
+
+.c.o:
+	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+
+install: $(PROG)
+	$(srcdir)/../../mkinsdir.sh $(bindir) $(man1dir) $(man5dir)
+	$(INSTALL_PROGRAM) $(PROG) $(bindir)
+	$(INSTALL_DATA) $(srcdir)/$(PROG).1 $(man1dir)
+	$(INSTALL_DATA) $(srcdir)/cweb.5 $(man5dir)
+
+clean: 
+	-rm -f $(PROG) *.o
+
+distclean: clean 
+	-rm -f Makefile
+
+realclean: distclean
+
+mostlyclean: clean

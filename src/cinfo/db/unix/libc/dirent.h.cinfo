@@ -1,0 +1,21 @@
+# $Id: dirent.h.cinfo,v 1.1 1996/08/09 12:49:52 sandro Exp $
+
+("dirent.h"
+
+standard = "POSIX: 5.1.2 Directory Operations"
+
+("opendir" f="f" d="DIR *opendir(const char *name);")
+("closedir" f="f" d="int closedir(DIR *dirp);")
+("readdir" f="f" d="struct dirent *readdir(DIR *dirp);")
+
+("DIR" f="t")
+
+("dirent" f="s" d="\
+struct	dirent {
+	long d_ino;
+	off_t d_off;
+	unsigned short d_reclen;
+	char d_name[NAME_MAX];
+};")
+
+)

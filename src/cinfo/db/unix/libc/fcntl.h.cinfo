@@ -1,0 +1,18 @@
+# $Id: fcntl.h.cinfo,v 1.4 1996/08/09 12:49:53 sandro Exp $
+
+("fcntl.h"
+
+("open" f="f" d="int open(const char *filename, int flags[, mode_t mode]);")
+
+("creat" f="f"
+  d="int creat(const char *filename, mode_t mode);"
+  warn="\
+This function is obsolete.  The call:
+
+  creat(FILENAME, MODE)
+
+is equivalent to:
+
+  open(FILENAME, O_WRONLY, | O_CREAT, O_TRUNC, MODE)")
+
+)

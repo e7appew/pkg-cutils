@@ -1,0 +1,60 @@
+-=-=-=-=-=-=-=-=-= Source =-=-=-=-=-=-=-=-=-
+while (expr)
+	instr
+-=-=-=-=-=-=-=-=- Method 1 -=-=-=-=-=-=-=-=-
+l_continue:
+	if (!(expr))
+		goto l_break;
+	instr;
+	goto l_continue;
+l_break:
+-=-=-=-=-=-=-=-=- Method 2 -=-=-=-=-=-=-=-=-
+goto l_continue:
+l_do_expr:
+	instr;
+l_continue:
+	if (expr)
+		goto l_do_expr;
+l_break:	
+
+-=-=-=-=-=-=-=-=-= Source =-=-=-=-=-=-=-=-=-
+do
+	instr
+while (expr)
+-=-=-=-=-=-=-=-=- Method 1 -=-=-=-=-=-=-=-=-
+l_continue:
+	instr;
+	if (expr)
+		goto l_continue;
+l_break:
+
+-=-=-=-=-=-=-=-=-= Source =-=-=-=-=-=-=-=-=-
+for (expr1; expr2; expr3)
+  instr
+-=-=-=-=-=-=-=-=- Method 1 -=-=-=-=-=-=-=-=-
+	expr1;
+l_loop:
+	if (!(expr2))
+		goto l_break;
+	goto l_instr;
+l_continue:
+	expr3;
+	goto l_loop;
+l_instr:
+	instr;
+	goto l_continue;
+l_break:
+
+-=-=-=-=-=-=-=-=-= Source =-=-=-=-=-=-=-=-=-
+if (expr)
+	instr1
+else
+	instr2
+-=-=-=-=-=-=-=-=- Method 1 -=-=-=-=-=-=-=-=-
+	if (!(expr))
+		goto l_else;
+	instr1;
+	goto l_end;
+l_else:
+	instr2;
+l_end:

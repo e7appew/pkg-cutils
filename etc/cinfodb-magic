@@ -1,0 +1,4 @@
+#	$Id: cinfodb-magic,v 1.1 1996/06/20 15:22:37 sandro Exp $
+
+0	string		\177CINFO	cinfo database
+>6	string		\1\0		version 1.0

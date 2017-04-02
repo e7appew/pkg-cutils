@@ -1,0 +1,33 @@
+.\" $Id: cinfodc.1,v 1.20 1997/11/22 18:38:43 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt CINFODC 1
+.Sh NAME
+.Nm cinfodc
+.Nd cinfo database de-compiler
+.Sh SYNOPSIS
+.Nm cinfodc
+.Op Fl \&hV
+.Op Fl o Ar file
+.Ar
+.Sh DESCRIPTION
+The
+.Nm cinfoc
+utility is the standard cinfo database de-compiler.
+.Pp
+The options are as follows:
+.Bl -tag -width indent
+.It Fl h
+Output a header for every object that contains subobjects.
+.It Fl o
+Set the output destination to
+.Ar file .
+.It Fl V
+Print version information on standard output then exit.
+.El
+.Sh SEE ALSO
+.Xr cinfo 1 ,
+.Xr cinfoc 1 ,
+.Xr cinfodb 5
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it)

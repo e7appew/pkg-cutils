@@ -1,0 +1,18 @@
+# $Id: yacc.cinfo,v 1.5 1996/08/09 12:49:56 sandro Exp $
+
+("yacc"
+
+short_description = "The yacc LALR(1) parser generator"
+long_description = "\
+yacc is the standard UNIX LALR(1) parser generator.  It reads a grammar
+specification and generates an LR(1) parser for it.  The parser consist
+of a set of LALR(1) parsing tables and a driver routine written in the
+C programming language.
+See also:
+yacc(1)"
+
+("yyparse" header="no" f="f" d="int yyparse(void);")
+("YYDEBUG" header="no" f="m" d="#define YYDEBUG <boolean-value>")
+("yyerror" header="no" f="f" d="void yyerror(char *s);")
+
+)

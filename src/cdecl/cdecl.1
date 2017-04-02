@@ -1,0 +1,44 @@
+.\" $Id: cdecl.1,v 1.12 1997/11/22 18:38:34 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt CDECL 1
+.Sh NAME
+.Nm cdecl
+.Nd decode C type declarations
+.Sh SYNOPSIS
+.Nm cdecl
+.Op Fl V
+.Op Fl o Ar file
+.Op Ar
+.Sh DESCRIPTION
+The
+.Nm cdecl
+utility
+decodes C type declarations producing a verbose description.
+Casts are accepted as well.
+.Pp
+The options are as follows:
+.Bl -tag -width indent
+.It Fl o
+Set the output destination to
+.Ar file .
+.It Fl V
+Print version information on standard output then exit.
+.El
+.Sh EXAMPLES
+.Bd -literal
+char *s;
+void (*signal(int sig, void (*func)(int)))(int);
+(const char *)s;
+(void (*)(int))signal_function;
+.Ed
+.Sh SEE ALSO
+.Xr cundecl 1
+.Sh STANDARDS
+The
+.Nm
+utility is expected to be
+.St -ansiC-89
+compatible.
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it)

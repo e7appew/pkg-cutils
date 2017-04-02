@@ -1,0 +1,16 @@
+#	$Id: Makefile.in,v 1.4 1997/07/05 19:29:58 sandro Exp $
+
+subdirs = doc lib src
+
+all install clean realclean mostyclean:
+	@for f in $(subdirs); do \
+		(cd $$f && $(MAKE) $@) \
+	done
+
+distclean:
+	@for f in $(subdirs); do \
+		(cd $$f && $(MAKE) $@) \
+	done
+	-rm -f Makefile
+	-rm -f config.cache config.status config.log
+	-rm -f config.h

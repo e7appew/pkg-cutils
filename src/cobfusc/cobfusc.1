@@ -1,0 +1,88 @@
+.\" $Id: cobfusc.1,v 1.31 1997/11/22 18:38:46 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt COBFUSC 1
+.Sh NAME
+.Nm cobfusc
+.Nd make a C source file unreadable but compilable
+.Sh SYNOPSIS
+.Nm cobfusc
+.Op Fl abdehmntV
+.Op Fl c Ar no | lower | upper | screw | random
+.Op Fl g Ar file
+.Bk -words
+.Op Fl i Ar no | numeric | word | random
+.Ek
+.Op Fl o Ar file
+.Op Fl p Ar file
+.Op Fl r Ar prefix
+.Bk -words
+.Op Fl s Ar seed
+.Ek
+.Op Fl u Ar file
+.Op Fl w Ar cols
+.Op Ar
+.Sh DESCRIPTION
+The
+.Nm cobfusc
+utility
+converts the input file, written in the C language, into
+a human unreadable one, but compilable.
+The main work is converting every identifier into a meaningless one,
+removing any comment and compacting all the white\-spaces when they are not
+required.
+.Pp
+The options are as follows:
+.Bl -tag -width indent
+.It Fl a
+Garble every string with octal escapes.
+.It Fl b
+Enable the digraphize mode.
+.It Fl c Ar "no \\*(Ba lower \\*(Ba upper \\*(Ba screw \\*(Ba random"
+Set the identifier case scrambling mode.
+.It Fl d
+Compact the macros removing backslashes and white\-spaces when
+they are not required.
+.It Fl e
+Compact the white\-spaces when they are not required.
+.It Fl g
+Add first the identifiers contained in
+.Ar file
+to the hash table. Useful
+when those identifiers are used into two or more source files.
+.It Fl h
+Share the symbol table between the files passed on the command line.
+.It Fl i Ar "no \\*(Ba numeric \\*(Ba word \\*(Ba random"
+Set the identifier garbling mode.
+.It Fl m
+Strip the comments.
+.It Fl n
+Garble integers with expressions.
+.It Fl o
+Set the output destination to 
+.Ar file .
+.It Fl p
+Tell
+.Nm cobfusc
+that the identifiers contained in
+.Ar file
+must not be changed.
+.It Fl r
+Specify the prefix to use when generating the identifiers.
+.It Fl s
+Specify the seed for generating the random numbers.
+.It Fl t
+Enable the trigraphize mode.
+.It Fl u
+Dump the symbol table to
+.Ar file .
+.It Fl V
+Print version information on standard output then exit.
+.It Fl w
+Set the width limit of the output.
+.El
+.Sh SEE ALSO
+.Xr cunloop 1 ,
+.Xr indent 1
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it)

@@ -1,0 +1,82 @@
+# $Id: time.h.cinfo,v 1.7 1997/05/26 16:31:37 sandro Exp $
+
+("time.h"
+
+standard = "ANSI X3.159-1989: 4.12 Date and time.
+ISO/IEC 9899:1990: 7.12 Date and time."
+
+("asctime" f="f" d="char *asctime(const struct tm *timeptr);" r="\
+`asctime' converts the date contained in the structure pointed by `timeptr'
+into a string with the format:
+
+  Wed Dec 22 12:57:33 1995\\n\\0
+
+The structure pointed by `timeptr' must be initialized by `gmtime' or
+`localtime', before the use with `asctime'. For more informations
+about the relative structure, see `tm'.
+`asctime' returns a pointer to the made string." e="\
+This example uses `asctime' for showing the Universal Coordianate Time.
+
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int
+main(void)
+{
+	printf(asctime(gmtime(NULL)));
+	return 0;
+}
+
+The Standard defines that the algorithm used by `asctime' for generating
+the string must be the following:
+
+char *
+asctime(const struct tm *timeptr)
+{
+	static const char wday_name[7][3] = {
+		\"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\"
+	};
+	static const char mon_name[12][3] = {
+		\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",
+		\"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"
+	};
+	static char result[26];
+
+	sprintf(result, \"%.3s %.3s %.3d %.2d:%.2d:%.2d %d\\n\",
+		wday_name(timeptr->tm_wday),
+		mon_name(timeptr->tm_mon),
+		timeptr->tm_day, timeptr->tm_hour,
+		timeptr->tm_min, timeptr->tm_sec,
+		1900 + timeptr->tm_year);
+
+	return result;
+}")
+
+("clock" f="f" d="clock_t clock(void);")
+("ctime" f="f" d="char *ctime(const time_t *timer);")
+("difftime" f="f" d="double difftime(time_t time1, time_t time0);")
+("gmtime" f="f" d="struct tm *gmtime(const time_t timer);")
+("localtime" f="f" d="struct tm *localtime(const time_t *timer);")
+("mktime" f="f" d="time_t mktime(struct tm *timeptr);")
+("strftime" f="f" d="\
+size_t strftime(char *s, size_t maxsize, const char *format,
+                 const struct tm *timeptr);")
+("time" f="f" d="time_t time(time_t *timer);")
+("clock_t" f="t")
+("time_t" f="t")
+("tm" f="s" d="\
+struct	tm {
+	int tm_sec;
+	int tm_min;
+	int tm_hour;
+	int tm_mday;
+	int tm_mon;
+	int tm_year;
+	int tm_wday;
+	int tm_yday;
+	int tm_isdst;
+};")
+("CLOCKS_PER_SEC" f="m")
+
+)

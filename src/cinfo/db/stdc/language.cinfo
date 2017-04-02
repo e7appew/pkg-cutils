@@ -1,0 +1,229 @@
+# $Id: language.cinfo,v 1.3 1996/08/18 15:06:33 sandro Exp $
+
+("Language"
+
+("main" header="no" f="f" d="int main(int argc, char *argv[]);")
+
+################ compiler ################
+
+("Compiler"
+
+################ keywords ################
+
+("Keywords"
+
+("auto" f="b")
+("break" f="b")
+("case" f="b")
+("char" f="b")
+("const" f="b")
+("continue" f="b")
+("default" f="b")
+("do" f="b")
+("double" f="b")
+("else" f="b")
+("enum" f="b")
+("extern" f="b")
+("float" f="b")
+("for" f="b")
+("goto" f="b")
+("if" f="b")
+("int" f="b")
+("long" f="b")
+("register" f="b")
+("return" f="b")
+("short" f="b")
+("signed" f="b")
+("sizeof" f="b" d="size_t sizeof (<object>);" l="\
+`sizeof' is a reserved C language keyword and operator.")
+("static" f="b")
+("struct" f="b")
+("switch" f="b")
+("typedef" f="b")
+("union" f="b")
+("unsigned" f="b")
+("void" f="b")
+("volatile" f="b")
+("while" f="b")
+
+) # "Keywords"
+
+################ operators ################
+
+("Operators"
+
+(">>=" f="b")
+("<<=" f="b")
+("+=" f="b")
+("-=" f="b")
+("*=" f="b")
+("/=" f="b")
+("%=" f="b")
+("&=" f="b")
+("^=" f="b")
+("|=" f="b")
+(">>" f="b")
+("<<" f="b")
+("++" f="b")
+("--" f="b")
+("->" f="b")
+("&&" f="b")
+("||" f="b")
+("f=" f="b")
+(">=" f="b")
+("==" f="b")
+("!=" f="b")
+(";" f="b")
+("{" f="b")
+("}" f="b")
+("," f="b")
+(":" f="b")
+("=" f="b")
+("(" f="b")
+(")" f="b")
+("[" f="b")
+("]" f="b")
+("." f="b")
+("&" f="b")
+("!" f="b")
+("~" f="b")
+("-" f="b")
+("+" f="b")
+("*" f="b")
+("/" f="b")
+("%" f="b")
+("<" f="b")
+(">" f="b")
+("^" f="b")
+("|" f="b")
+("?" f="b")
+
+) # "Operators"
+
+) # "Compiler"
+
+################ preprocessor ################
+
+("Preprocessor"
+
+("Directives"
+
+("#" f="b" r="\
+`#' is a preprocessor operator. It is used in macros for building strings
+from macro parameters, i.e. \"quoting\"." e="\
+  #define test(x) foo(x, #x)
+
+When the preprocessor encourres this line:
+
+  test(1);
+
+It substitutes the line with this:
+
+  foo(1, \"1\");")
+
+("##" f="b" r="\
+`##' is a preprocessor operator. It is used in macros for concatenating
+tokens, i.e. \"token pasting\"." e="\
+  #define test(x) var_ ## x
+
+When the preprocessor encourres this line:
+
+  test(1);
+
+It substitutes the line with this:
+
+  var_1")
+
+("#if" f="b" d="#if <constant-expression> <newline> <code> ..." r="\
+The `#if' preprocessor directive includes the code if the specified condition
+is true.")
+
+("#elif" f="b" d="#elif <constant-expression> <newline> <code> ..." r="\
+The `#elif' preprocessor directive includes the code if the previous condition
+is false and the specified condition is true.")
+
+("#else" f="b" d="#else <newline> <code> ..." r="\
+The `#else' preprocessor directive includes the code if the previous condition
+is false.")
+
+("#endif" f="b" d="#endif <newline>" r="\
+The `#endif' preprocessor directive closes the previous `#if' directive.")
+
+("#ifdef" f="b" d="#ifdef <identifier> <newline> <code> ..." r="\
+The `#ifdef' preprocessor directive includes the code if the specified macro
+is defined.")
+
+("#ifndef" f="b" d="#ifndef <identifier> <newline> <code> ..." r="\
+The `#ifndef' preprocessor directive includes the code if the specified macro
+is not defined.")
+
+("#define" f="b" d="\
+#define <identifier> <substitution-sequence>
+#define <identifier>(parameters-list) <substitution-sequence>" r="\
+The `#define' preprocessor directive defines the specified macro with the
+specified substitution sequence.")
+
+("#undef" f="b" d="#undef <identifier>" r="\
+The `#undef' preprocessor directive undefines the specified macro.")
+
+("#include" f="b" d="\
+#include <file>
+#include \"file\"" r="\
+The `#include' preprocessor directive reads another file and includes it.")
+
+("#line" f="b" d="\
+#line <number>
+#line <number> <file-name>
+#line <macro>" r="\
+The `#line' preprocessor directive reassign the line number.")
+
+("#pragma" f="b" d="#pragma <parameters>" r="\
+The `#pragma' preprocessor directive executes an operation defined by
+the implementation.")
+
+("#error" f="b" d="#error message" r="\
+The `#error' preprocessor directive prints an error message.")
+
+) # "Directives"
+
+################ macros ################
+
+("Macros"
+
+("__DATE__" f="mb" r="\
+`__DATE__' is a preprocessor predefined macro that expands itself into
+a string that contains the date of the compilation in the format
+\"Mmm dd yyyy\".")
+
+("__FILE__" f="mb" r="\
+`__FILE__' is a preprocessor predefined macro that expands itself into
+a string that contains the current file name.")
+
+("__LINE__" f="mb" r="\
+`__LINE__' is a preprocessor predefined macro that expands itself into
+the current line number.")
+
+("__STDC__" f="mb" r="\
+`__STDC__' is a preprocessor predefined macro that expands itself, if
+the compiler follows the ANSI/ISO C standards, into the value `1'.")
+
+("__TIME__" f="mb" r="\
+`__TIME__' is a preprocessor predefined macro that expands itself into
+a string that contains the time of the compilation in the format
+\"hh:mm:ss\".")
+
+) # "Macros"
+
+("??=" f="b" r="`??=' trigraph sequences are substituted with a `#'.")
+("??(" f="b" r="`??(' trigraph sequences are substituted with a `['.")
+("??/" f="b" r="`??/' trigraph sequences are substituted with a `\\'.")
+("??)" f="b" r="`??)' trigraph sequences are substituted with a `]'.")
+("??'" f="b" r="`??'' trigraph sequences are substituted with a `^'.")
+("??<" f="b" r="`??<' trigraph sequences are substituted with a `{'.")
+("??!" f="b" r="`??!' trigraph sequences are substituted with a `|'.")
+("??>" f="b" r="`??>' trigraph sequences are substituted with a `}'.")
+("??-" f="b" r="`??-' trigraph sequences are substituted with a `~'.")
+
+) # "Preprocessor"
+
+) # "Language"

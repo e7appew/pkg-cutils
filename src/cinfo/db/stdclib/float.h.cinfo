@@ -1,0 +1,38 @@
+# $Id: float.h.cinfo,v 1.6 1997/05/26 16:31:29 sandro Exp $
+
+("float.h"
+
+standard = "ANSI X3.159-1989.
+ISO/IEC 9899:1990: 7.1.5/5.2.4.2 Numerical limits."
+
+("DBL_DIG" f="m")
+("DBL_EPSLON" f="m")
+("DBL_MANT_DIG" f="m")
+("DBL_MAX" f="m")
+("DBL_MAX_10_EXP" f="m")
+("DBL_MAX_EXP" f="m")
+("DBL_MIN" f="m")
+("DBL_MIN_10_EXP" f="m")
+("DBL_MIN_EXP" f="m")
+("FLT_DIG" f="m")
+("FLT_EPSLON" f="m")
+("FLT_MANT_DIG" f="m")
+("FLT_MAX" f="m")
+("FLT_MAX_10_EXP" f="m")
+("FLT_MAX_EXP" f="m")
+("FLT_MIN" f="m")
+("FLT_MIN_10_EXP" f="m")
+("FLT_MIN_EXP" f="m")
+("FLT_RADIX" f="m")
+("FLT_ROUNDS" f="m")
+("LDBL_DIG" f="m")
+("LDBL_EPSLON" f="m")
+("LDBL_MANT_DIG" f="m")
+("LDBL_MAX" f="m")
+("LDBL_MAX_10_EXP" f="m")
+("LDBL_MAX_EXP" f="m")
+("LDBL_MIN" f="m")
+("LDBL_MIN_10_EXP" f="m")
+("LDBL_MIN_EXP" f="m")
+
+)

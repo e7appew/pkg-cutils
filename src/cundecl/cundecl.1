@@ -1,0 +1,47 @@
+.\" $Id: cundecl.1,v 1.11 1997/11/22 18:38:53 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt CDECL 1
+.Sh NAME
+.Nm cundecl
+.Nd encode C type declarations
+.Sh SYNOPSIS
+.Nm cundecl
+.Op Fl V
+.Op Fl o Ar file
+.Op Ar
+.Sh DESCRIPTION
+The
+.Nm cundecl
+utility
+reads a verbose english description and produces a C type declaration.
+Casts are accepted as well.
+.Pp
+The options are as follows:
+.Bl -tag -width indent
+.It Fl o
+Set the output destination to
+.Ar file .
+.It Fl V
+Print version information on standard output then exit.
+.El
+.Sh EXAMPLES
+.Bd -literal
+declare s as pointer to char;
+declare x as function (fmt as pointer to const char, ...) returning int;
+cast s into pointer to const char;
+cast f into pointer to function (int) returning void;
+.Ed
+.Sh SEE ALSO
+.Xr cdecl 1
+.Sh STANDARDS
+The
+.Nm
+utility is expected to be
+.St -ansiC-89
+compatible.
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it).
+Based on
+.Nm cdecl
+written and put in the public domain by Graham Ross.

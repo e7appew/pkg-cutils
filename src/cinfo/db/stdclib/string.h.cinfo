@@ -1,0 +1,65 @@
+# $Id: string.h.cinfo,v 1.7 1997/05/26 16:31:36 sandro Exp $
+
+("string.h"
+
+standard = "ANSI X3.159-1989: 4.11 String handling.
+ISO/IEC 9899:1990: 7.11 String handling."
+
+("memchr" f="f" d="void *memchr(const void *s, int c, size_t n);")
+("memcmp" f="f" d="int memcmp(const void *s1, const void *s2, size_t n);")
+("memcpy" f="f" d="void *memcpy(void *s1, const void *s2, size_t n);")
+("memmove" f="f" d="void *memmove(void *s1, const void *s2, size_t n);")
+("memset" f="f" d="void *memset(void *s, int c, size_t n);" r="\
+The `memset' function fills the memory area of size `n' pointed by `s'
+with the character contained in `c'.
+
+The retured value is the first argument." e="\
+int
+main(void)
+{
+	char buf[128] = \"Hello world.\";
+
+	printf(\"buf: \\\"%s\\\"\\n\", buf);
+ 
+	memset((void *)buf + 6, 'x', 5);
+
+	printf(\"buf: \\\"%s\\\"\\n\", buf);
+}")
+
+("strcat" f="f" d="char *strcat(char *s1, const char *s2);" r="\
+The `strcat' function concatenates the second string to the first string.
+
+The retured value is the first argument." e="
+int
+main(void)
+{
+	char buf1[128] = \"Hello \";
+	char *buf2 = \"world.\";
+
+	printf(\"buf1: \\\"%s\\\"\\n\", buf1);
+	printf(\"buf2: \\\"%s\\\"\\n\", buf2);
+
+	strcat(buf1, buf2);
+
+	printf(\"buf1: \\\"%s\\\"\\n\", buf1);
+	printf(\"buf2: \\\"%s\\\"\\n\", buf2);
+}")
+
+("strchr" f="f" d="char *strchr(const char *s, int c);")
+("strcmp" f="f" d="int strcmp(const char *s1, const char *s2);")
+("strcoll" f="f" d="int strcoll(const char *s1, const char *s2);")
+("strcpy" f="f" d="char *strcpy(char *s1, const char *s2);")
+("strcspn" f="f" d="size_t strcspn(const char *s1, const char *s2);")
+("strerror" f="f" d="char *strerror(int errnum);")
+("strlen" f="f" d="size_t strlen(const char *s);")
+("strncat" f="f" d="char *strncat(char *s1, const char *s2, size_t n);")
+("strncmp" f="f" d="int strncmp(const char *s1, const char *s2, size_t n);")
+("strncpy" f="f" d="char *strncpy(char *s1, const char *s2, size_t n);")
+("strpbrk" f="f" d="char *strpbrk(const char *s1, const char *s2);")
+("strrchr" f="f" d="char *strrchr(const char *s, int c);")
+("strspn" f="f" d="size_t strspn(const char *s1, const char *s2);")
+("strstr" f="f" d="char *strstr(const char *s1, const char *s2);")
+("strtok" f="f" d="char *strtok(char *s1, const char *s2);")
+("strxfrn" f="f" d="size_t strxfrm(char *s1, const char *s2, size_t n);")
+
+)

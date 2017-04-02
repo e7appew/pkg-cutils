@@ -1,0 +1,44 @@
+#	$Id: Makefile.in,v 1.1 1997/07/01 22:41:02 sandro Exp $
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+
+infodir = @infodir@
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+FILES = $(srcdir)/cutils.info
+
+all: $(FILES)
+
+cutils.info: cutils.texi
+	cd $(srcdir) && $(MAKEINFO) cutils.texi
+
+dvi: cutils.dvi
+
+cutils.dvi: cutils.texi
+	$(TEXI2DVI) $(srcdir)/cutils.texi
+
+.PHONY: install clean realclean distclean mostlyclean
+
+install: all
+	${srcdir}/../mkinsdir.sh $(infodir)
+	for f in $(FILES); do \
+		$(INSTALL_DATA) $$f $(infodir); \
+	done
+
+clean: 
+	-rm -f cutils.aux cutils.cp cutils.cps cutils.dvi cutils.fn cutils.ky cutils.log
+	-rm -f cutils.pg cutils.toc cutils.tp cutils.vr
+	-rm -f cutils.fns cutils.kys cutils.pgs cutils.tps cutils.vrs
+
+distclean: clean 
+	-rm -f Makefile
+
+realclean: distclean
+	-rm -f cutils.info
+
+mostlyclean: clean

@@ -1,0 +1,62 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define if you don't have vprintf but do have _doprnt.  */
+#undef HAVE_DOPRNT
+
+/* Define if you have the vprintf function.  */
+#undef HAVE_VPRINTF
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define if lex declares yytext as a char * by default, not a char[].  */
+#undef YYTEXT_POINTER
+
+/* Define if you have the err function.  */
+#undef HAVE_ERR
+
+/* Define if you have the strerror function.  */
+#undef HAVE_STRERROR
+
+/* Define if you have the xmalloc function.  */
+#undef HAVE_XMALLOC
+
+/* Define if you have the xrealloc function.  */
+#undef HAVE_XREALLOC
+
+/* Define if you have the xstrdup function.  */
+#undef HAVE_XSTRDUP
+
+/* Define if you have the <dirent.h> header file.  */
+#undef HAVE_DIRENT_H
+
+/* Define if you have the <ndir.h> header file.  */
+#undef HAVE_NDIR_H
+
+/* Define if you have the <sys/dir.h> header file.  */
+#undef HAVE_SYS_DIR_H
+
+/* Define if you have the <sys/ndir.h> header file.  */
+#undef HAVE_SYS_NDIR_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
+
+#include "version.h"
+
+#include <stddef.h>
+
+#ifndef HAVE_XMALLOC
+extern void *xmalloc(size_t);
+#endif
+
+#ifndef HAVE_XREALLOC
+extern void *xrealloc(void *, size_t);
+#endif
+
+#ifndef HAVE_XSTRDUP
+extern char *xstrdup(const char *);
+#endif

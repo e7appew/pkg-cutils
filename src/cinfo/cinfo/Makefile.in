@@ -1,0 +1,49 @@
+#	$Id: Makefile.in,v 1.6 1997/06/12 16:21:45 sandro Exp $
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+etcdir = @prefix@/share/cutils/cinfo
+mandir = @mandir@/man1
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+CC = @CC@
+CFLAGS = -I../../.. -I$(srcdir)/../../../lib -I$(srcdir)/../lib @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = ../lib/libcinfo.a ../../../lib/libcutils.a @LIBS@
+
+PROG = cinfo
+OBJS = cinfo.o
+
+.c.o:
+	$(CC) -c -D_PATH_CINFODB=\"$(etcdir)\" -I. -I$(srcdir) $(CFLAGS) $<
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+
+install: $(PROG) $(PROG).1
+	$(srcdir)/../../../mkinsdir.sh $(bindir) $(mandir)
+	$(INSTALL_PROGRAM) $(PROG) $(bindir)
+	$(INSTALL_DATA) $(srcdir)/$(PROG).1 $(mandir)
+
+$(PROG).1:
+	sed s+@ETCDIR@+$(etcdir)+ <$(PROG).1.in >$(PROG).1
+
+clean:
+	-rm -f $(PROG) *.o
+	-rm -f $(PROG).1
+
+distclean: clean 
+	-rm -f Makefile
+
+realclean: distclean
+
+mostlyclean: clean

@@ -1,0 +1,298 @@
+% $Id: wc.web,v 1.6 1997/08/08 19:54:07 sandro Exp $
+
+% wc.web -- a complete sample cutils/cweb input file.
+
+\documentclass{article}
+\usepackage{xspace}
+
+\newcommand{\wc}{\texttt{wc}\xspace}
+
+\begin{document}
+
+\title{The \wc program\footnote{This file has version number 1.0 - last revision 97/07/01.}}
+\author{Sandro Sigala\footnote{Reachable on Internet at $<$ssigala@globalnet.it$>$.}}
+
+\maketitle
+
+\tableofcontents
+
+\section{The \wc program}
+
+This small document shows a literate source file that has been
+processed with the \texttt{cweave} utility of the ``cutils''
+collection of utilities for ``C'' programmers.  It consists in a
+reimplementation of the standard UNIX\footnote{UNIX is a registered
+trademark of X/Open Inc.} \wc program.
+
+The \wc utility counts the number of characters, whitespace-separated
+words, and newlines in each given file, or the standard input if none
+are given or when a file named ``-'' is given.  It prints one line of
+counts for each file, and if the file was given as an argument, it
+prints the filename following the counts.  If more than one filename
+is given, \wc prints a final line containing the cumulative counts,
+with the filename ``total''.  The counts are printed in the order:
+lines, words, characters.
+
+By default, \wc prints all three counts.  Options can specify that
+only certain counts be printed.  Options do not undo others previously
+given, so
+\begin{verbatim}
+wc -cw
+\end{verbatim}
+prints both the character counts and the word counts.
+
+\newpage
+The \wc program is divided in four sections:
+\\
+
+@ref[Global \textbf{\#include}s]
+@ref[Definitions]
+@ref[Main]
+@ref[Other functions]
+
+\subsection{Header}
+
+The \wc program includes six ANSI C prototypes.
+\\
+
+@decl[Global \textbf{\#include}s]
+@@
+#include <ctype.h>
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+@@
+
+\subsection{Definitions}
+
+The \wc program declares four static functions.  Those are the
+prototype definitons.
+\\
+
+@decl[Definitions]
+@@
+static void usage(void);
+static void process_file(char *filename);
+static void do_file(char *filename, FILE *f);
+static void print_info(char *filename, int lines, int words, int chars);
+@@
+
+\subsection{Global variables}
+
+The \wc program declares seven global variables.  The first
+three (\texttt{opt\_lines}, \texttt{opt\_words}, \texttt{opt\_chars})
+are used to store what the user wants to output.
+The fourth, fifth and sixth variables (\texttt{total\_lines},
+\texttt{total\_words}, \texttt{total\_chars}) store the total number
+of object found in all read files.  Those variables are output only
+if are read more than one file (the number of read files is stored
+in the last variable, \texttt{num\_files}).
+\\
+
+@decl[Global variables]
+@@
+static int opt_lines;
+static int opt_words;
+static int opt_chars;
+static int total_lines;
+static int total_words;
+static int total_chars;
+static int num_files;
+@@
+
+\subsection{Main}
+
+This is the \texttt{main} function.  It scans the argument vector for
+parameters
+using the \texttt{getopt} function and sets the appropriate variables.
+Then it calls \texttt{process\_file} for every user specified file, and
+prints the total counters values if more than one file was processed.
+If no user file is specified, it reads automatically from the standard
+input.
+\\
+
+@decl[Main]
+@@
+int
+main(int argc, char *argv[])
+{
+	int c, got_opt = 0;
+
+	while ((c = getopt(argc, argv, "clwV")) != -1)
+		switch (c) {
+		case 'c':
+			opt_chars = 1;
+			got_opt = 1;
+			break;
+		case 'l':
+			opt_lines = 1;
+			got_opt = 1;
+			break;
+		case 'w':
+			opt_words = 1;
+			got_opt = 1;
+			break;
+		case 'V':
+			fprintf(stderr, "wc version 1.0\n");
+			exit(0);
+		case '?':
+		default:
+			usage();
+			/* NOTREACHED */
+		}
+	argc -= optind;
+	argv += optind;
+
+	if (!got_opt)
+		opt_lines = opt_words = opt_chars = 1;
+
+	if (argc < 1)
+		process_file(NULL);
+	else
+		while (*argv)
+			process_file(*argv++);
+
+	if (num_files > 1)
+		print_info("total", total_lines, total_words, total_chars);
+
+	return 0;
+}
+@@
+
+\subsection{Other functions}
+
+Those are the four function called inside the \texttt{main} function.
+\\
+
+@decl[Other functions]
+@ref[\texttt{usage} function]
+@ref[\texttt{process\_file} function]
+@ref[\texttt{do\_file} function]
+@ref[\texttt{print\_info} function]
+
+\subsubsection{\texttt{usage} function}
+
+This function prints the usage string on standard error, then halts the
+program returning ``1'' as error status.
+\\
+
+@decl[\texttt{usage} function]
+@@
+static void
+usage(void)
+{
+        fprintf(stderr, "usage: wc [-clwV] [file ...]\n");
+        exit(1);
+}
+@@
+
+\subsubsection{\texttt{process\_file} function}
+
+This function opens the input file if it is different from the
+standard input and then passes it to the \texttt{do\_file} function.
+It also increments the \texttt{num\_files} variable.
+\\
+
+@decl[\texttt{process\_file} function]
+@@
+static void
+process_file(char *filename)
+{
+	FILE *fin;
+
+	if (filename != NULL && strcmp(filename, "-") != 0) {
+		if ((fin = fopen(filename, "r")) == NULL) {
+			fprintf(stderr, "wc: %s: %s\n", filename,
+				strerror(errno));
+			exit(1);
+		}
+	} else
+		fin = stdin;
+
+	do_file(filename, fin);
+	++num_files;
+
+	if (fin != stdin)
+		fclose(fin);
+}
+@@
+
+\subsubsection{\texttt{do\_file} function}
+
+This function scans the input file for characters, words and lines.
+At the end of input file it prints the results calling the
+\texttt{print\_info} function, then it increments the three global counter
+variables (\texttt{total\_lines}, \texttt{total\_words}, and
+\texttt{total\_chars}).
+\\
+
+@decl[\texttt{do\_file} function]
+@@
+static void
+do_file(char *filename, FILE *fin)
+{
+	int lines = 0, words = 0, chars = 0;
+	int i, inword = 0;
+	char buf[BUFSIZ], *p;
+
+	while ((i = fread(buf, 1, BUFSIZ, fin)) > 0)
+		for (p = buf; p < buf + i; ++p) {
+			++chars;
+			switch (*p) {
+			case '\n':
+				++lines;
+				/* FALLTROUGH */
+			case ' ':
+			case '\t':
+			case '\v':
+			case '\f':
+			case '\r':
+				if (inword)
+					inword = 0;
+				break;
+			default:
+				if (!inword) {
+					inword = 1;
+					++words;
+				}
+			}
+		}
+
+	print_info(filename, lines, words, chars);
+	total_lines += lines;
+	total_words += words;
+	total_chars += chars;
+}
+@@
+
+\subsubsection{\texttt{print\_info} function}
+
+This function prints the counter variables and the input file name.
+\\
+
+@decl[\texttt{print\_info} function]
+@@
+static void
+print_info(char *filename, int lines, int words, int chars)
+{
+	if (opt_lines)
+		printf("%7lu", lines);
+	if (opt_words) {
+		if (opt_lines)
+			putchar(' ');
+		printf("%7lu", words);
+	}
+	if (opt_chars) {
+		if ((opt_lines && !opt_words) || opt_words)
+			putchar(' ');
+		printf("%7lu", chars);
+	}
+	if (filename != NULL)
+		printf(" %s", filename);
+	putchar('\n');
+}
+@@
+
+\end{document}

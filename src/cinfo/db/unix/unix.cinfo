@@ -1,0 +1,14 @@
+# $Id: unix.cinfo,v 1.2 1996/10/28 17:18:22 sandro Exp $
+
+("UNIX"
+
+short_description = "The UNIX operating system"
+long_description = "\
+Under UNIX are covered all the things that have something to do with that
+operating system."
+
+.include "util/util.cinfo"
+.include "libc/libc.cinfo"
+.include "curses.cinfo"
+
+)

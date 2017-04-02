@@ -1,0 +1,52 @@
+#	$Id: Makefile.in,v 1.5 1997/06/12 16:22:02 sandro Exp $
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+mandir = @mandir@/man1
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+CC = @CC@
+CFLAGS = -I../.. -I$(srcdir)/../../lib @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = ../../lib/libcutils.a @LIBS@
+
+LEX = @LEX@
+YACC = @YACC@
+
+PROG = cobfusc
+OBJS = cobfusc.o lexer.o
+
+.c.o:
+	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+
+lexer.c: lexer.l
+	$(LEX) $(srcdir)/lexer.l
+	mv lex.yy.c lexer.c
+
+install: $(PROG)
+	$(srcdir)/../../mkinsdir.sh $(bindir) $(mandir)
+	$(INSTALL_PROGRAM) $(PROG) $(bindir)
+	$(INSTALL_DATA) $(srcdir)/$(PROG).1 $(mandir)
+
+clean: 
+	-rm -f $(PROG) *.o
+	-rm -f lexer.c
+
+distclean: clean 
+	-rm -f Makefile
+
+realclean: distclean
+
+mostlyclean: clean

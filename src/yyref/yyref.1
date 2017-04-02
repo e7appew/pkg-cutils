@@ -1,0 +1,36 @@
+.\" $Id: yyref.1,v 1.9 1997/11/22 18:39:03 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt YYREF 1
+.Sh NAME
+.Nm yyref
+.Nd generate cross\-reference for yacc input
+.Sh SYNOPSIS
+.Nm yyref
+.Op Fl V
+.Op Fl o Ar file
+.Op Ar
+.Sh DESCRIPTION
+.Nm yyref
+generates cross\-references for
+.Nm yacc
+input files.
+The output consists of a number listing of the header and rules part,
+followed by the cross\-reference.
+.Pp
+The options are as follows:
+.Bl -tag -width indent
+.It Fl o
+Set the output destination to
+.Ar file .
+.It Fl V
+Print version information on standard output then exit.
+.El
+.Sh BUGS
+This utility requires a complete rewrite because of fixed static memory
+allocation usage.
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it).
+Based on
+.Nm yyxref
+written and put in the public domain by Cathy Taylor.

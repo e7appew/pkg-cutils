@@ -1,0 +1,14 @@
+# $Id: libc.cinfo,v 1.4 1996/08/09 12:53:16 sandro Exp $
+
+("libc"
+
+short_description = "The libc UNIX C library"
+
+.include "dirent.h.cinfo"
+.include "fcntl.h.cinfo"
+.include "getopt.h.cinfo"
+.include "netdb.h.cinfo"
+.include "pwd.h.cinfo"
+.include "unistd.h.cinfo"
+
+)

@@ -1,0 +1,32 @@
+#	$Id: Makefile.in,v 1.2 1997/03/17 17:51:13 sandro Exp $
+
+srcdir = @srcdir@
+
+prefix = @prefix@
+
+etcdir = @prefix@/share/cutils/cinfo
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+DB = stdc.cinfo
+
+all: $(DB).db
+
+$(DB).db:
+	../../cinfoc/cinfoc $(DB)
+
+install: $(DB)
+	$(srcdir)/../../../../mkinsdir.sh $(etcdir)
+	$(INSTALL_DATA) $(DB).db $(etcdir)
+
+clean:
+	-rm -f $(DB).db
+
+distclean: clean 
+	-rm -f Makefile
+
+realclean: distclean
+
+mostlyclean: clean

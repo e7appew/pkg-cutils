@@ -1,0 +1,45 @@
+.\" $Id: chilight.1,v 1.18 1997/11/22 18:38:36 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt CHILIGHT 1
+.Sh NAME
+.Nm chilight
+.Nd highlight a C source file
+.Sh SYNOPSIS
+.Nm chilight
+.Op Fl \&dV
+.Op Fl o Ar file
+.Op Fl s Ar style
+.Op Ar
+.Sh DESCRIPTION
+The
+.Nm chilight
+utility
+colorizes the input file, expected to be written in the C language,
+with text attributes.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl d
+Tread preprocessor directives as single characters. In other words every
+directive is separated in tokens then colorized, instead of treading all the
+directive as a single token.
+.It Fl o
+Set the output destination to
+.Ar file .
+.It Fl s
+Set the output format to
+.Ar style .
+.Ar style
+can be
+.Ar ansi_color
+(the default),
+.Ar ansi_bold ,
+.Ar html_color
+or
+.Ar html_font .
+.It Fl V
+Print version information on standard output then exit.
+.El
+.Sh AUTHORS
+Sandro Sigala (ssigala@globalnet.it)

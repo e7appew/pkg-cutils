@@ -1,0 +1,14 @@
+# $Id: assert.h.cinfo,v 1.6 1997/05/26 16:31:27 sandro Exp $
+
+("assert.h"
+
+standard = "ANSI X3.159-1989: 4.2 Diagnostics.
+ISO/IEC 9899:1990: 7.2 Diagnostics."
+
+("assert"
+  f="m"
+  d="void assert(int expression);"
+  l="Tests a condition and possibly aborts."
+  r="assert is a macro that expands to an if statement.")
+
+)

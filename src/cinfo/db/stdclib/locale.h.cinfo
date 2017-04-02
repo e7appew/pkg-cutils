@@ -1,0 +1,41 @@
+# $Id: locale.h.cinfo,v 1.6 1997/05/26 16:31:30 sandro Exp $
+
+("locale.h"
+
+standard = "ANSI X3.159-1989: 4.4 Localization.
+ISO/IEC 9899:1990: 7.4 Localization."
+
+("lconv" f="s" d="\
+struct	lconv {
+	char *decimal_point;
+	char *thousands_sep;
+	char *grouping;
+	char *int_curr_symbol;
+	char *currency_symbol;
+	char *mon_decimal_point;
+	char *mon_thousands_sep;
+	char *mon_grouping;
+	char *positive_sign;
+	char *negative_sign;
+	char int_frac_digits;
+	char frac_digits;
+	char p_cs_precedes;
+	char p_sep_by_space;
+	char n_cs_precedes;
+	char n_sep_by_space;
+	char p_sign_posn;
+	char n_sign_posn;
+};")
+
+("setlocale" f="f" d="char *setlocale(int category, const char *locale);")
+
+("LC_ALL" f="m")
+("LC_COLLATE" f="m")
+("LC_CTYPE" f="m")
+("LC_MONETARY" f="m")
+("LC_NUMERIC" f="m")
+("LC_TIME" f="m")
+
+("localeconv" f="f" d="struct lconv *localeconv(void);")
+
+)

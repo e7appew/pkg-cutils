@@ -1,0 +1,51 @@
+# $Id: cx9.cinfo,v 1.2 1996/06/29 13:14:31 sandro Exp $
+
+# this is only a snapshot: need real documentation/fixes.
+
+("CX9"
+
+################ keywords ################
+
+("Keywords"
+
+("restrict" f="b")
+
+)
+
+################ extended integers ################
+
+("Extended integers"
+
+("int8_t" f="b" l="`int8_t' is a signed integer with size of 8 bits.")
+("int16_t" f="b" l="`int16_t' is a signed integer with size of 16 bits.")
+("int32_t" f="b" l="`int32_t' is a signed integer with size of 32 bits.")
+("int64_t" f="b" l="`int64_t' is a signed integer with size of 64 bits.")
+("intptr_t" f="b" l="`intptr_t' is a signed integer type that can contain a `void'.")
+("uintfast_t" f="b" l="`uintfast_t' is a fastest unsigned integer.")
+("uint_least8_t" f="b" l="`uint_least8_t' is the smallest unsigned integer that contains
+8 bits at least.")
+
+)
+
+################ complex math ################
+
+("Complex math"
+
+("float_complex" f="b")
+("double_complex" f="b")
+("long_double_complex" f="b")
+("float_imaginary" f="b")
+("double_imaginary" f="b")
+("long_double_imaginary" f="b")
+
+)
+
+################ preprocessor ################
+
+("Preprocessor"
+
+("__FUNC__" f="mb")
+
+)
+
+) # "CX9"

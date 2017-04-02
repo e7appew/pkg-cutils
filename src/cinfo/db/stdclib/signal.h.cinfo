@@ -1,0 +1,23 @@
+# $Id: signal.h.cinfo,v 1.7 1997/05/26 16:31:32 sandro Exp $
+
+("signal.h"
+
+standard = "ANSI X3.159-1989: 4.7 Signal handling.
+ISO/IEC 9899:1990: 7.7 Signal handling."
+
+("raise" f="f" d="int raise(int sig);")
+("signal" f="f" d="void (*signal(int sig, void (*func)(int)))(int);")
+("sig_atomic_t" f="t" r="\
+`sig_atomic_t' is a integer type of an object that can be accessed as a atomic
+entity, ever in the presence of asicronics interrupts")
+("SIGABRT" f="m")
+("SIGFPE" f="m")
+("SIGILL" f="m")
+("SIGINT" f="m")
+("SIGSEGV" f="m")
+("SIGTERM" f="m")
+("SIG_DFL" f="m")
+("SIG_ERR" f="m")
+("SIG_IGN" f="m")
+
+)

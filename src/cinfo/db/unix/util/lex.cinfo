@@ -1,0 +1,21 @@
+# $Id: lex.cinfo,v 1.5 1996/08/09 12:49:56 sandro Exp $
+
+("lex"
+
+short_description = "The lexical analyzer generator"
+long_description = "\
+Lex is the standard UNIX lexical analyzer generator, a tool for generating
+scanners: programs which recognized lexical pattern in text.  Lex reads a
+gived input file and generates as output a C source file, witch defines a
+routine yylex().
+See also:
+lex(1)"
+
+("yylex" header="no" f="f" d="int yylex(void)")
+("yytext" header="no" f="l" d="\
+char yytext[]; /* old lex */
+char *yytext;  /* flex */")
+("unput" header="no" f="mf" d="void unput(int c);")
+("input" header="no" f="mf" d="int input(void);")
+
+)

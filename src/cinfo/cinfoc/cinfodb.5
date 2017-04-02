@@ -1,0 +1,79 @@
+.\" $Id: cinfodb.5,v 1.6 1997/11/22 18:38:41 sandro Exp $
+.Dd November 22, 1997
+.Os
+.Dt CINFODB 5
+.Sh NAME
+.Nm cinfodb
+.Nd cinfo database description format
+.Sh DESCRIPTION
+The cinfo database description must be written using the grammars below,
+used by the
+.B cinfoc
+cinfo database compiler.
+.SH GRAMMAR
+The yacc grammar of the cinfo format is:
+.Bd -literal
+%token STRING IDENTIFIER
+
+%%
+
+cinfo_file:
+		/* empty */
+		| object_list
+		;
+
+object_list:
+		object_list object
+		| object
+		;
+
+object_list_opt:
+		/* empty */
+		| object_list
+		;
+
+object:
+		'(' string variable_list_opt object_list_opt ')'
+		;
+
+variable_list_opt:
+		/* empty */
+		| variable_list
+		;
+
+variable_list:
+		variable_list variable
+		| variable
+		;
+
+variable:
+		identifier '=' string
+		;
+
+string:
+		STRING	
+		;
+
+identifier:
+		IDENTIFIER
+		;
+
+%%
+.Ed
+
+The Backus-Naur Form grammar of the cinfo format is:
+.Bd -literal
+<cinfo-database> ::= [ { <object> } ]
+<object> ::= '(' <object-name-string> [ { variable } ] [ { object } ] ')'
+<variable> ::= <variable-identifier> '=' <variable-value-string>
+<object-name-string> ::= <string>
+<variable-value-string> ::= <string>
+<variable-identifier> ::= [-a-zA-Z_][-a-zA-Z_0-9]*
+<string> ::= "[^"]"
+.Ed
+.Sh SEE ALSO
+.Xr cinfo 1 ,
+.Xr cinfoc 1 ,
+.Xr cinfodc 1
+.Sh AUTHOR
+Sandro Sigala (ssigala@globalnet.it)

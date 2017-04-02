@@ -1,0 +1,19 @@
+This package is written in ANSI C and was tested only under
+FreeBSD 2.2-current and Linux 2.0, but should compile with little or
+no change under any other UNIX OS.
+
+The ``cutils'' collection is made of:
+  cinfo, cinfoc and cinfodc - C language documentation tools
+  cdecl and cundecl - decode and encode C type declarations
+  cobfusc - make a C source file unreadable but compilable
+  chilight - highlight C source files
+  ctangle and cweave - simple literate C programming tools
+  cunloop - unloop C loops
+  yyextract - extract grammar rules from yacc grammar
+  yyref - yacc grammar reference program
+
+The author can be reached via email at the address <ssigala@globalnet.it>.
+
+Sandro Sigala
+25047 Darfo Boario Terme
+Brescia, Italy
