@@ -6,6 +6,8 @@ cutils (1.6-5) UNRELEASED; urgency=medium
     - Add homepage details.
   * Add watch file.
   * Convert debian/copyright to DEP-5 format and update.
+  * debian/patches/*:
+    - Fix spelling in binary.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 

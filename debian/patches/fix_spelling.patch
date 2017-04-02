@@ -1,0 +1,25 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Mon, 3 Apr 2017 05:50:29 +1000
+Subject: Fix spelling in binary.
+
+Description: Fix spelling in binary.
+Author: Carlos Maddela <e7appew@gmail.com>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/cdecl/parser.y | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/cdecl/parser.y b/src/cdecl/parser.y
+index 51c1ce5..0a9531b 100644
+--- a/src/cdecl/parser.y
++++ b/src/cdecl/parser.y
+@@ -309,7 +309,7 @@ direct_abstract_declarator:
+ 	| '(' ')'
+ 		{ $$ = dup(" function returning"); }
+ 	| '(' parameter_type_list ')'
+-		{ $$ = cat(dup(" function that expectes ("), dup($2+1), dup(") returning"), NULL);
++		{ $$ = cat(dup(" function that expects ("), dup($2+1), dup(") returning"), NULL);
+ 		  free($2); }
+ 	| direct_abstract_declarator '(' ')'
+ 		{ $$ = cat($1, dup(" function returning"), NULL); }
