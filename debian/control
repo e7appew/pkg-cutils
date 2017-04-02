@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Debian QA Group <packages@qa.debian.org>
 Standards-Version: 3.9.8
 Build-Depends: bison | byacc, debhelper (>= 10~), flex-old, texinfo
+Homepage: http://www.sigala.it/sandro/software.php#cutils
 
 Package: cutils
 Architecture: any
