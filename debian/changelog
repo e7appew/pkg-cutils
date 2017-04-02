@@ -5,6 +5,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * debian/control:
     - Add homepage details.
   * Add watch file.
+  * Convert debian/copyright to DEP-5 format and update.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 
