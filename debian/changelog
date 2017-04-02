@@ -8,6 +8,9 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * Convert debian/copyright to DEP-5 format and update.
   * debian/patches/*:
     - Fix spelling in binary.
+    - Patch Makefile.in files to honour CPPFLAGS.
+  * debian/rules:
+    - Build with all hardening flags set.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 

@@ -1,2 +1,3 @@
 fix_info_doc.patch
 fix_spelling.patch
+honour_CPPFLAGS.patch

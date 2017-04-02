@@ -1,0 +1,187 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Mon, 3 Apr 2017 07:07:55 +1000
+Subject: Honour CPPFLAGS.
+
+Description: Honour CPPFLAGS.
+Author: Carlos Maddela <e7appew@gmail.com>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ lib/Makefile.in           | 3 ++-
+ src/cdecl/Makefile.in     | 3 ++-
+ src/chilight/Makefile.in  | 3 ++-
+ src/cobfusc/Makefile.in   | 3 ++-
+ src/cundecl/Makefile.in   | 3 ++-
+ src/cunloop/Makefile.in   | 3 ++-
+ src/yyextract/Makefile.in | 3 ++-
+ src/yyref/Makefile.in     | 3 ++-
+ 8 files changed, 16 insertions(+), 8 deletions(-)
+
+diff --git a/lib/Makefile.in b/lib/Makefile.in
+index 8611a90..0248dc1 100644
+--- a/lib/Makefile.in
++++ b/lib/Makefile.in
+@@ -5,6 +5,7 @@ VPATH = $(srcdir)
+ 
+ CC = @CC@
+ CFLAGS = -I.. @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = @LIBS@
+ RANLIB = @RANLIB@
+@@ -13,7 +14,7 @@ LIB = libcutils.a
+ OBJS = alist.o htable.o @LIBOBJS@
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) -I$(srcdir)/.. $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) -I$(srcdir)/.. $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(LIB)
+ 
+diff --git a/src/cdecl/Makefile.in b/src/cdecl/Makefile.in
+index 4ff7ce7..a3d4872 100644
+--- a/src/cdecl/Makefile.in
++++ b/src/cdecl/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = cdecl
+ OBJS = cdecl.o parser.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/chilight/Makefile.in b/src/chilight/Makefile.in
+index af16fc8..b8c3f79 100644
+--- a/src/chilight/Makefile.in
++++ b/src/chilight/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = chilight
+ OBJS = chilight.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/cobfusc/Makefile.in b/src/cobfusc/Makefile.in
+index 0b6e6d2..d390a5c 100644
+--- a/src/cobfusc/Makefile.in
++++ b/src/cobfusc/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = cobfusc
+ OBJS = cobfusc.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/cundecl/Makefile.in b/src/cundecl/Makefile.in
+index 12d6501..ea9ae50 100644
+--- a/src/cundecl/Makefile.in
++++ b/src/cundecl/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = cundecl
+ OBJS = cundecl.o parser.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/cunloop/Makefile.in b/src/cunloop/Makefile.in
+index 01064c2..df784b1 100644
+--- a/src/cunloop/Makefile.in
++++ b/src/cunloop/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = cunloop
+ OBJS = cunloop.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/yyextract/Makefile.in b/src/yyextract/Makefile.in
+index 1f46098..97a0cd3 100644
+--- a/src/yyextract/Makefile.in
++++ b/src/yyextract/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = yyextract
+ OBJS = yyextract.o parser.o lexer.o tree.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
+diff --git a/src/yyref/Makefile.in b/src/yyref/Makefile.in
+index d25ad02..99819c9 100644
+--- a/src/yyref/Makefile.in
++++ b/src/yyref/Makefile.in
+@@ -16,6 +16,7 @@ INSTALL = @INSTALL@
+ 
+ CC = @CC@
+ CFLAGS = -I../.. -I$(srcdir)/../.. -I$(srcdir)/../../lib @CFLAGS@
++CPPFLAGS = @CPPFLAGS@
+ LDFLAGS = @LDFLAGS@
+ LIBS = ../../lib/libcutils.a @LIBS@
+ 
+@@ -26,7 +27,7 @@ PROG = yyref
+ OBJS = yyref.o parser.o lexer.o
+ 
+ .c.o:
+-	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $<
++	$(CC) -c -I. -I$(srcdir) $(CFLAGS) $(CPPFLAGS) $<
+ 
+ all: $(PROG)
+ 
