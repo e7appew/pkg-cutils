@@ -1,8 +1,7 @@
-/*	$Id: lexer.l,v 1.13 1997/11/23 12:50:42 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.14 2001/07/13 19:09:55 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

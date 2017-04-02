@@ -1,8 +1,7 @@
-/*	$Id: tokens.h,v 1.4 1997/07/01 22:41:14 sandro Exp $	*/
+/*	$Id: tokens.h,v 1.5 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1997-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

@@ -1,6 +1,0 @@
-This directory contains a `Makefile' that demonstrates some of the
-capatibilities of the `cunloop' and `cobfusc' utilities.
-
-Simply type `make' and examine the output files produced from the
-input file `source.c' (that is extracted by the cweb example file
-`../cweb/wc.web').

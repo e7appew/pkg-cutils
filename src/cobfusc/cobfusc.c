@@ -1,8 +1,7 @@
-/*	$Id: cobfusc.c,v 1.62 1997/11/22 18:38:47 sandro Exp $	*/
+/*	$Id: cobfusc.c,v 1.74 2001/07/14 16:18:16 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,8 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-static char *rcsid = "$Id: cobfusc.c,v 1.62 1997/11/22 18:38:47 sandro Exp $";
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +33,7 @@ static char *rcsid = "$Id: cobfusc.c,v 1.62 1997/11/22 18:38:47 sandro Exp $";
 #include <err.h>
 
 #include "config.h"
-#include "hash.h"
+#include "htable.h"
 #include "tokens.h"
 #include "keywords.h"
 
@@ -70,11 +67,13 @@ extern int yylex(void);
 extern void init_lex(void);
 extern void done_lex(void);
 
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 /*
  * The variables where are stored the options flags.
  */
+static char *opt_separate_output = NULL;/* An output file per input file. */
+static int opt_exclusive;               /* Excl-replace for the identifier. */
 static int opt_compact_white_spaces;	/* Compact whitespaces option. */
 static int opt_compact_macros;		/* Compact macros option. */
 static int opt_strip_comments;		/* Strip comments option. */
@@ -83,16 +82,10 @@ static int opt_integer_garbling;	/* Integer garbling option. */
 static int opt_identifier_case;		/* Identifier case option. */
 static int opt_trigraphize;		/* Trigraphize option. */
 int opt_digraphize;			/* Digraphize option. */
-static int opt_share_symbol_table;	/* Symbol table sharing option. */
 static int opt_string_garbling;		/* String garbling option. */
-static int opt_prefix;			/* Indentifier prefix option. */
-static char *opt_prefix_arg;		/* Option argument. */
-static int opt_width;			/* Output width option. */
-static int opt_width_arg = DEFAULT_WIDTH;/* Option argument. */
+static char *opt_prefix = DEFAULT_PREFIX;/* Identifier prefix option. */
+static int opt_width = DEFAULT_WIDTH;	/* Output width option. */
 static int opt_random_seed;		/* Random seed option. */
-static int opt_random_seed_arg;		/* Option argument. */
-static int opt_identifier_file;		/* Add identifiers file option. */
-static char *opt_identifier_file_arg;	/* Option argument. */
 static int opt_dump;			/* Dump symbol table option. */
 static FILE *dump_file;
 
@@ -105,8 +98,7 @@ static int directive_ws;
 /* 
  * Output a backslash if we are in a macro then a newline.
  */
-static void
-outnl(void)
+static void outnl(void)
 {
 	if ((opt_compact_white_spaces || opt_compact_macros) && in_directive)
 		putc('\\', output_file);
@@ -118,12 +110,11 @@ outnl(void)
  * Output a character and update the width counter. Output a newline
  * only if it is required.
  */
-static void
-outch(char c)
+static void outch(char c)
 {
 	if (c == '\n')
 		column = 0;
-	else if (++column > opt_width_arg && opt_width) {
+	else if (++column > opt_width) {
 		outnl();
 		column = 1;
 	}
@@ -134,15 +125,20 @@ outch(char c)
 /*
  * Output a string and update the width counter.
  */
-static void
-outstr(char *s)
+static void outstr(char *s)
 {
-	if (((column += strlen(s)) > opt_width_arg) && opt_width) {
-		if ((column - strlen(s)) != 0)
-			outnl();
-		column = strlen(s);
+	int len = (int)strlen(s);
+	if (column + len > opt_width && len < opt_width) {
+		outnl();
+		column = 0;
 	}
-	fputs(s, output_file);
+	for (; *s != '\0'; ++s) {
+		if (*s == '\n')
+			column = 0;
+		else
+			++column;
+		putc(*s, output_file);
+	}
 }
 
 /* This variable contains the last written character. */
@@ -206,20 +202,16 @@ static int last_ws = '\n';
 #define out_op(s)							\
 	do {								\
 		char *sp = s;						\
-		if (opt_compact_white_spaces &&				\
-		    *sp == lasttk && last_ws < 2)			\
+		if (opt_compact_white_spaces				\
+		    && *sp == lasttk && last_ws < 2)			\
 			outch(' ');					\
 		out_ws_string(sp);					\
 	} while (0)
 
-/* Hash table for reserved identifiers. */
-static htablep unmodifiable_table;
-
-/* Hash table for public garbled identifiers. */
-static htablep public_table;
-
-/* Hash table for private garbled identifiers. */
-static htablep private_table;
+/* Hash table for read-only identifiers. */
+static htable ro_table;
+/* Hash table for garbled identifiers. */
+static htable id_table;
 
 /* Index used for generating the numeric identifiers. */
 static int idnum = 0;
@@ -228,148 +220,70 @@ static int idnum = 0;
 static int wordnum = 0;
 static int wordrenum = 0;
 
-/*
- * Reinitialize the index variables.
- */
-static void
-reinit_vars(void)
+#define CASE_RANDOM	0
+#define CASE_UPPER	1
+#define CASE_LOWER	2
+
+static void allocate_tables(void)
 {
-	idnum = 0;
-	wordnum = 0;
-	wordrenum = 0;
+	ro_table = htable_new();
+	id_table = htable_new();
+}
+
+static void free_tables(void)
+{
+	alist a;
+	hpair *hp;
+	a = htable_list(id_table);
+	for (hp = alist_first(a); hp != NULL; hp = alist_next(a))
+		free(hp->data);
+	alist_delete(a);
+	htable_delete(ro_table);
+	htable_delete(id_table);
 }
 
 /*
- * Build the hash table where are kept the unmodifiable identifiers.
+ * Convert the string case.
  */
-static void
-build_unmodifiable_table(void)
+static char *convert_case(char *buf, int c)
 {
-	unmodifiable_table = hash_table_build_default();
-}
-
-/*
- * Build the hash table where are kept the public identifiers.
- */
-static void
-build_public_table(void)
-{
-	public_table = hash_table_build_default();
-}
-
-/*
- * Build the hash table where are kept the private identifiers.
- */
-static void
-build_private_table(void)
-{
-	private_table = hash_table_build_default();
-}
-
-/*
- * Return true if the specified identifier is unmodifiable,
- * otherwise false.
- */
-static int
-is_unmodifiable_identifier(char *s)
-{
-	return hash_table_exists(unmodifiable_table, s);
-}
-
-/*
- * Return true if the specified identifier is public,
- * otherwise false.
- */
-static int
-is_public_identifier(char *s)
-{
-	return hash_table_exists(public_table, s);
-}
-
-/*
- * Return true if the specified identifier is private,
- * otherwise false.
- */
-static int
-is_private_identifier(char *s)
-{
-	return hash_table_exists(private_table, s);
-}
-
-/*
- * Deallocate the memory used by the public identifiers hash table.
- */
-static void
-free_public_table(void)
-{
-	hash_table_free(public_table);
-}
-
-/*
- * Deallocate the memory used by the private identifiers hash table.
- */
-static void
-free_private_table(void)
-{
-	hash_table_free(private_table);
-}
-
-/*
- * Deallocate the memory used by the unmodifiable identifiers hash table.
- */
-static void
-free_unmodifiable_table(void)
-{
-	hash_table_free(unmodifiable_table);
-}
-
-/*
- * Convert the string case
- *  - c = 1 to uppercase
- *  - c = 2 to lowercase
- *  - otherwise to random case.
- */
-static char *
-convert_case(char *buf, int c)
-{
-	char *p = buf;
+	char *p;
 
 	switch (c) {
-	case 1:
+	case CASE_UPPER:
 		/*
 		 * Convert the string to uppercase.
 		 */
-		while (*p)
-			*p = toupper(*p++);
+		for (p = buf; *p != '\0'; ++p)
+			*p = toupper(*p);
 		break;
-	case 2:
+	case CASE_LOWER:
 		/*
 		 * Convert the string to lowercase.
 		 */
-		while (*p)
-			*p = tolower(*p++);
+		for (p = buf; *p != '\0'; ++p)
+			*p = tolower(*p);
 		break;
 	default:
 		/*
 		 * Convert the string to random case.
 		 */
-		while (*p)
+		for (p = buf; *p != '\0'; ++p)
 			if (RANDOM(2) == 1)
-				*p = toupper(*p++);
+				*p = toupper(*p);
 			else
-				*p = tolower(*p++);
+				*p = tolower(*p);
 	}
 
 	return buf;
 }
 
 /*
- * Add an identifier to the specified hash table.  The identifier
+ * Add an identifier to the hash table.  The identifier
  * is garbled if the garbling option is enabled.  The identifier
  * case is changed if the case option is enabled.
  */
-static char *
-add_identifier(htablep table, char *s)
+static char *add_identifier(char *s)
 {
 	char buf[128];
 	int identifier_garbling, identifier_case;
@@ -377,11 +291,9 @@ add_identifier(htablep table, char *s)
 	/*
 	 * If the identifier is already in the hash table, return it.
 	 */
-	if (hash_table_exists(table, s))
-		return (char *)hash_table_fetch(table, s);
+	if (htable_exists(id_table, s))
+		return (char *)htable_fetch(id_table, s);
 
-	hash_table_store_key(table, s);
- 
 	strcpy(buf, s);
 
 	/*
@@ -415,10 +327,7 @@ add_identifier(htablep table, char *s)
 			wordnum = 0;
 			wordrenum++;
 		}
-		if (!opt_prefix)
-			buf[0] = '\0';
-		else
-			strcpy(buf, opt_prefix_arg);
+		strcpy(buf, opt_prefix);
 
 		if (wordrenum) {
 			strcat(buf, words_table[wordrenum]);
@@ -430,7 +339,7 @@ add_identifier(htablep table, char *s)
 		/*
 		 * Change the identifier with a number generated word.
 		 */
-		sprintf(buf, "%s%d", opt_prefix_arg, idnum++);
+		sprintf(buf, "%s%d", opt_prefix, idnum++);
 	}
 	
 	/*
@@ -442,62 +351,71 @@ add_identifier(htablep table, char *s)
 		/*
 		 * Change the identifier case to upper.
 		 */
-		convert_case(buf, 1);
+		convert_case(buf, CASE_UPPER);
 		break;
 	case OPT_IDENTIFIER_CASE_LOWER:
 		/*
 		 * Change the identifier case to lower.
 		 */
-		convert_case(buf, 2);
+		convert_case(buf, CASE_LOWER);
 		break;
 	case OPT_IDENTIFIER_CASE_SCREW:
 		/*
 		 * Change the identifier case to random.
 		 */
-		convert_case(buf, 0);
+		convert_case(buf, CASE_RANDOM);
 	}
 	
 	/*
 	 * Store the new identifier into the hash table.
 	 */
-	hash_table_store_data(table, s, buf);
-
-	return hash_table_fetch(table, s);
+	htable_store(id_table, s, xstrdup(buf));
+	return htable_fetch(id_table, s);
 }
 
 /*
- * Add an identifier to the public identifiers hash table.
+ * Add a file of identifiers to replace to the identifiers hash table.
  */
-static char *
-add_public_identifier(char *s)
+static void add_replace_file(char *fname)
 {
-	return add_identifier(public_table, s);
-}
+	FILE *f;
+	char buf[255], buf1[255], buf2[255];
 
-/*
- * Add an identifier to the private identifiers hash table.
- */
-static char *
-add_private_identifier(char *s)
-{
-	return add_identifier(private_table, s);
+	if ((f = fopen(fname, "r")) == NULL)
+		err(1, "%s", fname);
+
+	while (fgets(buf, 255, f) != NULL) {
+		if (strlen(buf) <= 1)
+			continue;
+		buf1[0] = '\0';
+		buf2[0] = '\0';
+		sscanf(buf,"%s %s", buf1, buf2);
+		if (strlen(buf2) < 1)
+			add_identifier(buf1);
+		else {
+			/* If the identifier is already in the hash table,
+			 * print eror message. */
+			if (htable_exists(id_table, buf1))
+				printf("Identifier %s already defined", buf1);
+			else
+				htable_store(id_table, buf1, xstrdup(buf2));
+		}
+        }
+	fclose(f);
 }
 
 /*
  * Add an identifier to the unmodifiable identifiers hash table.
  */
-static void
-add_unmodifiable_identifier(char *s)
+static void add_ro_identifier(char *s)
 {
-	if (!hash_table_exists(unmodifiable_table, s))
-		hash_table_store_key(unmodifiable_table, s);
+	htable_store_key(ro_table, s);
 }
 
 /*
- * Add a file of identifiers to the public identifiers hash table.
+ * Add a file of identifiers to an hash table.
  */
-static void
-add_public_file(char *fname)
+static void add_file_to_table(char *fname, int readonly)
 {
 	FILE *f;
 	char buf[255];
@@ -508,29 +426,10 @@ add_public_file(char *fname)
 	while (fgets(buf, 255, f) != NULL) {
 		if (strlen(buf) > 1) {
 			buf[strlen(buf) - 1] = '\0';
-			add_private_identifier(buf);
-		}
-	}
-
-	fclose(f);
-}
-
-/*
- * Add a file of identifiers to the unmodifiable identifiers hash table.
- */
-static void
-add_unmodifiable_file(char *fname)
-{
-	FILE *f;
-	char buf[255];
-
-	if ((f = fopen(fname, "r")) == NULL)
-		err(1, "%s", fname);
-
-	while (fgets(buf, 255, f) != NULL) {
- 		if (strlen(buf) > 1) {
-			buf[strlen(buf) - 1] = '\0';
-			add_unmodifiable_identifier(buf);
+			if (readonly)
+				add_ro_identifier(buf);
+			else
+				add_identifier(buf);
 		}
 	}
 
@@ -540,8 +439,7 @@ add_unmodifiable_file(char *fname)
 /*
  * Make a less readable integer expression from an integer.
  */
-static char *
-make_expression(char *buf, int n)
+static char *make_expression(char *buf, int n)
 {
 	int i1, i2, i3, i4, i5, i6;
 
@@ -577,8 +475,7 @@ make_expression(char *buf, int n)
  * Make an octalized string from a literal one.  The already existent
  * escapes are not clobbered.
  */
-static char *
-octalize_string(char *buf, char *s)
+static char *octalize_string(char *buf, char *s)
 {
 	char *sp = s, *dp = buf;
 	char buf1[12];
@@ -636,7 +533,7 @@ octalize_string(char *buf, char *s)
 			 * Output the octal escape.
 			 */
 			sprintf(buf1, "\\%o", *sp++);
-			for (i = 0; i < strlen(buf1); i++)
+			for (i = 0; i < (int)strlen(buf1); ++i)
 				*dp++ = buf1[i];
 		}
 
@@ -648,8 +545,7 @@ octalize_string(char *buf, char *s)
 /*
  * Make a digraph respelling for a character.
  */
-static char *
-digraphize_char(char c)
+static char *digraphize_char(char c)
 {
 	char *p;
 
@@ -676,8 +572,7 @@ digraphize_char(char c)
 /*
  * Make a trigraph sequence from a character.
  */
-static char *
-trigraphize_char(char c)
+static char *trigraphize_char(char c)
 {
 	char *p;
 
@@ -713,8 +608,7 @@ trigraphize_char(char c)
 /*
  * The main parsing function.
  */
-static void
-parse(void)
+static void parse(void)
 {
 	int tk, lasttk = 0;
         char *p;
@@ -742,7 +636,7 @@ parse(void)
 		case '\r':
 			if (opt_compact_macros && in_directive) {
 				if (directive_ws < 2) {
-					directive_ws++;
+					++directive_ws;
 					if (tk == '\t')
 						out_ws_char(' ');
 					else
@@ -780,13 +674,12 @@ parse(void)
 			}
 			break;
 		case IDENTIFIER:
-			if (is_unmodifiable_identifier(yytext))
-				p = yytext;
-			else {
-				if (opt_share_symbol_table)
-					p = add_public_identifier(yytext);
+			if ((p = htable_fetch(id_table, yytext)) == NULL) {
+				if (htable_exists(ro_table, yytext) ||
+				    opt_exclusive)
+					p = yytext;
 				else
-					p = add_private_identifier(yytext);
+					p = add_identifier(yytext);
 			}
 			ws_req();
 			out_string(p);
@@ -852,16 +745,17 @@ parse(void)
 			out_op(yytext);
 			break;
 		case '\\':
-			if (opt_compact_macros && in_directive) {
+			if (in_directive && opt_compact_macros) {
 				yylex();
 				if (directive_ws < 2)
 					outch(' ');
+			} else if (opt_compact_white_spaces) {
+				if (in_directive && !last_ws)
+					outch(' ');
+				out_char('\\');
+				out_ws(yylex()); 
 			} else
-				if (opt_compact_white_spaces) {
-					out_char('\\');
-					out_ws(yylex());
-				} else
-					out_ws_char(tk);
+				out_ws_char(tk);
 			break;
 		case HASHHASH:
 			if (opt_digraphize)
@@ -872,74 +766,82 @@ parse(void)
 		default:
 			out_ws_char(tk);
 		}
-		if (tk != COMMENT && tk != '\n' && tk != ' ' &&
-		    tk != '\t' && tk != '\v' && tk != '\f' && tk != '\r')
+		if (tk != COMMENT && tk != '\n' && tk != ' '
+		    && tk != '\t' && tk != '\v' && tk != '\f' && tk != '\r')
 			lasttk = tk;
 	}
 }
 
-static void
-process_file(char *filename)
+static void process_file(char *filename)
 {
 	if (filename != NULL && strcmp(filename, "-") != 0) {
 		if ((yyin = fopen(filename, "r")) == NULL)
 			err(1, "%s", filename);
+		if (opt_separate_output != NULL) {
+			char oname[255];
+			sprintf(oname, "%s%s", filename, opt_separate_output);
+			if (output_file != stdout)
+				fclose(output_file);
+			if ((output_file = fopen(oname, "w")) == NULL)
+				err(1, "%s", oname);
+		}
 	} else
 		yyin = stdin;
-
-	if (!opt_share_symbol_table)
-		reinit_vars();
-
-	build_private_table();
-
-	if (opt_identifier_file)
-		add_public_file(opt_identifier_file_arg);
 
 	init_lex();
 	parse();
 	done_lex();
-
-	if (opt_dump) {
-		fprintf(dump_file, "%s: private symbols\n", filename == NULL ? "<stdin>" : filename);
-		hash_table_dump(private_table, dump_file);
-		fprintf(dump_file, "\n");
-	}
 
 	if (opt_compact_white_spaces)
 		outch('\n');
 
 	if (yyin != stdin)
 		fclose(yyin);
-
-	free_private_table();
 }
 
 /*
  * Output the program syntax then exit.
  */
-static void
-usage(void)
+static void usage(void)
 {
 	fprintf(stderr, "\
-usage: cobfusc [-abdehmntV] [-c no | lower | upper] [-g file]\n\
-	       [-i no | numeric | word] [-o file] [-p file] [-r prefix]\n\
-	       [-s seed] [-u file] [-w cols] [file ...]\n");
+usage: cobfusc [-AabdemntxV] [-c no | lower | upper | screw | random]\n\
+               [-f suffix] [-g file] [-i no | numeric | word | random]\n\
+               [-o file] [-p prefix] [-r file] [-s seed] [-u file] [-w cols]\n\
+               [-z file] [file ...]\n");
 	exit(1);
 }
 
-int
-main(int argc, char **argv)
+/*
+ * Used by the err() functions.
+ */
+char *progname;
+
+int main(int argc, char **argv)
 {
 	int i, c;
 
-	build_unmodifiable_table();
-	build_public_table();
+	progname = argv[0];
+	output_file = stdout;
+
+	allocate_tables();
 
 	for (i = 0; reserved_identifiers[i] != NULL; i++)
-		add_unmodifiable_identifier((char *)reserved_identifiers[i]);
+		add_ro_identifier((char *)reserved_identifiers[i]);
 
-	while ((c = getopt(argc, argv, "abc:deg:hi:mno:p:r:s:tu:Vw:")) != -1)
+	while ((c = getopt(argc, argv, "Aabc:def:g:i:mno:p:r:s:tu:Vw:xz:")) != -1)
 		switch (c) {
+		case 'A':
+			/*
+			 * Enable the -ademt -inumeric options.
+			 */
+			opt_string_garbling = 1;
+			opt_compact_macros = 1;
+			opt_compact_white_spaces = 1;
+			opt_strip_comments = 1;
+			opt_trigraphize = 1;
+			opt_identifier_garbling = OPT_IDENTIFIER_GARBLING_NUMERIC;
+			break;
 		case 'a':
 			opt_string_garbling = 1;
 			break;
@@ -964,18 +866,15 @@ main(int argc, char **argv)
 			break;
 		case 'd':
 			opt_compact_macros = 1;
-			opt_width = 1;
 			break;
 		case 'e':
 			opt_compact_white_spaces = 1;
-			opt_width = 1;
+			break;
+		case 'f':
+			opt_separate_output = optarg;
 			break;
 		case 'g':
-			opt_identifier_file = 1;
-			opt_identifier_file_arg = optarg;
-			break;
-		case 'h':
-			opt_share_symbol_table = 1;
+			add_file_to_table(optarg, 0);
 			break;
 		case 'i':
 			if (!strcmp(optarg, "no"))
@@ -1002,15 +901,14 @@ main(int argc, char **argv)
 				err(1, "%s", optarg);
 			break;
 		case 'p':
-			add_unmodifiable_file(optarg);
+			opt_prefix = optarg;
 			break;
 		case 'r':
-			opt_prefix = 1;
-			opt_prefix_arg = optarg;
+			add_file_to_table(optarg, 1);
 			break;
 		case 's':
-			opt_random_seed = 1;
-			opt_random_seed_arg = atoi(optarg);
+			opt_random_seed = atoi(optarg);
+			srand(opt_random_seed);
 			break;
 		case 't':
 			opt_trigraphize = 1;
@@ -1023,12 +921,17 @@ main(int argc, char **argv)
 				err(1, "%s", optarg);
 			break;
 		case 'V':
-			fprintf(stderr, "%s - %s\n", CUTILS_VERSION, rcsid);
+			fprintf(stderr, "%s\n", CUTILS_VERSION);
 			exit(0);
 		case 'w':
-			opt_width = 1;
-			if ((opt_width_arg = atoi(optarg)) < 2)
-				opt_width_arg = 2;
+			if ((opt_width = atoi(optarg)) < 2)
+				opt_width = 2;
+			break;
+		case 'x':
+			opt_exclusive = 1;
+			break;
+		case 'z':
+			add_replace_file(optarg);
 			break;
 		case '?':
 		default:
@@ -1038,15 +941,6 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (!opt_prefix)
-		opt_prefix_arg = DEFAULT_PREFIX;
-
-#ifndef DEBUG
-	if (!opt_random_seed)
-		opt_random_seed_arg = (int)time((time_t *)NULL) + getpid();
-#endif
-	srand(opt_random_seed_arg);
-
 	if (argc < 1)
 		process_file(NULL);
 	else
@@ -1054,20 +948,24 @@ main(int argc, char **argv)
 			process_file(*argv++);
 
 	if (opt_dump) {
-		if (opt_identifier_file || opt_share_symbol_table) {
-			fprintf(dump_file, "public symbols\n");
-			hash_table_dump(public_table, dump_file);
-			fprintf(dump_file, "\n");
-		}
-		fprintf(dump_file, "unmodifiable symbols\n");
-		hash_table_dump(unmodifiable_table, dump_file);
+		alist a;
+		hpair *hp;
+		fprintf(dump_file, "### scrambled symbols ###\n");
+		a = htable_list(id_table);
+		for (hp = alist_first(a); hp != NULL; hp = alist_next(a))
+			fprintf(dump_file, "%s %s\n", hp->key, (char *)hp->data);
+		alist_delete(a);
+		fprintf(dump_file, "\n### unmodifiable symbols ###\n");
+		a = htable_list(ro_table);
+		for (hp = alist_first(a); hp != NULL; hp = alist_next(a))
+			fprintf(dump_file, "%s\n", hp->key);
+		alist_delete(a);
 		fclose(dump_file);
 	}
 
 	if (output_file != stdout)
 		fclose(output_file);
-	free_unmodifiable_table();
-	free_public_table();
+	free_tables();
 
 	return 0;
 }

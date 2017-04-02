@@ -1,8 +1,7 @@
-/*	$Id: tree.h,v 1.11 1997/08/30 01:14:39 sandro Exp $	*/
+/*	$Id: tree.h,v 1.12 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,8 +24,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _TREE_H_
-#define _TREE_H_
+#ifndef TREE_H
+#define TREE_H
 
 struct object_s {
 	int type;
@@ -43,4 +42,4 @@ extern struct object_s *assoc_object(struct object_s *dest, struct object_s *ass
 extern void free_object(struct object_s *p);
 extern void free_object_list(struct object_s *p);
 
-#endif /* !_TREE_H_ */
+#endif /* !TREE_H */

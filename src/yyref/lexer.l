@@ -1,8 +1,7 @@
-/*	$Id: lexer.l,v 1.8 1997/08/30 01:14:41 sandro Exp $	*/
+/*	$Id: lexer.l,v 1.9 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -87,8 +86,7 @@ white			[\t ]
 
 static char lastchar, thischar;
 
-static int
-nextchar(void)
+static int nextchar(void)
 {
 	char c;
 	c = input();
@@ -100,8 +98,7 @@ nextchar(void)
 	return c;
 }
 
-static void
-comment(void)
+static void comment(void)
 {
 	int c;
 	ECHO;
@@ -113,8 +110,7 @@ comment(void)
 	} while (c != '/');
 }
 
-static void
-code_block(void)
+static void code_block(void)
 {
 	int c;
 	ECHO;
@@ -126,8 +122,7 @@ code_block(void)
 	} while (c != '}');
 }
 
-static void
-action(void)
+static void action(void)
 {
 	char c;
 	int scope;

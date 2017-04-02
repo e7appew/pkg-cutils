@@ -1,8 +1,7 @@
-/*	$Id: tokens.h,v 1.10 1997/08/30 01:14:17 sandro Exp $	*/
+/*	$Id: tokens.h,v 1.13 2001/07/15 13:32:18 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,10 +31,11 @@ enum {
 	COMMENT,
 	DIRECTIVE,
 	CONSTANT,
+	TYPE,
 	KEYWORD,
 	OPERATOR,
 	ELLIPSIS,
 	ALL		/* Not a real token, put here for convenience. */
 };
 
-#define MAX_TOKENS	266
+#define MAX_TOKENS	((unsigned)ALL + 1)

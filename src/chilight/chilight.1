@@ -1,5 +1,5 @@
-.\" $Id: chilight.1,v 1.18 1997/11/22 18:38:36 sandro Exp $
-.Dd November 22, 1997
+.\" $Id: chilight.1,v 1.23 2001/07/15 15:03:25 ncvs Exp $
+.Dd July 15, 2001
 .Os
 .Dt CHILIGHT 1
 .Sh NAME
@@ -7,39 +7,51 @@
 .Nd highlight a C source file
 .Sh SYNOPSIS
 .Nm chilight
-.Op Fl \&dV
+.Op Fl V
+.Op Fl f Ar format
 .Op Fl o Ar file
-.Op Fl s Ar style
+.Op Fl t Ar title
+.Op Fl w Ar width
 .Op Ar
 .Sh DESCRIPTION
 The
 .Nm chilight
-utility
-colorizes the input file, expected to be written in the C language,
-with text attributes.
+utility colorizes the input file, expected to be written in the C language,
+with text attributes or markups.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
-.It Fl d
-Tread preprocessor directives as single characters. In other words every
-directive is separated in tokens then colorized, instead of treading all the
-directive as a single token.
-.It Fl o
+.It Fl f Ar format
+Set the output format to
+.Ar format .
+.br
+The format
+can be one of:
+.Ar ansi_color ,
+.Ar ansi_bold ,
+.Ar html_color ,
+.Ar html_font ,
+.Ar roff
+or
+.Ar tty
+(the default).
+.It Fl o Ar file
 Set the output destination to
 .Ar file .
-.It Fl s
-Set the output format to
-.Ar style .
-.Ar style
-can be
-.Ar ansi_color
-(the default),
-.Ar ansi_bold ,
-.Ar html_color
-or
-.Ar html_font .
+.It Fl t Ar title
+Specify the page title for the generated HTML page.
 .It Fl V
 Print version information on standard output then exit.
+.It Fl w Ar width
+Set the tab width for the roff style.
+.br
+Tabulator characters are converted to suitable amounts of
+space characters to gain better typographic quality on roff output.
+Acceptable values are in the range 1..16 which should be ample
+for most situations.
 .El
 .Sh AUTHORS
-Sandro Sigala (ssigala@globalnet.it)
+Sandro Sigala <sandro@sigala.it> - original version
+.sp
+Jukka A. Ukkonen <jau@iki.fi> - roff and tty formats, better handling
+of #xxx preprocessor directives and some minor changes.

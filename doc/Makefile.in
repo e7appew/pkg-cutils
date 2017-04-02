@@ -1,7 +1,9 @@
-#	$Id: Makefile.in,v 1.1 1997/07/01 22:41:02 sandro Exp $
+#	$Id: Makefile.in,v 1.2 2001/07/13 19:09:55 sandro Exp $
 
 srcdir = @srcdir@
+VPATH = $(srcdir)
 
+DESTDIR =
 prefix = @prefix@
 
 infodir = @infodir@
@@ -22,12 +24,17 @@ dvi: cutils.dvi
 cutils.dvi: cutils.texi
 	$(TEXI2DVI) $(srcdir)/cutils.texi
 
-.PHONY: install clean realclean distclean mostlyclean
+.PHONY: install uninstall clean realclean distclean mostlyclean
 
 install: all
-	${srcdir}/../mkinsdir.sh $(infodir)
+	${srcdir}/../mkinsdir.sh $(DESTDIR)$(infodir)
 	for f in $(FILES); do \
-		$(INSTALL_DATA) $$f $(infodir); \
+		$(INSTALL_DATA) $$f $(DESTDIR)$(infodir); \
+	done
+
+uninstall:
+	for f in $(FILES); do \
+		rm -f $(DESTDIR)$(infodir)/`basename $$f`; \
 	done
 
 clean: 

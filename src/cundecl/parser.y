@@ -1,8 +1,7 @@
-/*	$Id: parser.y,v 1.13 1997/08/30 01:14:35 sandro Exp $	*/
+/*	$Id: parser.y,v 1.14 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -303,8 +302,7 @@ number:
 
 %%
 
-static void
-unsupp(char *s1, char *s2)
+static void unsupp(char *s1, char *s2)
 {
 	if (s2 != NULL)
 		warnx("%d: unsupported \"%s\" (maybe you mean \"%s\")", lineno, s1, s2);
@@ -312,8 +310,7 @@ unsupp(char *s1, char *s2)
 		warnx("%d: unsupported \"%s\"", lineno, s1);
 }
 
-static void
-yyerror(char *s)
+static void yyerror(char *s)
 {
 	errx(1, "%d: %s", lineno, s);
 }
@@ -323,8 +320,7 @@ yyerror(char *s)
  * The parameter list is terminated by a NULL pointer.
  * The parameters are deallocated after copy.
  */
-static char *
-cat(char *s, ...)
+static char *cat(char *s, ...)
 {
 	va_list ap;
 	int size;
@@ -351,8 +347,7 @@ cat(char *s, ...)
 	return newstr;
 }
 
-static void
-docast(char *name, char *left, char *right, char *type)
+static void docast(char *name, char *left, char *right, char *type)
 {
 	int lenl = strlen(left), lenr = strlen(right);
 
@@ -368,8 +363,7 @@ docast(char *name, char *left, char *right, char *type)
         free(name);
 }
 
-static void
-dodeclare(char *name, char *storage, char *left, char *right, char *type)
+static void dodeclare(char *name, char *storage, char *left, char *right, char *type)
 {
 	if (prev == 'v')
 		unsupp("variable of type void", "variable of type pointer to void");

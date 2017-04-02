@@ -1,8 +1,7 @@
-/*	$Id: cundecl.c,v 1.12 1997/08/30 01:14:35 sandro Exp $	*/
+/*	$Id: cundecl.c,v 1.15 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1995-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,8 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-static char *rcsid = "$Id: cundecl.c,v 1.12 1997/08/30 01:14:35 sandro Exp $";
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,10 +36,9 @@ extern int lineno;
 extern FILE *yyin;
 extern int yyparse(void);
 
-FILE *output_file = stdout;
+FILE *output_file;
 
-static void
-process_file(char *filename)
+static void process_file(char *filename)
 {
 	if (filename != NULL && strcmp(filename, "-") != 0) {
 		if ((yyin = fopen(filename, "r")) == NULL)
@@ -60,17 +56,23 @@ process_file(char *filename)
 /*
  * Output the program syntax then exit.
  */
-static void
-usage(void)
+static void usage(void)
 {
 	fprintf(stderr, "usage: cundecl [-V] [-o file] [file ...]\n");
 	exit(1);
 }
 
-int
-main(int argc, char **argv)
+/*
+ * Used by the err() functions.
+ */
+char *progname;
+
+int main(int argc, char **argv)
 {
 	int c;
+
+	progname = argv[0];
+	output_file = stdout;
 
 	while ((c = getopt(argc, argv, "o:V")) != -1)
 		switch (c) {
@@ -81,7 +83,7 @@ main(int argc, char **argv)
 				err(1, "%s", optarg);
 			break;
 		case 'V':
-			fprintf(stderr, "%s - %s\n", CUTILS_VERSION, rcsid);
+			fprintf(stderr, "%s\n", CUTILS_VERSION);
 			exit(0);
 		case '?':
 		default:

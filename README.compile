@@ -1,0 +1,14 @@
+Under HP-UX 10.20, you may have problems with the flex utility; this
+is what Eric Backus <ericb@labejb.lsid.hp.com> said:
+
+1. I had trouble using flex to process the ".l" files.  If I just use
+   "flex", the resulting executable always coredumps.  If I instead
+   use the system's "lex", it works fine.  Also, "flex -l" works fine.
+   My version of flex is flex-2.5.4, and it passes all of its
+   self-tests on my system.
+
+   I imagine there is something in the ".l" files which requires "flex
+   -l", although I wouldn't know what.  This is probably a bug in
+   autoconf, since autoconf should probably provide a "lex" compatible
+   program in response to AC_PROG_LEX.  It seems like there might be
+   some way to work around this in Makefile.in, but I'm not sure how.

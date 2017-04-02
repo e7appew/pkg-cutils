@@ -1,58 +1,45 @@
-This is Info file cutils.info, produced by Makeinfo version 1.68 from
-the input file cutils.texi.
+This is cutils.info, produced by makeinfo version 4.0 from cutils.texi.
 
 
 File: cutils.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
 
-   This is the *cutils* manual.
+   This is the _cutils_ manual.
 
-   The cutils package is a collection of twelve utilities for "C"
-programmers.  They are mostly parsers that convert an input file
-written in a particular format into another format.
+   The cutils package is a collection of utilities for "C" programmers.
+They are mostly parsers that convert an input file written in a
+particular format into another format.
 
 * Menu:
 
 * Overview::                    An overview of the cutils package.
-* cinfo/cinfoc/cinfodc::        C language documentation tools.
 * cdecl/cundecl::               Decode and encode C type declarations.
 * cobfusc::                     Make a C source file unreadable but compilable.
 * chilight::                    Highlight C source files.
-* ctangle/cweave::              Simple literate programming tools for C.
 * cunloop::                     Unloop C loops.
 * yyextract::                   Extract grammar rules from Yacc grammars.
 * yyref::                       Yacc grammar reference program.
 * Bug reports::                 How to report a bug.
 
 
-File: cutils.info,  Node: Overview,  Next: cinfo/cinfoc/cinfodc,  Prev: Top,  Up: Top
+File: cutils.info,  Node: Overview,  Next: cdecl/cundecl,  Prev: Top,  Up: Top
 
 Overview
 ********
 
-   The twelve utilities that are enclosed in the *cutils* package are
-usually useful in some circumstances during the development in the "C"
-language.
+   The utilities enclosed in the _cutils_ package are usually useful in
+some circumstances during the development in the "C" language.
 
-*cinfo*
-
-*cinfoc*
-
-*cinfodc*
-     The *cinfo* utility can be used to lookup the prototype of a
-     standard C function; the other two utilities are explained later.
-
-*cdecl*
-
-*cundecl*
-     The *cdecl* and *cundecl* utilities can be used to decode or
+_cdecl_
+_cundecl_
+     The _cdecl_ and _cundecl_ utilities can be used to decode or
      encode a complex type declaration like
           void (*signal(int sig, void (*func)(int)))(int);
      or
           declare funcvec as array[16] of pointer to function that expects
           (void) returning int;
 
-*cobfusc*
-     The *cobfusc* utility can be used to obfuscate (i.e. render
+_cobfusc_
+     The _cobfusc_ utility can be used to obfuscate (i.e. render
      unreadable but perfectly compilable) some code.  For example:
           int
           main(int argc, char **argv)
@@ -70,150 +57,34 @@ language.
           q1[0]);printf("\141\162\147\165\155\145\156\164\163\72");for(q2=1;
           q2<q0;q2++)printf("\40\45\163",q1[q2]);printf("\n");}
 
-*chilight*
-     The *chilight* utility can be used to highlight (i.e. fontify) a
-     source file with color escapes or commands, depending of the output
-     format (ANSI or HTML).
+_chilight_
+     The _chilight_ utility can be used to highlight (i.e. fontify) a C
+     source file with color escapes or markups, depending of the
+     selected output format (tty, ANSI, HTML or roff).
 
-*ctangle*
-
-*cweave*
-     The *ctangle* and *cweave* utilities can be used to produce a
-     literate source document, like Knuth's *Web* or *cweb*.  The
-     *ctangle* program extract the program source from the Web document;
-     *cweave* produces the LaTeX source file that can be processed to
-     obtain the final document.
-
-*cunloop*
-     The *cunloop* does a job like the *cobfusc* utility: it obfuscates
+_cunloop_
+     The _cunloop_ does a job like the _cobfusc_ utility: it obfuscates
      the source code, by unlooping the C language loop and branch
      instructions `while', `do', `for', `if' into a sequence of `goto'
-     instuctions to render the source file unreadable.  While *cobfusc*
-     works with every C source code, *cunloop* is
+     instuctions to render the source file unreadable.  While _cobfusc_
+     works with every C source code, _cunloop_ is
      semantically-dependant.
 
-*yyextract*
-     The *yyextract* utility can be used to extract the rules from a
+_yyextract_
+     The _yyextract_ utility can be used to extract the rules from a
      Yacc grammar (or produce another grammar in a different format,
      like HTML).
 
-*yyref*
-     The *yyref* utility is a Yacc cross-reference generator.
+_yyref_
+     The _yyref_ utility is a Yacc cross-reference generator.
 
 
-File: cutils.info,  Node: cinfo/cinfoc/cinfodc,  Next: cdecl/cundecl,  Prev: Overview,  Up: Top
-
-cinfo, cinfoc and cinfodc
-*************************
-
-   The *cinfo* utility searchs in his database the user specified symbol
-(of the C programming language) and prints the proper documentation.
-The *cinfoc* utility is required for compiling the *cinfo* database.
-The *cinfodc* utility does the inverse job of the *cinfoc* utility,
-i.e. it decompiles a compiled database.
-
-* Menu:
-
-* Invoking cinfo::                 Command line options of cinfo.
-* Invoking cinfoc::                Command line options of cinfoc.
-* Invoking cinfodc::               Command line options of cinfodc.
-* cinfo/cinfoc/cinfodc examples::  Some examples of this three utilities.
-
-
-File: cutils.info,  Node: Invoking cinfo,  Next: Invoking cinfoc,  Prev: cinfo/cinfoc/cinfodc,  Up: cinfo/cinfoc/cinfodc
-
-Invoking cinfo
-==============
-
-   The options are as follows:
-
-`-c'
-     Ignore case distinctions.
-
-`-d'
-     Turn debug mode on.
-
-`-h'
-     Output in HTML format.
-
-`-l'
-     List symbol paths only, do not output symbol variables.
-
-`-o file'
-     Set the output destination to `file'.
-
-`-p'
-     Perform a pattern match string comparison.
-
-`-s'
-     Perform a literal string comparison. This is the default.
-
-`-L dir'
-     Force `cinfo' to search into the `dir' directory.
-
-`-V'
-     Print version information on standard output then exit.
-
-
-File: cutils.info,  Node: Invoking cinfoc,  Next: Invoking cinfodc,  Prev: Invoking cinfo,  Up: cinfo/cinfoc/cinfodc
-
-Invoking cinfoc
-===============
-
-   The options are as follows:
-
-`-d'
-     Turn debug mode on.
-
-`-V'
-     Print version information on standard output then exit.
-
-
-File: cutils.info,  Node: Invoking cinfodc,  Next: cinfo/cinfoc/cinfodc examples,  Prev: Invoking cinfoc,  Up: cinfo/cinfoc/cinfodc
-
-Invoking cinfodc
-================
-
-   The options are as follows:
-
-`-h'
-     Output a header for every object that contains subobjects.
-
-`-o file'
-     Set the output destination to `file'.
-
-`-V'
-     Print version information on standard output then exit.
-
-
-File: cutils.info,  Node: cinfo/cinfoc/cinfodc examples,  Prev: Invoking cinfodc,  Up: cinfo/cinfoc/cinfodc
-
-cinfo, cinfoc and cinfodc examples
-==================================
-
-   For searching the `printf' function, try:
-     cinfo printf
-
-   For searching all the functions that contains `print', try:
-     cinfo -p "*print*"
-
-   For searching the `addch' and `endwin' *ncurses* functions, and
-outputting the result in HTML format, try:
-     cinfo -h addch endwin
-
-   For compiling the cinfo database source file `foo.cinfo', try:
-     cinfoc foo.cinfo
-
-   For decompiling the compiled cinfo database file `foo.cinfo.db', try:
-     cinfodc foo.cinfo.db
-
-
-File: cutils.info,  Node: cdecl/cundecl,  Next: cobfusc,  Prev: cinfo/cinfoc/cinfodc,  Up: Top
+File: cutils.info,  Node: cdecl/cundecl,  Next: cobfusc,  Prev: Overview,  Up: Top
 
 cdecl and cundecl
 *****************
 
-   The *cdecl* and *cundecl* utilities can be used to decode or encode
+   The _cdecl_ and _cundecl_ utilities can be used to decode or encode
 a complex type declaration like
      void (*signal(int sig, void (*func)(int)))(int);
    or
@@ -260,17 +131,21 @@ File: cutils.info,  Node: cdecl/cundecl examples,  Prev: Invoking cundecl,  Up: 
 cdecl and cundecl examples
 ==========================
 
-   *cdecl* input examples:
+   _cdecl_ input examples:
      char *s;
      void (*signal(int sig, void (*func)(int)))(int);
      (const char *)s;
      (void (*)(int))signal_function;
+     char (*func[64])(int a, char *p);
 
-   *cundecl* input examples:
+   _cundecl_ input examples:
      declare s as pointer to char;
      declare x as function (fmt as pointer to const char, ...) returning int;
      cast s into pointer to const char;
      cast f into pointer to function (int) returning void;
+     declare foo as pointer to pointer to function that expects
+     (x as pointer to function that expects (c as char) returning int)
+     returning void;
 
 
 File: cutils.info,  Node: cobfusc,  Next: chilight,  Prev: cdecl/cundecl,  Up: Top
@@ -280,13 +155,13 @@ cobfusc
 
    From the 13th International Obfuscated C Code Contest(1) Rules:
 
-*Obfuscate*
+_Obfuscate_
      tr.v.  -cated, -cating, -cates.  1. a.  To render obscure.  b.  To
      darken.  2. To confuse:  his emotions obfuscated his judgment.
      [LLat. obfuscare, to darken : ob(intensive) + Lat. fuscare, to
      darken < fuscus, dark.] -obfuscation n.  obfuscatory adj.
 
-   The *cobfusc* utility converts the input file, written in the C
+   The _cobfusc_ utility converts the input file, written in the C
 language, into a human unreadable one, but compilable.  The main work
 is converting every identifier into a meaningless one, removing any
 comment and compacting all the white-spaces when they are not required.
@@ -294,25 +169,35 @@ comment and compacting all the white-spaces when they are not required.
 * Menu:
 
 * Invoking cobfusc::            Command line options of cobfusc.
+* Digraphs and trigraphs::      Explain the ISO C token respellings.
 * cobfusc examples::            Some examples of this utility.
 
    ---------- Footnotes ----------
 
-   (1) Check out the IOCCC Web page:	`http://reality.sgi.com/csp/ioccc'
+   (1) Check out the IOCCC Web page:	<http://www.ioccc.org>
 
 
-File: cutils.info,  Node: Invoking cobfusc,  Next: cobfusc examples,  Prev: cobfusc,  Up: cobfusc
+File: cutils.info,  Node: Invoking cobfusc,  Next: Digraphs and trigraphs,  Prev: cobfusc,  Up: cobfusc
 
 Invoking cobfusc
 ================
 
    The options are as follows:
 
+`-A'
+     Enable a heavy obfuscation for the source file.  This is
+     equivalent to the `-ademt -inumeric' options.  The digraphize
+     option is not enabled by default since the Amendement 1 (1994)
+     changes to ISO C are supported only by few C compilers.
+
 `-a'
      Garble every string with octal escapes.
 
+`-b'
+     Enable the digraphize mode.
+
 `-c no | lower | upper | screw | random'
-     Set the identifier case scrambling mode.
+     Set the identifier case obfuscation mode.
 
 `-d'
      Compact the macros removing backslashes and white-spaces when they
@@ -321,17 +206,23 @@ Invoking cobfusc
 `-e'
      Compact the white-spaces when they are not required.
 
-`-g file'
-     Add first the identifiers contained in `file' to the hash table.
-     Useful when those identifiers are used into two or more source
-     files.
+`-f suffix'
+     Put the output of each processed file in a separate file with
+     `suffix' appended to file name instead of standard output.  This
+     is useful when processing a lot of source files.
 
-`-h'
-     Share the symbol table between the files passed on the command
-     line.
+     For example, `cobfusc -f .obf.c foo.c bar.c' will create two files,
+     `foo.c.obf.c' and `bar.c.obf.c'.
+
+`-g file'
+     Add first the identifiers contained in `file' to the obfuscation
+     table.
+
+     Useful when those identifiers are shared between two or more
+     source files.
 
 `-i numeric | word | random'
-     Set the identifier garbling mode.
+     Set the identifier obfuscation mode.
 
 `-m'
      Strip the comments.
@@ -342,21 +233,22 @@ Invoking cobfusc
 `-o file'
      Set the output destination to `file'.
 
-`-p file'
-     Tell *cobfusc* that the identifiers contained in `file' must not
-     be changed.
-
-`-r prefix'
+`-p prefix'
      Specify the prefix to use when generating the identifiers.
+
+`-r file'
+     Tell _cobfusc_ that the identifiers contained in `file' must not
+     be obfuscated.
 
 `-s seed'
      Specify the seed for generating the random numbers.
 
-`-t no | all | random'
-     Set the trigraphize mode.
+`-t'
+     Enable the trigraphize mode.
 
 `-u'
-     Dump the symbol table to `file'.
+     Dump the symbol table to `file'.  This option is useful for
+     debugging.
 
 `-V'
      Print version information on standard output then exit.
@@ -364,14 +256,98 @@ Invoking cobfusc
 `-w cols'
      Set the width limit of the output.
 
+`-x'
+     Exclusive mode; obfuscate only the identifiers specified by the
+     `-g' and `-z' parameters.
+
+`-z file'
+     Add the identifiers pairs contained in `file' to the obfuscation
+     table.  The file format is two identifier per line, separated by a
+     space character, the first one is the original identifier, the
+     second one is the obfuscated identifier.
+
+     This option is useful when a list of obfuscated identifiers must
+     be provided manually.
+
+     For example, this is a valid input file:
+          find_file ff1
+          find_buffer ff2
+          close_buffer ff3
+          save_buffer ff4
+
 
-File: cutils.info,  Node: cobfusc examples,  Prev: Invoking cobfusc,  Up: cobfusc
+File: cutils.info,  Node: Digraphs and trigraphs,  Next: cobfusc examples,  Prev: Invoking cobfusc,  Up: cobfusc
+
+Digraphs and trigraphs
+======================
+
+   The ISO C language includes a set of trigraphs so that C programs
+may be written using only the ISO 646-1083 Invariant Code Set, a subset
+of the ASCII code set.  The trigraphs, introduced by two consecutive
+question mark characters, are listed in the table below.
+
+`??('
+     is replaced by `['
+
+`??)'
+     is replaced by `]'
+
+`??<'
+     is replaced by `{'
+
+`??>'
+     is replaced by `}'
+
+`??/'
+     is replaced by `\'
+
+`??''
+     is replaced by `^'
+
+`??='
+     is replaced by `#'
+
+`??!'
+     is replaced by `|'
+
+`??-'
+     is replaced by `~'
+
+   The Amendment 1 to ISO C provides six new tokens that are convenient
+when writing source programs in restricted character sets (such as the
+ISO 646-1083 Invariant Code Set).  The following respellings are more
+readable than the equivalent form using trigraphs, and they may be used
+wherever the customary tokens are permitted.
+
+`<:'
+     is replaced by `['
+
+`:>'
+     is replaced by `]'
+
+`<%'
+     is replaced by `{'
+
+`%>'
+     is replaced by `}'
+
+`%:'
+     is replaced by `#'
+
+`%:%:'
+     is replaced by `##'
+
+
+File: cutils.info,  Node: cobfusc examples,  Prev: Digraphs and trigraphs,  Up: cobfusc
 
 cobfusc examples
 ================
 
    If you just want to compact the whitespaces, try:
      cobfusc -de <inputfile >outputfile
+
+   To remove the comments, try:
+     cobfusc -m <inputfile >outputfile
 
    If you want to convent all the identifiers to meaningless computer
 generated ones, try:
@@ -381,18 +357,24 @@ generated ones, try:
 try:
      cobfusc -iword <inputfile >outputfile
 
-   For a maximum file obfuscation, try:
-     cobfusc -adem -inumeric <inputfile >outputfile
+   For a heavy obfuscation, try:
+     cobfusc -A <inputfile >outputfile
+
+   Or for a maximum obfuscation, try:
+     cobfusc -Abn -irandom -crandom <inputfile >outputfile
+
+   To obfuscate a program composed by two or more source files:
+     cobfusc -A -f .obf.c first.c second.c third.c
 
 
-File: cutils.info,  Node: chilight,  Next: ctangle/cweave,  Prev: cobfusc,  Up: Top
+File: cutils.info,  Node: chilight,  Next: cunloop,  Prev: cobfusc,  Up: Top
 
 chilight
 ********
 
-   The *chilight* utility can be used to highlight (i.e. fontify) a
-source file with color escapes or commands, depending of the output
-format (ANSI or HTML).
+   The _chilight_ utility can be used to highlight (i.e. fontify) a C
+source file with color escapes or markups, depending of the selected
+output format (tty, ANSI, HTML or roff).
 
 * Menu:
 
@@ -407,17 +389,16 @@ Invoking chilight
 
    The options are as follows:
 
-`-d'
-     Tread preprocessor directives as single characters. In other words
-     every directive is separated in tokens then colorized, instead of
-     treading all the directive as a single token.
+`-f format'
+     Set the output format to `format'.  The format can be one of `tty'
+     (the default), `ansi_color', `ansi_bold', `html_color',
+     `html_font' or `roff'.
 
 `-o file'
      Set the output destination to `file'.
 
-`-s style'
-     Set the output format to `style'.  `style' can be `ansi_color'
-     (the default), `ansi_bold', `html_color' or `html_font'.
+`-t title'
+     Specify the page title for the generated HTML page.
 
 `-V'
      Print version information on standard output then exit.
@@ -429,127 +410,27 @@ chilight examples
 =================
 
    For highlighting a source file with ANSI color escapes, try:
-     chilight <inputfile
+     chilight -f ansi_color <inputfile
 
    For highlighting a source file with HTML color commands, try:
-     chilight -s html_color <inputfile
+     chilight -f html_color <inputfile
 
    For highlighting a source file with HTML font commands, try:
-     chilight -s html_font <inputfile
+     chilight -f html_font <inputfile
 
 
-File: cutils.info,  Node: ctangle/cweave,  Next: cunloop,  Prev: chilight,  Up: Top
-
-ctangle and cweave
-******************
-
-   The *ctangle* and *cweave* utilities can be used to produce a
-literate source document, like Knuth's *Web* or *cweb*.  The *ctangle*
-program extract the program source from the CWeb document; *cweave*
-produces the LaTeX source file that can be processed to obtain the
-final document.  A CWeb file contains program source code interleaved
-with documentation.
-
-* Menu:
-
-* Invoking ctangle::            Command line options of ctangle.
-* Invoking cweave::             Command line options of cweave.
-* Input file format::           The format of the CWeb file.
-* ctangle/cweave examples::     Some examples of this two utilities.
-* Sample input file::           A sample Web file for the two utilities.
-
-
-File: cutils.info,  Node: Invoking ctangle,  Next: Invoking cweave,  Prev: ctangle/cweave,  Up: ctangle/cweave
-
-Invoking ctangle
-================
-
-   The options are as follows:
-
-`-o file'
-     Set the output destination to `file'.
-
-`-V'
-     Print version information on standard output then exit.
-
-
-File: cutils.info,  Node: Invoking cweave,  Next: Input file format,  Prev: Invoking ctangle,  Up: ctangle/cweave
-
-Invoking cweave
-===============
-
-   The options are as follows:
-
-`-h'
-     Highlight the source code with different fonts.
-
-`-o file'
-     Set the output destination to `file'.
-
-`-t width'
-     Set the tabulation width to `width'.
-
-`-V'
-     Print version information on standard output then exit.
-
-
-File: cutils.info,  Node: Input file format,  Next: ctangle/cweave examples,  Prev: Invoking cweave,  Up: ctangle/cweave
-
-Input file format
-=================
-
-   A CWeb file is composed by sections of LaTeX commands and sections
-of C source code.  The switching between the two section is possible
-with the `@@' token sequence.  The default section is LaTeX.
-
-   The directives that can be inserted in the LaTeX section are as
-follows:
-
-`@decl [text]'
-     Declare a new section of code (or continue an old one) with the
-     title `text'.
-
-`@ref [text]'
-     Reference a section of code with the title `text'.
-
-
-File: cutils.info,  Node: ctangle/cweave examples,  Next: Sample input file,  Prev: Input file format,  Up: ctangle/cweave
-
-ctangle and cweave examples
-===========================
-
-   For extracting the source from a web file:
-     ctangle <webfile >outputfile
-
-   For extracting the LaTeX source document from a web file:
-     cweave <webfile >outputfile
-
-   For extracting the LaTeX source document from a web file and
-fontifying the source code:
-     cweave -h <webfile >outputfile
-
-
-File: cutils.info,  Node: Sample input file,  Prev: ctangle/cweave examples,  Up: ctangle/cweave
-
-Sample input file
-=================
-
-   For a sample input file for *ctangle* and *cweave*, look into the
-`examples/cweb' directory in the source package.
-
-
-File: cutils.info,  Node: cunloop,  Next: yyextract,  Prev: ctangle/cweave,  Up: Top
+File: cutils.info,  Node: cunloop,  Next: yyextract,  Prev: chilight,  Up: Top
 
 cunloop
 *******
 
-   The *cunloop* does a job like the *cobfusc* utility: it obfuscates
+   The _cunloop_ does a job like the _cobfusc_ utility: it obfuscates
 the source code, by unlooping the C language loop and branch
 instructions `while', `do', `for', `if' into a sequence of `goto'
-instuctions to render the source file unreadable.  While *cobfusc*
-works with every C source code, *cunloop* is semantically-dependant.
-*cunloop* can be used conjointly with *cobfusc* to produce a *very*
-obfuscated source file.  Please note that the output of *cunloop* can
+instuctions to render the source file unreadable.  While _cobfusc_
+works with every C source code, _cunloop_ is semantically-dependant.
+_cunloop_ can be used conjointly with _cobfusc_ to produce a *very*
+obfuscated source file.  Please note that the output of _cunloop_ can
 be very inefficient and/or complex to be optimized by the C compiler,
 because the whole of `goto's produced by the unlooping.
 
@@ -594,7 +475,7 @@ File: cutils.info,  Node: yyextract,  Next: yyref,  Prev: cunloop,  Up: Top
 yyextract
 *********
 
-   The *yyextract* utility can be used to extract the rules from a Yacc
+   The _yyextract_ utility can be used to extract the rules from a Yacc
 grammar (or produce another grammar in a different format, like HTML).
 
 * Menu:
@@ -621,6 +502,9 @@ Invoking yyextract
 
 `-o file'
      Set the output destination to `file'.
+
+`-t title'
+     Specify the page title for the generated HTML page.
 
 `-w cols'
      Set the width limit of the output (this sets only the width of the
@@ -654,7 +538,7 @@ File: cutils.info,  Node: yyref,  Next: Bug reports,  Prev: yyextract,  Up: Top
 yyref
 *****
 
-   The *yyref* utility is a Yacc cross-reference generator.
+   The _yyref_ utility is a Yacc cross-reference generator.
 
 * Menu:
 
@@ -690,44 +574,35 @@ File: cutils.info,  Node: Bug reports,  Prev: yyref,  Up: Top
 Bug reports
 ***********
 
-   Any questions, comments, or bug reports, should be sent to the
-author at the Internet email address *<ssigala@globalnet.it>*.
+   Any questions, comments, or bug reports should be sent to the author
+at the Internet email address <sandro@sigala.it>.
 
 
 
 Tag Table:
-Node: Top99
-Node: Overview1054
-Node: cinfo/cinfoc/cinfodc3669
-Node: Invoking cinfo4426
-Node: Invoking cinfoc5091
-Node: Invoking cinfodc5374
-Node: cinfo/cinfoc/cinfodc examples5767
-Node: cdecl/cundecl6428
-Node: Invoking cdecl7031
-Node: Invoking cundecl7326
-Node: cdecl/cundecl examples7634
-Node: cobfusc8183
-Node: Invoking cobfusc9163
-Node: cobfusc examples10540
-Node: chilight11106
-Node: Invoking chilight11511
-Node: chilight examples12148
-Node: ctangle/cweave12571
-Node: Invoking ctangle13401
-Node: Invoking cweave13703
-Node: Input file format14119
-Node: ctangle/cweave examples14733
-Node: Sample input file15221
-Node: cunloop15477
-Node: Invoking cunloop16318
-Node: cunloop examples16678
-Node: yyextract17007
-Node: Invoking yyextract17391
-Node: yyextract examples18042
-Node: yyref18492
-Node: Invoking yyref18785
-Node: yyref examples19062
-Node: Bug reports19258
+Node: Top73
+Node: Overview883
+Node: cdecl/cundecl2999
+Node: Invoking cdecl3590
+Node: Invoking cundecl3885
+Node: cdecl/cundecl examples4193
+Node: cobfusc4937
+Ref: cobfusc-Footnote-15913
+Node: Invoking cobfusc5974
+Node: Digraphs and trigraphs8565
+Node: cobfusc examples9789
+Node: chilight10627
+Node: Invoking chilight11046
+Node: chilight examples11584
+Node: cunloop12021
+Node: Invoking cunloop12856
+Node: cunloop examples13216
+Node: yyextract13545
+Node: Invoking yyextract13929
+Node: yyextract examples14649
+Node: yyref15099
+Node: Invoking yyref15392
+Node: yyref examples15669
+Node: Bug reports15865
 
 End Tag Table

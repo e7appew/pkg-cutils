@@ -1,8 +1,7 @@
-/*	$Id: cunloop.c,v 1.7 1997/07/01 22:41:13 sandro Exp $	*/
+/*	$Id: cunloop.c,v 1.10 2001/07/13 19:09:56 sandro Exp $	*/
 
 /*
- * Copyright (c) 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1997-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -24,8 +23,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-static char *rcsid = "$Id: cunloop.c,v 1.7 1997/07/01 22:41:13 sandro Exp $";
 
 #include <ctype.h>
 #include <stdio.h>
@@ -52,7 +49,7 @@ extern void init_lex(void);
 extern void done_lex(void);
 
 static int lookahead;
-static FILE *output_file = stdout;
+static FILE *output_file;
 
 static int opt_prefix;			/* Indentifier prefix option. */
 static char *opt_prefix_arg;		/* Option argument. */
@@ -61,8 +58,7 @@ static char *opt_prefix_arg;		/* Option argument. */
 #define outstr(s)	fputs(s, output_file)
 #define outch(c)	fputc(c, output_file)
 
-static void
-outtk(int tk)
+static void outtk(int tk)
 {
 	switch (tk) {
 	case COMMENT:
@@ -96,8 +92,7 @@ static int label_break;
 
 static int parse_until(int untiltk);
 
-static void
-do_while(void)
+static void do_while(void)
 {
 	int label_c = ++label_counter;
 	int label_b = ++label_counter;
@@ -126,8 +121,7 @@ do_while(void)
 	label_break = save_label_b;
 }
 
-static void
-do_do(void)
+static void do_do(void)
 {
 	int label_c = ++label_counter;
 	int label_b = ++label_counter;
@@ -155,8 +149,7 @@ do_do(void)
 	label_break = save_label_b;
 }
 
-static void
-do_for(void)
+static void do_for(void)
 {
 	int label_l = ++label_counter;
 	int label_c = ++label_counter;
@@ -197,8 +190,7 @@ do_for(void)
 	label_break = save_label_b;
 }
 
-static void
-do_switch(void)
+static void do_switch(void)
 {
 	int save_label_b = label_break;
 
@@ -210,8 +202,7 @@ do_switch(void)
 	label_break = save_label_b;
 }
 
-static void
-do_if(void)
+static void do_if(void)
 {
 	int label_l = ++label_counter;
 	int label_e;
@@ -247,8 +238,7 @@ do_if(void)
 /*
  * The main parsing function.
  */
-static int
-parse_until(int untiltk)
+static int parse_until(int untiltk)
 {
 	int nparens = 0, nblocks = 0;
 	int isexpr = 0;
@@ -352,15 +342,13 @@ parse_until(int untiltk)
 	return isexpr;
 }
 
-static void
-parse(void)
+static void parse(void)
 {
 	next_token();
 	parse_until(0);
 }
 
-static void
-process_file(char *filename)
+static void process_file(char *filename)
 {
 	if (filename != NULL && strcmp(filename, "-") != 0) {
 		if ((yyin = fopen(filename, "r")) == NULL)
@@ -380,17 +368,23 @@ process_file(char *filename)
 /*
  * Output the program syntax then exit.
  */
-static void
-usage(void)
+static void usage(void)
 {
 	fprintf(stderr, "usage: cunroll [-V] [-o file] [-p prefix] [file ...]\n");
 	exit(1);
 }
 
-int
-main(int argc, char **argv)
+/*
+ * Used by the err() functions.
+ */
+char *progname;
+
+int main(int argc, char **argv)
 {
 	int c;
+
+	progname = argv[0];
+	output_file = stdout;
 
 	while ((c = getopt(argc, argv, "Vo:p:")) != -1)
 		switch (c) {
@@ -405,7 +399,7 @@ main(int argc, char **argv)
 			opt_prefix_arg = optarg;
 			break;
 		case 'V':
-			fprintf(stderr, "%s - %s\n", CUTILS_VERSION, rcsid);
+			fprintf(stderr, "%s\n", CUTILS_VERSION);
 			exit(0);
 		case '?':
 		default:

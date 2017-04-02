@@ -1,5 +1,5 @@
-.\" $Id: yyextract.1,v 1.12 1997/11/22 18:39:00 sandro Exp $
-.Dd November 22, 1997
+.\" $Id: yyextract.1,v 1.17 2001/07/15 15:03:25 ncvs Exp $
+.Dd July 15, 2001
 .Os
 .Dt YYEXTRACT 1
 .Sh NAME
@@ -9,6 +9,7 @@
 .Nm yyextract
 .Op Fl behyV
 .Op Fl o Ar file
+.Op Fl t Ar title
 .Op Fl w Ar cols
 .Op Ar
 .Sh DESCRIPTION
@@ -25,10 +26,12 @@ Select the Backus-Naur Form (BNF) for the output.
 Select the Extended Backus-Naur Form (EBNF) for the output.
 .It Fl h
 Output in HTML format.
-.It Fl o
+.It Fl o Ar file
 Set the output destination to
 .Ar file .
-.It Fl w
+.It Fl t Ar title
+Specify the page title for the generated HTML page.
+.It Fl w Ar cols
 Set the width limit of the output (this sets only the width of the %token
 header).
 .It Fl y
@@ -41,4 +44,4 @@ The Extended Backus-Naur Form (EBNF) is like the Backus-Naur Form (BNF)
 but with the empty rules translated with the zero-or-one
 operator (within the brackets '[' and ']').
 .Sh AUTHORS
-Sandro Sigala (ssigala@globalnet.it)
+Sandro Sigala <sandro@sigala.it>

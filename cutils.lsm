@@ -1,0 +1,15 @@
+Begin4
+Title:		cutils
+Version:	1.6
+Entered-date:	15JUL01
+Description:	C language miscellaneous utilities
+Keywords:	C obfusc shrouder highlight bnf ebnf grammar lex yacc
+Author:		sandro@sigala.it (Sandro Sigala)
+Maintained-by:	sandro@sigala.it (Sandro Sigala)
+Primary-site:	sunsite.unc.edu /pub/Linux/devel/lang/c
+		130k cutils-1.6.tar.gz
+Alternate-site:	http://www.sigala.it/sandro/files/
+		130k cutils-1.6.tar.gz
+Platforms:	ANSI C compiler
+Copying-policy:	BSD
+End

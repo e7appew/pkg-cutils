@@ -1,8 +1,7 @@
-/*	$Id: hash.h,v 1.3 1997/06/11 21:55:52 sandro Exp $	*/
+/*	$Id: htable.h,v 1.1 2001/07/13 18:28:45 sandro Exp $	*/
 
 /*
- * Copyright (c) 1995, 1996, 1997
- *	Sandro Sigala, Brescia, Italy.  All rights reserved.
+ * Copyright (c) 1997-2001 Sandro Sigala.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,26 +24,33 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _HASH_H_
-#define _HASH_H_
+#ifndef HTABLE_H
+#define HTABLE_H
 
-#define HASH_TABLE_DEFAULT_SIZE		127
+#include <stdio.h>
 
-typedef unsigned long (*hashing_function_t)(const char *data, unsigned long table_size);
+#include "alist.h"
 
-typedef struct hash_table *htablep;
+typedef unsigned long (*hfunc_t)(const char *data, unsigned long table_size);
 
-extern htablep hash_table_build(unsigned long size);
-extern htablep hash_table_build_default(void);
-extern void hash_table_set_hashing_function(htablep table, hashing_function_t function);
-extern int hash_table_free(htablep table);
-extern int hash_table_store_key(htablep table, const char *key);
-extern int hash_table_exists(htablep table, const char *key);
-extern int hash_table_delete(htablep table, const char *key);
-extern int hash_table_store_dataptr(htablep table, const char *key, const char *data);
-extern int hash_table_store_data(htablep table, const char *key, const char *data);
-extern int hash_table_store(htablep table, const char *key, const char *data);
-extern char *hash_table_fetch(htablep table, const char *key);
-extern void hash_table_dump(htablep table, FILE *fout);
+typedef struct hpair_s {
+	char *key;
+	void *data;
+} hpair;
 
-#endif /* !_HASH_H_ */
+typedef struct htable_s *htable;
+
+extern htable htable_new(void);
+extern htable htable_new_custom(unsigned long size);
+extern void   htable_delete(htable ht);
+extern void   htable_set_hash_func(htable ht, hfunc_t hfunc);
+extern int    htable_store_key(htable ht, const char *key);
+extern int    htable_store_data(htable ht, const char *key, void *data);
+extern int    htable_store(htable ht, const char *key, void *data);
+extern int    htable_exists(htable ht, const char *key);
+extern void * htable_fetch(htable ht, const char *key);
+extern int    htable_remove(htable ht, const char *key);
+extern void   htable_dump(htable ht, FILE *fout);
+extern alist  htable_list(htable ht);
+
+#endif /* !HTABLE_H */
