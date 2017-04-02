@@ -1,3 +1,10 @@
+cutils (1.6-5) UNRELEASED; urgency=medium
+
+  * QA upload.
+  * Convert Debian source to '3.0 (quilt)' format and build with Debhelper.
+
+ -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
+
 cutils (1.6-4) unstable; urgency=medium
 
   * QA upload

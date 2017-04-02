@@ -1,9 +1,4 @@
-This is cutils.info, produced by makeinfo version 4.0b from cutils.texi.
-
-INFO-DIR-SECTION Programming
-START-INFO-DIR-ENTRY
-* cutils: (cutils).       C programmers' utilities.
-END-INFO-DIR-ENTRY
+This is cutils.info, produced by makeinfo version 4.0 from cutils.texi.
 
 
 File: cutils.info,  Node: Top,  Next: Overview,  Prev: (dir),  Up: (dir)
@@ -585,29 +580,29 @@ at the Internet email address <sandro@sigala.it>.
 
 
 Tag Table:
-Node: Top196
-Node: Overview1006
-Node: cdecl/cundecl3122
-Node: Invoking cdecl3713
-Node: Invoking cundecl4008
-Node: cdecl/cundecl examples4316
-Node: cobfusc5060
-Ref: cobfusc-Footnote-16036
-Node: Invoking cobfusc6097
-Node: Digraphs and trigraphs8688
-Node: cobfusc examples9912
-Node: chilight10750
-Node: Invoking chilight11169
-Node: chilight examples11707
-Node: cunloop12144
-Node: Invoking cunloop12979
-Node: cunloop examples13339
-Node: yyextract13668
-Node: Invoking yyextract14052
-Node: yyextract examples14772
-Node: yyref15222
-Node: Invoking yyref15515
-Node: yyref examples15792
-Node: Bug reports15988
+Node: Top73
+Node: Overview883
+Node: cdecl/cundecl2999
+Node: Invoking cdecl3590
+Node: Invoking cundecl3885
+Node: cdecl/cundecl examples4193
+Node: cobfusc4937
+Ref: cobfusc-Footnote-15913
+Node: Invoking cobfusc5974
+Node: Digraphs and trigraphs8565
+Node: cobfusc examples9789
+Node: chilight10627
+Node: Invoking chilight11046
+Node: chilight examples11584
+Node: cunloop12021
+Node: Invoking cunloop12856
+Node: cunloop examples13216
+Node: yyextract13545
+Node: Invoking yyextract13929
+Node: yyextract examples14649
+Node: yyref15099
+Node: Invoking yyref15392
+Node: yyref examples15669
+Node: Bug reports15865
 
 End Tag Table

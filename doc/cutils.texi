@@ -7,11 +7,6 @@
 @c unwise to comment it out when running a master in case there are
 @c overfulls which are deemed okay.
 
-@dircategory Programming
-@direntry
-* cutils: (cutils).       C programmers' utilities.
-@end direntry
-
 @iftex
 @c @finalout
 @end iftex

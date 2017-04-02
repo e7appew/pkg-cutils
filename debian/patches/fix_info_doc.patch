@@ -1,0 +1,28 @@
+From: Hamish Moffatt <hamish@debian.org>
+Date: Sun, 25 Nov 2001 14:04:40 +1100
+Subject: Add missing info doc dir section and dir entry.
+
+Description: Add missing info doc dir section and dir entry.
+Author: Hamish Moffatt <hamish@debian.org>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ doc/cutils.texi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/doc/cutils.texi b/doc/cutils.texi
+index cb7c376..16bde20 100644
+--- a/doc/cutils.texi
++++ b/doc/cutils.texi
+@@ -7,6 +7,11 @@
+ @c unwise to comment it out when running a master in case there are
+ @c overfulls which are deemed okay.
+ 
++@dircategory Programming
++@direntry
++* cutils: (cutils).       C programmers' utilities.
++@end direntry
++
+ @iftex
+ @c @finalout
+ @end iftex

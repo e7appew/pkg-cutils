@@ -2,12 +2,12 @@ Source: cutils
 Section: devel
 Priority: optional
 Maintainer: Debian QA Group <packages@qa.debian.org>
-Standards-Version: 3.6.1
-Build-Depends: debhelper (>= 10~), flex-old, bison | byacc
+Standards-Version: 3.9.8
+Build-Depends: bison | byacc, debhelper (>= 10~), flex-old, texinfo
 
 Package: cutils
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Suggests: cweb
 Description: C source code utilities
  This package contains several utilities which may be useful to
