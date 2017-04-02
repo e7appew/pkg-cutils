@@ -4,6 +4,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * Convert Debian source to '3.0 (quilt)' format and build with Debhelper.
   * debian/control:
     - Add homepage details.
+  * Add watch file.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 
