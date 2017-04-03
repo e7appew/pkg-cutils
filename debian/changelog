@@ -10,6 +10,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
     - Fix spelling in binary.
     - Patch Makefile.in files to honour CPPFLAGS.
     - Update autoconf files to work with version 2.69.
+    - Fix missing yylex() declarations.
   * debian/rules:
     - Build with all hardening flags set.
     - Build with autoreconf.

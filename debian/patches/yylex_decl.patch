@@ -1,0 +1,53 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Mon, 3 Apr 2017 19:21:44 +1000
+Subject: Fix missing yylex() declarations.
+
+Description: Fix missing yylex() declarations.
+Author: Carlos Maddela <e7appew@gmail.com>
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/cdecl/parser.y   | 2 ++
+ src/cundecl/parser.y | 2 ++
+ src/yyref/parser.y   | 2 ++
+ 3 files changed, 6 insertions(+)
+
+diff --git a/src/cdecl/parser.y b/src/cdecl/parser.y
+index 0a9531b..a347675 100644
+--- a/src/cdecl/parser.y
++++ b/src/cdecl/parser.y
+@@ -45,6 +45,8 @@ extern char yytext[];
+ #endif
+ extern FILE *output_file;
+ 
++extern int yylex(void);
++
+ static void yyerror(char *);
+ static char *cat(char *, ...);
+ 
+diff --git a/src/cundecl/parser.y b/src/cundecl/parser.y
+index bba07a5..b987f82 100644
+--- a/src/cundecl/parser.y
++++ b/src/cundecl/parser.y
+@@ -46,6 +46,8 @@ extern char yytext[];
+ #endif
+ extern FILE *output_file;
+ 
++extern int yylex(void);
++
+ static void yyerror(char *);
+ static char *cat(char *, ...);
+ static void unsupp(char *, char *);
+diff --git a/src/yyref/parser.y b/src/yyref/parser.y
+index be5b13a..fb08587 100644
+--- a/src/yyref/parser.y
++++ b/src/yyref/parser.y
+@@ -49,6 +49,8 @@ extern char yytext[];
+ #endif
+ extern int lineno;
+ 
++extern int yylex(void);
++
+ static void yyerror(char *);
+ %}
+ 

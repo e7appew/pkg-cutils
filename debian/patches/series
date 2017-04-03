@@ -2,3 +2,4 @@ fix_info_doc.patch
 fix_spelling.patch
 honour_CPPFLAGS.patch
 autoconf_2.69.patch
+yylex_decl.patch
