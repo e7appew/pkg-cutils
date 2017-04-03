@@ -2,6 +2,10 @@
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
+# Compile with LFS support.
+export DEB_CPPFLAGS_MAINT_APPEND = \
+	$(if $(filter $(DEB_HOST_ARCH_BITS),32),-D_FILE_OFFSET_BITS=64)
+
 %:
 	dh $@ --no-parallel
 
