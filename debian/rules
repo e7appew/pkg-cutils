@@ -6,8 +6,22 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 export DEB_CPPFLAGS_MAINT_APPEND = \
 	$(if $(filter $(DEB_HOST_ARCH_BITS),32),-D_FILE_OFFSET_BITS=64)
 
+MUTABLE_FILES := configure doc/cutils.info
+
 %:
 	dh $@ --no-parallel
+
+override_dh_update_autotools_config:
+	dh_update_autotools_config
+	for f in $(MUTABLE_FILES); do \
+		cp -an $$f $$f.orig; \
+	done
+
+override_dh_clean:
+	dh_clean -X.orig
+	for f in $(MUTABLE_FILES); do \
+		test ! -f $$f.orig || mv -f $$f.orig $$f; \
+	done
 
 override_dh_installchangelogs:
 	dh_installchangelogs NEWS
