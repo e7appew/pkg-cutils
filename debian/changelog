@@ -4,6 +4,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * Convert Debian source to '3.0 (quilt)' format and build with Debhelper.
   * debian/control:
     - Add homepage details.
+    - Indicate compliance with Debian Policy 4.1.0.
   * Add watch file.
   * Convert debian/copyright to DEP-5 format and update.
   * debian/patches/*:
