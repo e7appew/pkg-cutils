@@ -3,3 +3,4 @@ fix_spelling.patch
 honour_CPPFLAGS.patch
 autoconf_2.69.patch
 yylex_decl.patch
+parallel_build.patch

@@ -1,0 +1,104 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Sun, 3 Sep 2017 02:35:39 +1000
+Subject: Fix Makefile.in files for parallel builds.
+
+Description: Fix Makefile.in files for parallel builds.
+Author: Carlos Maddela <e7appew@gmail.com>
+Last-Update: 2017-09-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ src/cdecl/Makefile.in     | 10 +++++++---
+ src/cundecl/Makefile.in   | 10 +++++++---
+ src/yyextract/Makefile.in | 10 +++++++---
+ src/yyref/Makefile.in     | 10 +++++++---
+ 4 files changed, 28 insertions(+), 12 deletions(-)
+
+diff --git a/src/cdecl/Makefile.in b/src/cdecl/Makefile.in
+index 56dcd89..96cd732 100644
+--- a/src/cdecl/Makefile.in
++++ b/src/cdecl/Makefile.in
+@@ -34,10 +34,14 @@ all: $(PROG)
+ $(PROG): $(OBJS)
+ 	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+ 
+-parser.c parser.h: parser.y
++.INTERMEDIATE: y.tab
++y.tab: parser.y
+ 	$(YACC) -d $(srcdir)/parser.y
+-	mv y.tab.c parser.c
+-	mv y.tab.h parser.h
++
++y.tab.c y.tab.h: y.tab ;
++
++parser.c parser.h: parser.%: y.tab.%
++	mv $< $@
+ 
+ parser.o lexer.o: parser.h
+ 
+diff --git a/src/cundecl/Makefile.in b/src/cundecl/Makefile.in
+index d64d60c..ad746e5 100644
+--- a/src/cundecl/Makefile.in
++++ b/src/cundecl/Makefile.in
+@@ -34,10 +34,14 @@ all: $(PROG)
+ $(PROG): $(OBJS)
+ 	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+ 
+-parser.c parser.h: parser.y
++.INTERMEDIATE: y.tab
++y.tab: parser.y
+ 	$(YACC) -d $(srcdir)/parser.y
+-	mv y.tab.c parser.c
+-	mv y.tab.h parser.h
++
++y.tab.c y.tab.h: y.tab ;
++
++parser.c parser.h: parser.%: y.tab.%
++	mv $< $@
+ 
+ parser.o lexer.o: parser.h
+ 
+diff --git a/src/yyextract/Makefile.in b/src/yyextract/Makefile.in
+index ccbd461..9de6349 100644
+--- a/src/yyextract/Makefile.in
++++ b/src/yyextract/Makefile.in
+@@ -34,10 +34,14 @@ all: $(PROG)
+ $(PROG): $(OBJS)
+ 	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+ 
+-parser.c parser.h: parser.y
++.INTERMEDIATE: y.tab
++y.tab: parser.y
+ 	$(YACC) -d $(srcdir)/parser.y
+-	mv y.tab.c parser.c
+-	mv y.tab.h parser.h
++
++y.tab.c y.tab.h: y.tab ;
++
++parser.c parser.h: parser.%: y.tab.%
++	mv $< $@
+ 
+ yyextract.o parser.o lexer.o: parser.h
+ 
+diff --git a/src/yyref/Makefile.in b/src/yyref/Makefile.in
+index 38cf060..900663c 100644
+--- a/src/yyref/Makefile.in
++++ b/src/yyref/Makefile.in
+@@ -34,10 +34,14 @@ all: $(PROG)
+ $(PROG): $(OBJS)
+ 	$(CC) $(LDFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+ 
+-parser.c parser.h: parser.y
++.INTERMEDIATE: y.tab
++y.tab: parser.y
+ 	$(YACC) -d $(srcdir)/parser.y
+-	mv y.tab.c parser.c
+-	mv y.tab.h parser.h
++
++y.tab.c y.tab.h: y.tab ;
++
++parser.c parser.h: parser.%: y.tab.%
++	mv $< $@
+ 
+ parser.o lexer.o: parser.h
+ 

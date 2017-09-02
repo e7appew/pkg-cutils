@@ -9,7 +9,7 @@ export DEB_CPPFLAGS_MAINT_APPEND = \
 MUTABLE_FILES := configure doc/cutils.info
 
 %:
-	dh $@ --no-parallel
+	dh $@
 
 override_dh_update_autotools_config:
 	dh_update_autotools_config

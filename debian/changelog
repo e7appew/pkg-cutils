@@ -11,11 +11,13 @@ cutils (1.6-5) UNRELEASED; urgency=medium
     - Patch Makefile.in files to honour CPPFLAGS.
     - Update autoconf files to work with version 2.69.
     - Fix missing yylex() declarations.
+    - Fix Makefile.in files for parallel builds.
   * debian/rules:
     - Build with all hardening flags set.
     - Build with autoreconf.
     - Ensure that 32-bit architectures compile with LFS support.
     - Backup and restore files that change during build.
+    - Enable parallel builds.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 
