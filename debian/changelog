@@ -23,6 +23,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
     - Backup and restore files that change during build.
     - Enable parallel builds.
   * Add package test to catch BBPFS. See #253654.
+  * Add doc-base control file.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 

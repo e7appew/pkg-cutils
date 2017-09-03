@@ -1,0 +1,10 @@
+Document: cutils
+Title: The cutils Manual
+Author: Sandro Sigala
+Abstract: This manual provides an overview and detailed guide on cutils,
+ a collection of utilities for C programmers.
+Section: Programming
+
+Format: info
+Index: /usr/share/info/cutils.info.gz
+Files: /usr/share/info/cutils.info.gz
