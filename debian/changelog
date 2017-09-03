@@ -5,6 +5,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * debian/control:
     - Add homepage details.
     - Indicate compliance with Debian Policy 4.1.0.
+    - Build with flex instead of flex-old.
   * Add watch file.
   * Convert debian/copyright to DEP-5 format and update.
   * debian/patches/*:

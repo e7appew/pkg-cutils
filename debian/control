@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Debian QA Group <packages@qa.debian.org>
 Standards-Version: 4.1.0
-Build-Depends: bison | byacc, debhelper (>= 10~), flex-old, texinfo
+Build-Depends: bison | byacc, debhelper (>= 10~), flex, texinfo
 Homepage: http://www.sigala.it/sandro/software.php#cutils
 Testsuite: autopkgtest
 
