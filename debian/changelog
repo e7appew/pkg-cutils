@@ -13,12 +13,15 @@ cutils (1.6-5) UNRELEASED; urgency=medium
     - Update autoconf files to work with version 2.69.
     - Fix missing yylex() declarations.
     - Fix Makefile.in files for parallel builds.
+    - Fix Makefile.in files so that they don't ignore any failures
+      inside for loops.
   * debian/rules:
     - Build with all hardening flags set.
     - Build with autoreconf.
     - Ensure that 32-bit architectures compile with LFS support.
     - Backup and restore files that change during build.
     - Enable parallel builds.
+  * Add package test to catch BBPFS. See #253654.
 
  -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
 

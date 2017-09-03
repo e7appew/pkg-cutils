@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# Make sure all the utilities have been packaged.
+
+UTILITIES="cdecl chilight cobfusc cundecl cunloop yyextract yyref"
+
+for util in $UTILITIES; do
+    test -f "/usr/bin/${util}"
+    test -f "/usr/share/man/man1/${util}.1.gz"
+done

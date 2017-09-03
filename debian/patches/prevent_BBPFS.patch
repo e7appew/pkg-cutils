@@ -1,0 +1,82 @@
+From: Carlos Maddela <e7appew@gmail.com>
+Date: Sun, 3 Sep 2017 09:02:55 +1000
+Subject: Do not ignore failures in for loops.
+
+Description: Do not ignore failures in for loops.
+ This is to prevent a repeat of Bug #253654, where only some of the
+ utilities are successfully built and packaged.
+Author: Carlos Maddela <e7appew@gmail.com>
+Last-Update: 2017-09-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+---
+ Makefile.in     | 10 ++++++----
+ doc/Makefile.in |  2 ++
+ src/Makefile.in | 10 ++++++----
+ 3 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index d626700..c42e704 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -3,13 +3,15 @@
+ subdirs = doc lib src
+ 
+ all install uninstall clean realclean mostyclean:
+-	@for f in $(subdirs); do \
+-		(cd $$f && $(MAKE) $@); \
++	set -e; \
++	for f in $(subdirs); do \
++		$(MAKE) -C $$f $@; \
+ 	done
+ 
+ distclean:
+-	@for f in $(subdirs); do \
+-		(cd $$f && $(MAKE) $@); \
++	set -e; \
++	for f in $(subdirs); do \
++		$(MAKE) -C $$f $@; \
+ 	done
+ 	-rm -f Makefile
+ 	-rm -f config.cache config.status config.log
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index e4b4b5c..3a63d85 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -28,11 +28,13 @@ cutils.dvi: cutils.texi
+ 
+ install: all
+ 	${srcdir}/../mkinsdir.sh $(DESTDIR)$(infodir)
++	set -e; \
+ 	for f in $(FILES); do \
+ 		$(INSTALL_DATA) $$f $(DESTDIR)$(infodir); \
+ 	done
+ 
+ uninstall:
++	set -e; \
+ 	for f in $(FILES); do \
+ 		rm -f $(DESTDIR)$(infodir)/`basename $$f`; \
+ 	done
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 8a7a15c..d00c1b4 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -3,12 +3,14 @@
+ subdirs = cdecl chilight cobfusc cundecl cunloop yyextract yyref
+ 
+ all install uninstall clean realclean mostlyclean:
+-	@for f in $(subdirs); do \
+-		(cd $$f && $(MAKE) $@); \
++	set -e; \
++	for f in $(subdirs); do \
++		$(MAKE) -C $$f $@; \
+ 	done
+ 
+ distclean:
+-	@for f in $(subdirs); do \
+-		(cd $$f && $(MAKE) $@); \
++	set -e; \
++	for f in $(subdirs); do \
++		$(MAKE) -C $$f $@; \
+ 	done
+ 	-rm -f Makefile
