@@ -1,4 +1,4 @@
-cutils (1.6-5) UNRELEASED; urgency=medium
+cutils (1.6-5) unstable; urgency=medium
 
   * QA upload.
   * Convert Debian source to '3.0 (quilt)' format and build with Debhelper.
@@ -25,7 +25,7 @@ cutils (1.6-5) UNRELEASED; urgency=medium
   * Add package test to catch BBPFS. See #253654.
   * Add doc-base control file.
 
- -- Carlos Maddela <e7appew@gmail.com>  Mon, 03 Apr 2017 03:27:44 +1000
+ -- Carlos Maddela <e7appew@gmail.com>  Sun, 03 Sep 2017 16:35:19 +1000
 
 cutils (1.6-4) unstable; urgency=medium
 
